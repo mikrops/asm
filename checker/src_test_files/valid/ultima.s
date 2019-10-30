@@ -228,4 +228,4 @@ end2:
 	sti		r4,r1,%505
 	zjmp	%499
 
-#deux jump a 500
+# deux jump a 500
