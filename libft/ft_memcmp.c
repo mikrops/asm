@@ -1,33 +1,30 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   ft_memcmp.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mmonahan <mmonahan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/10/30 14:35:51 by mmonahan          #+#    #+#             */
-/*   Updated: 2019/10/30 21:02:01 by mmonahan         ###   ########.fr       */
+/*   Created: 2018/12/04 23:52:48 by mmonahan          #+#    #+#             */
+/*   Updated: 2019/09/24 20:03:36 by mmonahan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "asm.h"
-#include <stdio.h>
+#include "libft.h"
 
-int main(int argc, char **argv)
+int	ft_memcmp(const void *s1, const void *s2, size_t n)
 {
-	printf("Hello, asm!\n");
+	const unsigned char	*str1;
+	const unsigned char	*str2;
+	size_t				i;
 
-	int fd;
-
-	fd = 0;
-	if (argc != 2)
-		return (0);
-	// check argv[1]???
-	fd = open(argv[1], O_RDONLY);
-	// check fd!!!!!
-	// check argv[1]???
-
-
-	close(fd);
-	return 0;
+	str1 = s1;
+	str2 = s2;
+	i = 0;
+	while (i < n)
+		if ((str1[i] - str2[i]) == 0)
+			i++;
+		else
+			return (str1[i] - str2[i]);
+	return (0);
 }

@@ -1,33 +1,33 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   ft_strlcat.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mmonahan <mmonahan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/10/30 14:35:51 by mmonahan          #+#    #+#             */
-/*   Updated: 2019/10/30 21:02:01 by mmonahan         ###   ########.fr       */
+/*   Created: 2018/12/10 16:40:58 by mmonahan          #+#    #+#             */
+/*   Updated: 2019/09/24 20:03:36 by mmonahan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "asm.h"
-#include <stdio.h>
+#include "libft.h"
 
-int main(int argc, char **argv)
+size_t	ft_strlcat(char *dst, const char *src, size_t size)
 {
-	printf("Hello, asm!\n");
+	size_t	len_dst;
+	size_t	len_src;
 
-	int fd;
-
-	fd = 0;
-	if (argc != 2)
-		return (0);
-	// check argv[1]???
-	fd = open(argv[1], O_RDONLY);
-	// check fd!!!!!
-	// check argv[1]???
-
-
-	close(fd);
-	return 0;
+	len_dst = ft_strlen(dst);
+	len_src = ft_strlen(src);
+	if (size <= len_dst)
+		return (size + len_src);
+	while (*dst)
+	{
+		dst++;
+		size--;
+	}
+	while (*src && --size)
+		*dst++ = *src++;
+	*dst = '\0';
+	return (len_dst + len_src);
 }

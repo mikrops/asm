@@ -1,33 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   ft_intcount.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mmonahan <mmonahan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/10/30 14:35:51 by mmonahan          #+#    #+#             */
-/*   Updated: 2019/10/30 21:02:01 by mmonahan         ###   ########.fr       */
+/*   Created: 2019/01/02 16:31:44 by mmonahan          #+#    #+#             */
+/*   Updated: 2019/09/24 20:03:36 by mmonahan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "asm.h"
-#include <stdio.h>
+#include "libft.h"
 
-int main(int argc, char **argv)
+size_t	ft_intcount(int n)
 {
-	printf("Hello, asm!\n");
+	size_t count;
 
-	int fd;
-
-	fd = 0;
-	if (argc != 2)
-		return (0);
-	// check argv[1]???
-	fd = open(argv[1], O_RDONLY);
-	// check fd!!!!!
-	// check argv[1]???
-
-
-	close(fd);
-	return 0;
+	count = 0;
+	if (n == 0)
+		count++;
+	else
+		while (n)
+		{
+			n /= 10;
+			count++;
+		}
+	return (count);
 }

@@ -1,33 +1,33 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   ft_map_void.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mmonahan <mmonahan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/10/30 14:35:51 by mmonahan          #+#    #+#             */
-/*   Updated: 2019/10/30 21:02:01 by mmonahan         ###   ########.fr       */
+/*   Created: 2019/10/16 17:54:16 by mmonahan          #+#    #+#             */
+/*   Updated: 2019/10/16 17:54:16 by mmonahan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "asm.h"
-#include <stdio.h>
+#include "libft.h"
 
-int main(int argc, char **argv)
+/*
+**	Выделение памяти под двумерный массив void
+*/
+
+void	**ft_map_void(int row, int col, size_t size_row, size_t size_col)
 {
-	printf("Hello, asm!\n");
+	int		i;
+	void	**map;
 
-	int fd;
-
-	fd = 0;
-	if (argc != 2)
-		return (0);
-	// check argv[1]???
-	fd = open(argv[1], O_RDONLY);
-	// check fd!!!!!
-	// check argv[1]???
-
-
-	close(fd);
-	return 0;
+	i = 0;
+	map = (void **)ft_memalloc(size_row * (row + 1));
+	map[row] = NULL;
+	while (i < row)
+	{
+		map[i] = (void *)ft_memalloc(size_col * (col + 1));
+		i++;
+	}
+	return (map);
 }

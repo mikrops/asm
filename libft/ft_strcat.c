@@ -1,33 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   ft_strcat.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mmonahan <mmonahan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/10/30 14:35:51 by mmonahan          #+#    #+#             */
-/*   Updated: 2019/10/30 21:02:01 by mmonahan         ###   ########.fr       */
+/*   Created: 2018/12/07 16:35:15 by mmonahan          #+#    #+#             */
+/*   Updated: 2019/09/24 20:03:36 by mmonahan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "asm.h"
-#include <stdio.h>
+#include "libft.h"
 
-int main(int argc, char **argv)
+char	*ft_strcat(char *s1, const char *s2)
 {
-	printf("Hello, asm!\n");
+	char	*tmp;
 
-	int fd;
-
-	fd = 0;
-	if (argc != 2)
-		return (0);
-	// check argv[1]???
-	fd = open(argv[1], O_RDONLY);
-	// check fd!!!!!
-	// check argv[1]???
-
-
-	close(fd);
-	return 0;
+	tmp = s1;
+	while (*s1)
+		s1++;
+	while (*s2)
+		*s1++ = *s2++;
+	*s1 = '\0';
+	return (tmp);
 }

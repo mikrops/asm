@@ -1,33 +1,22 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   get_next_line.h                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mmonahan <mmonahan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/10/30 14:35:51 by mmonahan          #+#    #+#             */
-/*   Updated: 2019/10/30 21:02:01 by mmonahan         ###   ########.fr       */
+/*   Created: 2019/01/18 21:05:46 by mmonahan          #+#    #+#             */
+/*   Updated: 2019/02/05 19:15:32 by mmonahan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "asm.h"
-#include <stdio.h>
+#ifndef FT_GET_NEXT_LINE_H
+# define FT_GET_NEXT_LINE_H
+# define BUFF_SIZE 180
 
-int main(int argc, char **argv)
-{
-	printf("Hello, asm!\n");
+# include "../libft/libft.h"
+# include <fcntl.h>
 
-	int fd;
+int	get_next_line(const int fd, char **line);
 
-	fd = 0;
-	if (argc != 2)
-		return (0);
-	// check argv[1]???
-	fd = open(argv[1], O_RDONLY);
-	// check fd!!!!!
-	// check argv[1]???
-
-
-	close(fd);
-	return 0;
-}
+#endif

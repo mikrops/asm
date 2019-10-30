@@ -1,33 +1,34 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   ft_pow.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mmonahan <mmonahan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/10/30 14:35:51 by mmonahan          #+#    #+#             */
-/*   Updated: 2019/10/30 21:02:01 by mmonahan         ###   ########.fr       */
+/*   Created: 2019/10/14 19:18:52 by mmonahan          #+#    #+#             */
+/*   Updated: 2019/10/14 19:35:09 by mmonahan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "asm.h"
-#include <stdio.h>
+#include "libft.h"
 
-int main(int argc, char **argv)
+/*
+**	Возвращает число
+*/
+
+int	ft_pow(int number, int pow)
 {
-	printf("Hello, asm!\n");
+	int	i;
+	int res;
 
-	int fd;
-
-	fd = 0;
-	if (argc != 2)
+	i = 0;
+	res = 1;
+	if (number == 0 || pow < 0)
 		return (0);
-	// check argv[1]???
-	fd = open(argv[1], O_RDONLY);
-	// check fd!!!!!
-	// check argv[1]???
-
-
-	close(fd);
-	return 0;
+	while (i < pow)
+	{
+		res *= number;
+		i++;
+	}
+	return (res);
 }

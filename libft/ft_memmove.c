@@ -1,33 +1,36 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   ft_memmove.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mmonahan <mmonahan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/10/30 14:35:51 by mmonahan          #+#    #+#             */
-/*   Updated: 2019/10/30 21:02:01 by mmonahan         ###   ########.fr       */
+/*   Created: 2018/12/03 22:00:03 by mmonahan          #+#    #+#             */
+/*   Updated: 2019/09/24 20:03:36 by mmonahan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "asm.h"
-#include <stdio.h>
+#include "libft.h"
 
-int main(int argc, char **argv)
+void	*ft_memmove(void *dst, const void *src, size_t len)
 {
-	printf("Hello, asm!\n");
+	unsigned char		*tempdst;
+	const unsigned char	*tempsrc;
+	size_t				i;
 
-	int fd;
-
-	fd = 0;
-	if (argc != 2)
-		return (0);
-	// check argv[1]???
-	fd = open(argv[1], O_RDONLY);
-	// check fd!!!!!
-	// check argv[1]???
-
-
-	close(fd);
-	return 0;
+	if (dst == src)
+		return (dst);
+	tempdst = dst;
+	tempsrc = src;
+	i = 0;
+	if (tempdst > tempsrc)
+		while (len-- > 0)
+			tempdst[len] = tempsrc[len];
+	else
+		while (i < len)
+		{
+			tempdst[i] = tempsrc[i];
+			i++;
+		}
+	return (tempdst);
 }
