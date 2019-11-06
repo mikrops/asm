@@ -32,19 +32,6 @@ t_operation	op_tab[17] = {
 	{0, 0, {0}, 0, 0, 0, 0}
 };
 
-int validation(char *namefile)
-{
-	int fd;
-	int rez;
-
-	fd = open(namefile, O_RDONLY);
-	rez = ERR_NORM;
-	if (fd < 1)
-		rez = ERR_INCORECT_FILE;
-	close(fd);
-	return (rez);
-}
-
 int main(int argc, char **argv)
 {
 	int err;

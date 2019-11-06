@@ -6,7 +6,7 @@
 /*   By: mmonahan <mmonahan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/30 20:40:49 by mmonahan          #+#    #+#             */
-/*   Updated: 2019/11/05 19:57:25 by mmonahan         ###   ########.fr       */
+/*   Updated: 2019/11/06 20:07:23 by mmonahan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,9 @@
 # define ERR_NORM 0
 # define ERR_ONE_ATRIBUTE 1
 # define ERR_BAD_NAME_FILE 2
-# define ERR_INCORECT_FILE 3
+# define ERR_NO_OPEN_FILE 3
+# define ERR_NO_CREAT_FILE 4
+
 
 typedef enum	e_command
 {
@@ -60,5 +62,6 @@ typedef struct	s_operation
 }				t_operation;
 
 void			put_exception(int error);
+int				validation(char *namefile);
 
 #endif
