@@ -6,11 +6,15 @@
 /*   By: mmonahan <mmonahan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/06 11:37:56 by mmonahan          #+#    #+#             */
-/*   Updated: 2019/11/06 20:20:22 by mmonahan         ###   ########.fr       */
+/*   Updated: 2019/11/11 20:08:52 by mmonahan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "asm.h"
+
+/*
+**	Возврящает имя нового файла
+*/
 
 static char	*creat_name_file(const char *old_name)
 {
@@ -53,18 +57,21 @@ int validation(char *namefile)
 		return (ERR_BAD_NAME_FILE);
 	fd_open = open(namefile, O_RDONLY);
 	if (fd_open < 1)
-	{
-		close(fd_open);
 		return (ERR_NO_OPEN_FILE);
-	}
+	// сохраненяем файл в массив построчно и проверяем его
 
+	close(fd_open);
+/*
+**	это надо в другую функцию
+**	т.е. создание и  заполнение файла только после проюождения валидации
+*/
 	name = creat_name_file(namefile);
 	fd_creat = creat(name, 755);
+	free(name);
 	if (fd_creat < 1)
-	{
-		close(fd_creat);
 		return (ERR_NO_CREAT_FILE);
-	}
+	// записываем команды в 16-и ричной системе счисления в файл
 
+	close(fd_creat);
 	return (ERR_NORM);
 }
