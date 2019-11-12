@@ -6,7 +6,7 @@
 /*   By: mmonahan <mmonahan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/30 20:40:49 by mmonahan          #+#    #+#             */
-/*   Updated: 2019/11/06 20:07:23 by mmonahan         ###   ########.fr       */
+/*   Updated: 2019/11/12 20:29:02 by mmonahan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@
 
 # include "libft/libft.h"
 # include "get_next_line/get_next_line.h"
-# include "resources/op.h"
+# include "op.h"
 
 /*
 **	Errors
@@ -60,6 +60,15 @@ typedef struct	s_operation
 	int			code3;
 	int			code4;
 }				t_operation;
+
+typedef struct	s_file
+{
+	char 		*file;
+	char 		*string;
+	char 		*namefile;
+	int 		fd_open;
+	int 		fd_creat;
+}				t_file;
 
 void			put_exception(int error);
 int				validation(char *namefile);

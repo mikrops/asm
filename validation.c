@@ -6,7 +6,7 @@
 /*   By: mmonahan <mmonahan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/06 11:37:56 by mmonahan          #+#    #+#             */
-/*   Updated: 2019/11/11 20:08:52 by mmonahan         ###   ########.fr       */
+/*   Updated: 2019/11/12 20:16:57 by mmonahan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,14 +52,27 @@ int validation(char *namefile)
 	int		fd_open;
 	int		fd_creat;
 	char	*name;
+	char 	*string;
+	char 	*file;
 
+	string = ft_memalloc(1);
+	file = ft_memalloc(1);
 	if (check_name_file(namefile))
 		return (ERR_BAD_NAME_FILE);
 	fd_open = open(namefile, O_RDONLY);
 	if (fd_open < 1)
 		return (ERR_NO_OPEN_FILE);
 	// сохраненяем файл в массив построчно и проверяем его
+	while (get_next_line(fd_open, &string))
+	{
+		// check_string(true)
+		file = ft_str_rejoin(file, string);
+		ft_strdel(&string);
+		file = ft_str_rejoin(file, "\n");
+	}
+	ft_strdel(&string);
 
+	printf("%s\n", file);
 	close(fd_open);
 /*
 **	это надо в другую функцию
