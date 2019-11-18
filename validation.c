@@ -6,7 +6,7 @@
 /*   By: mmonahan <mmonahan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/06 11:37:56 by mmonahan          #+#    #+#             */
-/*   Updated: 2019/11/16 20:51:57 by mmonahan         ###   ########.fr       */
+/*   Updated: 2019/11/18 20:49:48 by mmonahan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ static int	creat_fill_file(const char *namefile, const char *file)
 	int fd;
 
 	new_name = creat_name_file(namefile);
-	fd = creat(new_name, 777);
+	fd = creat(new_name, S_IRWXO);
 	//close(fd);
 	//fd = open(new_name, O_CREAT | O_WRONLY);
 	free(new_name);
@@ -49,10 +49,14 @@ static int	creat_fill_file(const char *namefile, const char *file)
 	{
 		;
 	}
+
 	// записал magic в файл)))
 	int i = COREWAR_EXEC_MAGIC;
 	i = i << 8;
 	write(fd, (char *)&i, 4);
+	//write(fd, "\nhello\n", 7);
+	//int len = printf("\n%s\n", file);
+	//write(fd, file, len - 2);
 
 	close(fd);
 	return (ERR_NORM);
