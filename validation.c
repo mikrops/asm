@@ -6,7 +6,7 @@
 /*   By: mmonahan <mmonahan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/06 11:37:56 by mmonahan          #+#    #+#             */
-/*   Updated: 2019/11/18 20:49:48 by mmonahan         ###   ########.fr       */
+/*   Updated: 2019/11/19 20:13:09 by mmonahan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,10 @@ static char	*creat_name_file(const char *old_name)
 	new_name[length + 1] = 'r';
 	return (new_name);
 }
+
+/*
+**	Возврящает 0 если файл создался и заполнился, иначе номер ошибки
+*/
 
 static int	creat_fill_file(const char *namefile, const char *file)
 {
@@ -54,9 +58,9 @@ static int	creat_fill_file(const char *namefile, const char *file)
 	int i = COREWAR_EXEC_MAGIC;
 	i = i << 8;
 	write(fd, (char *)&i, 4);
-	//write(fd, "\nhello\n", 7);
-	//int len = printf("\n%s\n", file);
-	//write(fd, file, len - 2);
+//	write(fd, "\nhello\n", 7);
+//	int len = printf("\n%s\n", file);
+//	write(fd, file, len - 2);
 
 	close(fd);
 	return (ERR_NORM);
