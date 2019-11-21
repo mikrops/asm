@@ -6,7 +6,7 @@
 /*   By: mmonahan <mmonahan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/30 20:40:49 by mmonahan          #+#    #+#             */
-/*   Updated: 2019/11/12 20:29:02 by mmonahan         ###   ########.fr       */
+/*   Updated: 2019/11/21 19:37:57 by mmonahan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,6 +71,7 @@ typedef struct	s_file
 }				t_file;
 
 void			put_exception(int error);
+char			*get_instruction(const char *string);
 int				validation(char *namefile);
 
 #endif
