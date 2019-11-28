@@ -35,10 +35,12 @@ t_operation	op_tab[17] = {
 int main(int argc, char **argv)
 {
 	int err;
+	t_header header;
 
 	err = 0;
+	initialization(&header);
 	if (argc == 2)
-		err = validation(argv[1]);
+		err = validation(&header, argv[1]);
 	else
 		err = ERR_ONE_ATRIBUTE;
 	put_exception(err);

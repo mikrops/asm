@@ -75,7 +75,8 @@ typedef struct	s_file
 }				t_file;
 
 void			put_exception(int error);
-char			*get_instruction(const char *string);
-int				validation(char *namefile);
+char			*get_instruction(t_header *header, const char *string);
+int				validation(t_header *header, char *namefile);
+void			initialization(t_header *header);
 
 #endif

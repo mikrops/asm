@@ -6,7 +6,7 @@
 /*   By: mmonahan <mmonahan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/06 11:37:56 by mmonahan          #+#    #+#             */
-/*   Updated: 2019/11/21 19:37:57 by mmonahan         ###   ########.fr       */
+/*   Updated: 2019/11/28 20:54:55 by mmonahan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,14 +30,18 @@ static char	*creat_name_file(const char *old_name)
 	return (new_name);
 }
 
+/*
+**	Возврящает 0 если файл создался и заполнился, иначе номер ошибки
+*/
+
 static int	creat_fill_file(const char *namefile, const char *file)
 {
 	char *new_name;
 	int fd;
 
 	new_name = creat_name_file(namefile);
-	fd = creat(new_name, 755);
-	free(new_name);
+	fd = creat(new_name, S_IRWXO);
+	//free(new_name);
 	if (fd < 1)
 		return (ERR_NO_CREAT_FILE);
 	// записываем команды в 16-и ричной системе счисления в файл
@@ -47,17 +51,14 @@ static int	creat_fill_file(const char *namefile, const char *file)
 	{
 		;
 	}
-	int i = 0;
-	int len = 0;
-	while (file[i])
-	{
-		while (file[len] != '\n')
-			len++;
-		write(fd, &file, len);
-		i++;
-		len = 0;
-		// БРЕД! Переписать нахрен!)
-	}
+// записал magic в файл)))
+	unsigned int i = COREWAR_EXEC_MAGIC;
+	i = i << 8;
+	write(fd, (char *)&i, 4);
+//	write(fd, "\nhello\n", 7);
+//	int len = printf("\n%s\n", file);
+//	write(fd, file, len - 2);
+
 	close(fd);
 	return (ERR_NORM);
 }
@@ -85,7 +86,7 @@ static int	check_name_file(const char *name_file)
 **	Валидация файла
 */
 
-int	validation(char *namefile)
+int	validation(t_header *header, char *namefile)
 {
 	int		fd_open;
 	char 	*string;
@@ -102,7 +103,7 @@ int	validation(char *namefile)
 	while (get_next_line(fd_open, &string))
 	{
 		// check_string(string);
-		get_instruction(string);
+		get_instruction(header, string);
 		file = ft_str_rejoin(file, string);
 		ft_strdel(&string);
 		file = ft_str_rejoin(file, "\n");
@@ -113,5 +114,6 @@ int	validation(char *namefile)
 	//создание и заполнение файла только после проюождения валидации
 	//можно вообще в отдельный файл жахнуть
 	creat_fill_file(namefile, file);
+
 	return (ERR_NORM);
 }
