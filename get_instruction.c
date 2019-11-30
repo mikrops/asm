@@ -6,13 +6,13 @@
 /*   By: mmonahan <mmonahan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/19 20:17:13 by mmonahan          #+#    #+#             */
-/*   Updated: 2019/11/29 21:02:03 by mmonahan         ###   ########.fr       */
+/*   Updated: 2019/11/30 15:42:03 by mmonahan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "asm.h"
 
-int	check_name(t_header *header, const char *string, const char *instr)
+/*int	check_name(t_header *header, const char *string, const char *instr)
 {
 	int	i;
 	int k;
@@ -40,8 +40,61 @@ int	check_name(t_header *header, const char *string, const char *instr)
 		return (ERR_BEAD_HEADER + 40);
 //	while (ft_isspace(string[i]))
 //		i++;
-	if (string[i + 1] != '\0')
+	printf("-- %d   ", i);
+	if (string[i+1] != '\0')
 		return (ERR_BEAD_HEADER + 50);
+	return (ERR_NORM);
+}*/
+
+int	check_name(t_header *header, const char *string, const char *instr)
+{
+	int	i;
+	int k;
+	int fclose;
+
+
+	i = 0;
+	k = 0;
+	fclose = 0;
+	while (ft_isspace(string[i]))
+		i++;
+	while (*instr)
+		if (string[i++] != *instr++)
+			return (ERR_BEAD_HEADER + 10);
+	while (ft_isspace(string[i]))
+		i++;
+	if (string[i++] != '"')
+		return (ERR_BEAD_HEADER + 20);
+
+	while (string[i])
+	{
+		if (!fclose && string[i] == '"')
+		{
+			fclose = 1;
+			i++;
+			continue ;
+		}
+
+		if (fclose == 1 &&
+			(string[i] == COMMENT_CHAR || string[i] == ALT_COMMENT_CHAR))
+			return (ERR_NORM);
+
+		if (fclose == 1 && !ft_isspace(string[i]))
+			return (ERR_BEAD_HEADER + 30);
+
+		if (k == PROG_NAME_LENGTH)
+			return (ERR_BEAD_HEADER + 40);
+
+		if (fclose == 0 && string[i] == '\0')
+			return (ERR_BEAD_HEADER + 50);
+
+		if (fclose == 0)
+			header->prog_name[k++] = string[i];
+		i++;
+	}
+
+	if (string[i+1] != '\0')
+		return (ERR_BEAD_HEADER + 60);
 	return (ERR_NORM);
 }
 
@@ -74,12 +127,11 @@ char	*get_instruction(t_header *header, const char *string)
 
 	ch = check_name(header, string, NAME_CMD_STRING);
 	//ch1 = check_name(header, string, COMMENT_CMD_STRING);
+	//if (!ch)
+	{
+		printf("check = >%d< Name = >%s<\t>%s<\n", ch, header->prog_name,
+			   string);
+	}
 
-	printf("check = >%d< Name = >%s<\t>%s<\n", ch, header->prog_name, string);
-//	while(string[i])
-//	{
-//
-//		i++;
-//	}
 	return (NULL);
 }
