@@ -6,7 +6,7 @@
 /*   By: mmonahan <mmonahan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/19 20:17:13 by mmonahan          #+#    #+#             */
-/*   Updated: 2019/11/30 15:42:03 by mmonahan         ###   ########.fr       */
+/*   Updated: 2019/12/01 16:13:24 by mmonahan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -116,6 +116,8 @@ char	*get_instruction(t_header *header, const char *string)
 //		i++;
 //	start = i;
 	//int chk = ft_strstr(string, NAME_CMD_STRING);
+
+	printf("NULL == %d\n", header->prog_name[0] == '\0' ? 1 : 0);
 	if (ft_strstr(string, NAME_CMD_STRING))
 		;
 	else

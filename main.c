@@ -14,13 +14,15 @@
 
 int main(int argc, char **argv)
 {
-	int err;
-	t_header header;
+	int			err;
+	t_file		file;
+	//t_header	header;
 
 	err = 0;
-	initialization(&header);
+//	initialization(&header);
+	initialization(&file);
 	if (argc == 2)
-		err = validation(&header, argv[1]);
+		err = validation(file.header, argv[1]);
 	else
 		err = ERR_ONE_ATRIBUTE;
 	put_exception(err);
