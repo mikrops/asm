@@ -6,7 +6,7 @@
 /*   By: mmonahan <mmonahan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/30 20:40:49 by mmonahan          #+#    #+#             */
-/*   Updated: 2019/11/29 20:38:33 by mmonahan         ###   ########.fr       */
+/*   Updated: 2019/12/07 20:16:55 by mmonahan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,12 @@ typedef struct	s_file
 	char 		*namefile;
 	int 		fd_open;
 	int 		fd_creat;
-	t_header	*header;
+	int 		iter;
+	int 		status;
+	int			flag_name;
+	int 		flag_comment;
+
+	t_header	header;
 }				t_file;
 
 static t_operation	op_tab[17] =
@@ -97,9 +102,9 @@ static t_operation	op_tab[17] =
 };
 
 void			put_exception(int error);
-char			*get_instruction(t_header *header, const char *string);
-int				validation(t_header *header, char *namefile);
-//void			initialization(t_header *header);
-void			initialization(t_file *file);
+//char			*get_instruction(t_header *header, const char *string);
+char			*get_instruction(t_file *file);
+//int				validation(t_header *header, char *namefile);
+int				validation(t_file *file);
 
 #endif

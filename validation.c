@@ -6,7 +6,7 @@
 /*   By: mmonahan <mmonahan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/06 11:37:56 by mmonahan          #+#    #+#             */
-/*   Updated: 2019/11/28 20:54:55 by mmonahan         ###   ########.fr       */
+/*   Updated: 2019/12/07 20:39:13 by mmonahan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,6 +85,47 @@ static int	check_name_file(const char *name_file)
 /*
 **	Валидация файла
 */
+int	validation(t_file *file)
+{
+	if (check_name_file(file->namefile))
+		return (ERR_BAD_NAME_FILE);
+	file->fd_open = open(file->namefile, O_RDONLY);
+	if (file->fd_open < 1)
+		return (ERR_NO_OPEN_FILE);
+	// УБАРТЬ!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+	file->flag_comment = 1;
+	//
+	// сохраненяем файл в массив построчно и проверяем его
+	while (get_next_line(file->fd_open, &file->string))
+	{
+		// check_string(string);
+
+		if (!file->flag_name || !file->flag_comment)
+			get_instruction(file);
+		file->file = ft_str_rejoin(file->file, file->string);
+		ft_strdel(&file->string);
+		file->file = ft_str_rejoin(file->file, "\n");
+	}
+	ft_strdel(&file->string);
+	close(file->fd_open);
+
+	//создание и заполнение файла только после проюождения валидации
+	//можно вообще в отдельный файл жахнуть
+	creat_fill_file(file->namefile, file->file);
+
+	printf("\n\nfile = >%s<\nnamefile = >%s<\nfd_open = >%d<\nstring = >%s<\n"
+			"prog_name = >%s<\ncomment = >%s<\n",
+			file->file,
+			file->namefile,
+			file->fd_open,
+			file->string,
+			file->header.prog_name,
+			file->header.comment);
+
+	return (ERR_NORM);
+}
+
+/*
 
 int	validation(t_header *header, char *namefile)
 {
@@ -103,6 +144,7 @@ int	validation(t_header *header, char *namefile)
 	while (get_next_line(fd_open, &string))
 	{
 		// check_string(string);
+//		get_instruction(header, string);
 		get_instruction(header, string);
 		file = ft_str_rejoin(file, string);
 		ft_strdel(&string);
@@ -117,3 +159,4 @@ int	validation(t_header *header, char *namefile)
 
 	return (ERR_NORM);
 }
+*/
