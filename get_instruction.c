@@ -6,7 +6,7 @@
 /*   By: mmonahan <mmonahan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/19 20:17:13 by mmonahan          #+#    #+#             */
-/*   Updated: 2019/12/07 20:46:51 by mmonahan         ###   ########.fr       */
+/*   Updated: 2019/12/08 20:28:16 by mmonahan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -131,11 +131,12 @@ int	check_name(t_file *file, const char *instr)
 	return (ERR_NORM);
 }*/
 
-int	check_name(t_file *file, const char *instr)
+int	check_name(t_file *file)//, const char *instr)
 {
 	int	i;
 	int k;
 	int status;
+	int flag;
 	//0 до начала команды
 	//1 до начала параметра
 	//2 в параметре
@@ -144,6 +145,14 @@ int	check_name(t_file *file, const char *instr)
 	i = 0;
 	k = file->iter;
 	status = file->status;
+
+	flag = 0;
+	if (file->flag_name == -1)
+		flag = 1;
+	if (file->flag_comment == -1)
+		flag = 2;
+//	if (instr)
+//		;
 
 	while (file->string[i])
 	{
@@ -154,28 +163,57 @@ int	check_name(t_file *file, const char *instr)
 		{
 			//добваить проверку на имя или комент и изменять их флаги
 			// 0 = void, -1 = start, 1 = finish
-			if (!file->flag_name && ft_strstr(file->string, NAME_CMD_STRING))
+			if (!file->flag_name &&
+				ft_strnequ(file->string, NAME_CMD_STRING, 5))
+			{
 				file->flag_name = -1;
-			if (!file->flag_comment && ft_strstr(file->string,
-					COMMENT_CMD_STRING))
+				printf(" >NAME< ");
+				flag = 1;
+				i += 5;
+			}
+			else if (!file->flag_comment &&
+				ft_strnequ(file->string, COMMENT_CMD_STRING, 8))
+			{
 				file->flag_comment = -1;
-			while (*instr)
-				if (file->string[i++] != *instr++)
-					return (ERR_BEAD_HEADER + 10);
+				printf(" >COMMENT< ");
+				flag = 2;
+				i += 8;
+			}
+			else
+				return (ERR_BEAD_HEADER + 12);
 			status = 1;
 		}
 		else if ((status == 1 || status == 2 ) && file->string[i] == '"')
 		{
 			status = (status == 1) ? 2 : 3;
 			i++;
+			if (status == 3 && file->string[i] == '\0')
+				status = 4;
 		}
-		else if (status == 2 && ft_isascii(file->string[i]))
+		else if (status == 2)
 		{
-			if (k > PROG_NAME_LENGTH)
-				return (ERR_BEAD_HEADER + 20);
-			file->header.prog_name[k++] = file->string[i++];
-			if (file->string[i] == '\0')
-				file->header.prog_name[k++] = '\n';
+//			printf("flag = >%d< k do = >%d<\t", flag, k);
+
+			if (flag == 1)
+			{
+				if (k > PROG_NAME_LENGTH)
+					return (ERR_BEAD_HEADER + 20);
+				file->header.prog_name[k++] = file->string[i++];
+				if (file->string[i] == '\0')
+					file->header.prog_name[k++] = '\n';
+			}
+			else if (flag == 2)
+			{
+				if (k > COMMENT_LENGTH)
+					return (ERR_BEAD_HEADER + 21);
+				file->header.comment[k++] = file->string[i++];
+				if (file->string[i] == '\0')
+					file->header.comment[k++] = '\n';
+			}
+// !!!!!!!!!!!!!!!!!!!!!!!!!!!
+//	ПЕРЕНОС КОМЕНТАРИЯ НЕ РАБОТАЕТ!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+//!!!!!!!!!!!!!!!!!
+//			printf("k posle = >%d<\n", k);
 		}
 		else if (status == 3 && (file->string[i] == COMMENT_CHAR ||
 			file->string[i] == ALT_COMMENT_CHAR))
@@ -191,7 +229,11 @@ int	check_name(t_file *file, const char *instr)
 	{
 		file->iter = 0;
 		file->status = 0;
-		file->flag_name = 1;
+		if (flag == 1)
+			file->flag_name = 1;
+		else if (flag == 2)
+			file->flag_comment = 1;
+
 	}
 	else
 	{
@@ -226,57 +268,22 @@ char	*get_instruction(t_file *file)
 		;
 
 	int ch;
-	//int ch1;
+	int ch1;
 
-	ch = check_name(file, NAME_CMD_STRING);
-	//ch1 = check_name(header, string, COMMENT_CMD_STRING);
-	//if (!ch)
+	ch = 0;
+	ch1 = 0;
+	if (!file->flag_comment)
 	{
-		printf("check = >%d< Name = >%s<\t>%s<\n", ch, file->header.prog_name,
+		ch1 = check_name(file);
+		printf("check = >%d< Comment = >%s<\t>%s<\n", ch, file->header.comment,
 			   file->string);
 	}
-	if (ch)
+	if (!file->flag_name)
 	{
-		file->iter = 0;
-		file->flag_name = 0;
+		ch = check_name(file);
+		printf("check = >%d< Name = >%s<\t>%s<\n", ch, file->header.prog_name,
+			   file->string);
 	}
 
 	return (NULL);
 }
-
-/*
-char	*get_instruction(t_header *header, const char *string)
-{
-	int	flag_name;
-	int flag_comment;
-//	int 		start;
-//	int 		i;
-
-	flag_name = 0;
-	flag_comment = 0;
-//	i = 0;
-//	while(ft_isspace(string[i]))
-//		i++;
-//	start = i;
-	//int chk = ft_strstr(string, NAME_CMD_STRING);
-
-	printf("NULL == %d\n", header->prog_name[0] == '\0' ? 1 : 0);
-	if (ft_strstr(string, NAME_CMD_STRING))
-		;
-	else
-		;
-
-	int ch;
-	//int ch1;
-
-
-	ch = check_name(header, string, NAME_CMD_STRING);
-	//ch1 = check_name(header, string, COMMENT_CMD_STRING);
-	//if (!ch)
-	{
-		printf("check = >%d< Name = >%s<\t>%s<\n", ch, header->prog_name,
-			   string);
-	}
-
-	return (NULL);
-}*/

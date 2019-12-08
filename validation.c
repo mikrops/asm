@@ -6,7 +6,7 @@
 /*   By: mmonahan <mmonahan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/06 11:37:56 by mmonahan          #+#    #+#             */
-/*   Updated: 2019/12/07 20:39:13 by mmonahan         ###   ########.fr       */
+/*   Updated: 2019/12/08 19:51:44 by mmonahan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,8 +92,8 @@ int	validation(t_file *file)
 	file->fd_open = open(file->namefile, O_RDONLY);
 	if (file->fd_open < 1)
 		return (ERR_NO_OPEN_FILE);
-	// УБАРТЬ!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-	file->flag_comment = 1;
+	// УБРАТЬ!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+	//file->flag_comment = 1;
 	//
 	// сохраненяем файл в массив построчно и проверяем его
 	while (get_next_line(file->fd_open, &file->string))
@@ -102,6 +102,7 @@ int	validation(t_file *file)
 
 		if (!file->flag_name || !file->flag_comment)
 			get_instruction(file);
+
 		file->file = ft_str_rejoin(file->file, file->string);
 		ft_strdel(&file->string);
 		file->file = ft_str_rejoin(file->file, "\n");
@@ -113,15 +114,14 @@ int	validation(t_file *file)
 	//можно вообще в отдельный файл жахнуть
 	creat_fill_file(file->namefile, file->file);
 
-	printf("\n\nfile = >%s<\nnamefile = >%s<\nfd_open = >%d<\nstring = >%s<\n"
-			"prog_name = >%s<\ncomment = >%s<\n",
+	printf("\n\nfile = >%s<\nnamefile = >%s<\nflag_name = >%d<\nflag_comment = "
+		">%d<\nprog_name = >%s<\ncomment = >%s<\n",
 			file->file,
 			file->namefile,
-			file->fd_open,
-			file->string,
+			file->flag_name,
+			file->flag_comment,
 			file->header.prog_name,
 			file->header.comment);
-
 	return (ERR_NORM);
 }
 
