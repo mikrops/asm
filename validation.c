@@ -6,7 +6,7 @@
 /*   By: mmonahan <mmonahan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/06 11:37:56 by mmonahan          #+#    #+#             */
-/*   Updated: 2019/12/08 19:51:44 by mmonahan         ###   ########.fr       */
+/*   Updated: 2019/12/09 20:19:30 by mmonahan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,6 +87,9 @@ static int	check_name_file(const char *name_file)
 */
 int	validation(t_file *file)
 {
+	int error_header;
+
+	error_header = 0;
 	if (check_name_file(file->namefile))
 		return (ERR_BAD_NAME_FILE);
 	file->fd_open = open(file->namefile, O_RDONLY);
@@ -100,8 +103,10 @@ int	validation(t_file *file)
 	{
 		// check_string(string);
 
-		if (!file->flag_name || !file->flag_comment)
-			get_instruction(file);
+//		if (!file->flag_name || !file->flag_comment)
+		error_header = get_instruction(file);
+		if (error_header)
+			return (ERR_BAD_HEADER);
 
 		file->file = ft_str_rejoin(file->file, file->string);
 		ft_strdel(&file->string);

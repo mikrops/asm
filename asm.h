@@ -6,7 +6,7 @@
 /*   By: mmonahan <mmonahan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/30 20:40:49 by mmonahan          #+#    #+#             */
-/*   Updated: 2019/12/07 20:16:55 by mmonahan         ###   ########.fr       */
+/*   Updated: 2019/12/09 20:15:08 by mmonahan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@
 # define ERR_BAD_NAME_FILE 2
 # define ERR_NO_OPEN_FILE 3
 # define ERR_NO_CREAT_FILE 4
-# define ERR_BEAD_HEADER 5
+# define ERR_BAD_HEADER 5
 
 
 
@@ -103,7 +103,7 @@ static t_operation	op_tab[17] =
 
 void			put_exception(int error);
 //char			*get_instruction(t_header *header, const char *string);
-char			*get_instruction(t_file *file);
+int				get_instruction(t_file *file);
 //int				validation(t_header *header, char *namefile);
 int				validation(t_file *file);
 
