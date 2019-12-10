@@ -6,7 +6,7 @@
 /*   By: mmonahan <mmonahan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/30 20:40:49 by mmonahan          #+#    #+#             */
-/*   Updated: 2019/12/09 20:15:08 by mmonahan         ###   ########.fr       */
+/*   Updated: 2019/12/10 20:19:44 by mmonahan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,11 @@
 # define ERR_NO_CREAT_FILE 4
 # define ERR_BAD_HEADER 5
 
-
+# define CHK_HEADER_BEGIN 0
+# define CHK_HEADER_BEFORE 1
+# define CHK_HEADER_IN 2
+# define CHK_HEADER_AFTER 3
+# define CHK_HEADER_END 4
 
 
 

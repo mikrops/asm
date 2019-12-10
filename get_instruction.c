@@ -6,7 +6,7 @@
 /*   By: mmonahan <mmonahan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/19 20:17:13 by mmonahan          #+#    #+#             */
-/*   Updated: 2019/12/09 21:03:13 by mmonahan         ###   ########.fr       */
+/*   Updated: 2019/12/10 20:42:24 by mmonahan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,7 +94,7 @@ int	check_name(t_file *file)
 					file->header.comment[k++] = '\n';
 			}
 // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-// !!!!!       ПЕРЕНОС КОМЕНТАРИЯ НЕ РАБОТАЕТ       !!!!!
+// !!!!!       ВОССТАНОВИТЬ ЗАПИСЬ В ФАЙЛ БЛИН      !!!!!
 // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 		}
 		else if (status == 3 && (file->string[i] == COMMENT_CHAR ||
@@ -131,10 +131,10 @@ int	check_name(t_file *file)
 
 int	get_instruction(t_file *file)
 {
-	int ch;
+	int check;
 
-	ch = 0;
+	check = 0;
 	if (!file->flag_name || !file->flag_comment)
-		ch = check_name(file);
-	return (ch);
+		check = check_name(file);
+	return (check);
 }

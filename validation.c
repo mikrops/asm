@@ -6,7 +6,7 @@
 /*   By: mmonahan <mmonahan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/06 11:37:56 by mmonahan          #+#    #+#             */
-/*   Updated: 2019/12/09 20:19:30 by mmonahan         ###   ########.fr       */
+/*   Updated: 2019/12/10 20:50:55 by mmonahan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,26 +34,29 @@ static char	*creat_name_file(const char *old_name)
 **	Возврящает 0 если файл создался и заполнился, иначе номер ошибки
 */
 
-static int	creat_fill_file(const char *namefile, const char *file)
+//static int	creat_fill_file(const char *namefile, t_file *file)
+static int	creat_fill_file(t_file *file)
 {
 	char *new_name;
 	int fd;
 
-	new_name = creat_name_file(namefile);
-	fd = creat(new_name, S_IRWXO);
+	new_name = creat_name_file(file->namefile);
+	fd = creat(new_name, S_IRWXO); //755 //777
 	//free(new_name);
+	printf("\n--------->%d<----------\n", fd);
 	if (fd < 1)
 		return (ERR_NO_CREAT_FILE);
 	// записываем команды в 16-и ричной системе счисления в файл
 	// *** супер функция записи строки в этот файл
 	// fill_new_file(fd, file);
-	if (file)
-	{
-		;
-	}
+//	if (file)
+//	{
+//		;
+//	}
 // записал magic в файл)))
 	unsigned int i = COREWAR_EXEC_MAGIC;
 	i = i << 8;
+	printf("\n--------->%d<----------\n", fd);
 	write(fd, (char *)&i, 4);
 //	write(fd, "\nhello\n", 7);
 //	int len = printf("\n%s\n", file);
@@ -95,17 +98,12 @@ int	validation(t_file *file)
 	file->fd_open = open(file->namefile, O_RDONLY);
 	if (file->fd_open < 1)
 		return (ERR_NO_OPEN_FILE);
-	// УБРАТЬ!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-	//file->flag_comment = 1;
-	//
+
 	// сохраненяем файл в массив построчно и проверяем его
 	while (get_next_line(file->fd_open, &file->string))
 	{
 		// check_string(string);
-
-//		if (!file->flag_name || !file->flag_comment)
-		error_header = get_instruction(file);
-		if (error_header)
+		if (get_instruction(file))
 			return (ERR_BAD_HEADER);
 
 		file->file = ft_str_rejoin(file->file, file->string);
@@ -117,7 +115,8 @@ int	validation(t_file *file)
 
 	//создание и заполнение файла только после проюождения валидации
 	//можно вообще в отдельный файл жахнуть
-	creat_fill_file(file->namefile, file->file);
+//	creat_fill_file(file->namefile, file);
+	creat_fill_file(file);
 
 	printf("\n\nfile = >%s<\nnamefile = >%s<\nflag_name = >%d<\nflag_comment = "
 		">%d<\nprog_name = >%s<\ncomment = >%s<\n",

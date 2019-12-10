@@ -14,8 +14,8 @@
 
 int main(int argc, char **argv)
 {
-	int			err;
-	t_file		file;
+	int		err;
+	t_file	file;
 
 	err = 0;
 	ft_memset(&file, 0, sizeof(t_file));
@@ -30,21 +30,6 @@ int main(int argc, char **argv)
 	free(file.namefile);
 	return 0;
 }
-
-/*int main(int argc, char **argv)
-{
-	int			err;
-	t_file		file;
-
-	err = 0;
-	ft_memset(&file, 0, sizeof(t_file));
-	if (argc == 2)
-		err = validation(&file.header, argv[1]);
-	else
-		err = ERR_ONE_ATRIBUTE;
-	put_exception(err);
-	return 0;
-}*/
 
 /*
 **	выводить 3 строки, 1-я до, 2-я где зафиксированная ошибка, 3-я после
