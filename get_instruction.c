@@ -6,7 +6,7 @@
 /*   By: mmonahan <mmonahan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/19 20:17:13 by mmonahan          #+#    #+#             */
-/*   Updated: 2019/12/10 20:42:24 by mmonahan         ###   ########.fr       */
+/*   Updated: 2019/12/13 19:50:41 by mmonahan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,10 @@
 
 // fclose  = 0, 1, 2. 1 - multistring,
 
-int	check_name(t_file *file)
+/*
+**	Возвращает 0 если имя или коментария бота валидны, иначе номер ошибки
+*/
+int	check_header(t_file *file)
 {
 	int	i;
 	int k;
@@ -93,9 +96,6 @@ int	check_name(t_file *file)
 				if (file->string[i] == '\0')
 					file->header.comment[k++] = '\n';
 			}
-// !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-// !!!!!       ВОССТАНОВИТЬ ЗАПИСЬ В ФАЙЛ БЛИН      !!!!!
-// !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 		}
 		else if (status == 3 && (file->string[i] == COMMENT_CHAR ||
 			file->string[i] == ALT_COMMENT_CHAR))
@@ -125,6 +125,15 @@ int	check_name(t_file *file)
 	return (ERR_NORM);
 }
 
+int check_instruction(t_file *file)
+{
+	if (file)
+		;
+
+
+	return (ERR_NORM);
+}
+
 /*
 **	Возвращает валидную инструкцию в 16-й системе счисления
 */
@@ -135,6 +144,7 @@ int	get_instruction(t_file *file)
 
 	check = 0;
 	if (!file->flag_name || !file->flag_comment)
-		check = check_name(file);
+		check = check_header(file);
+
 	return (check);
 }

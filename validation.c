@@ -6,12 +6,14 @@
 /*   By: mmonahan <mmonahan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/06 11:37:56 by mmonahan          #+#    #+#             */
-/*   Updated: 2019/12/10 20:50:55 by mmonahan         ###   ########.fr       */
+/*   Updated: 2019/12/13 19:38:44 by mmonahan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "asm.h"
 
+//#define S_IREAD  0000400  /* read permission, owner */
+//#define S_IWRITE 0000200 /* write permission, owner */
 /*
 **	Возврящает имя нового файла
 */
@@ -41,9 +43,8 @@ static int	creat_fill_file(t_file *file)
 	int fd;
 
 	new_name = creat_name_file(file->namefile);
-	fd = creat(new_name, S_IRWXO); //755 //777
+	fd = creat(new_name, 00777);
 	//free(new_name);
-	printf("\n--------->%d<----------\n", fd);
 	if (fd < 1)
 		return (ERR_NO_CREAT_FILE);
 	// записываем команды в 16-и ричной системе счисления в файл
@@ -56,7 +57,6 @@ static int	creat_fill_file(t_file *file)
 // записал magic в файл)))
 	unsigned int i = COREWAR_EXEC_MAGIC;
 	i = i << 8;
-	printf("\n--------->%d<----------\n", fd);
 	write(fd, (char *)&i, 4);
 //	write(fd, "\nhello\n", 7);
 //	int len = printf("\n%s\n", file);
