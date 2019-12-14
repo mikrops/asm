@@ -180,7 +180,6 @@ int	get_instruction(t_file *file)
 	ch_fn = 0;
 	if (!file->flag_name || !file->flag_comment)
 		check = check_header(file);
-
 	else
 	{
 		ch_fn = check_label(file->string);
