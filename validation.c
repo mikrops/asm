@@ -6,14 +6,12 @@
 /*   By: mmonahan <mmonahan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/06 11:37:56 by mmonahan          #+#    #+#             */
-/*   Updated: 2019/12/13 19:38:44 by mmonahan         ###   ########.fr       */
+/*   Updated: 2019/12/14 18:27:51 by mmonahan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "asm.h"
 
-//#define S_IREAD  0000400  /* read permission, owner */
-//#define S_IWRITE 0000200 /* write permission, owner */
 /*
 **	Возврящает имя нового файла
 */
@@ -36,7 +34,6 @@ static char	*creat_name_file(const char *old_name)
 **	Возврящает 0 если файл создался и заполнился, иначе номер ошибки
 */
 
-//static int	creat_fill_file(const char *namefile, t_file *file)
 static int	creat_fill_file(t_file *file)
 {
 	char *new_name;
@@ -50,17 +47,27 @@ static int	creat_fill_file(t_file *file)
 	// записываем команды в 16-и ричной системе счисления в файл
 	// *** супер функция записи строки в этот файл
 	// fill_new_file(fd, file);
-//	if (file)
-//	{
-//		;
-//	}
+
 // записал magic в файл)))
 	unsigned int i = COREWAR_EXEC_MAGIC;
-	i = i << 8;
-	write(fd, (char *)&i, 4);
-//	write(fd, "\nhello\n", 7);
-//	int len = printf("\n%s\n", file);
-//	write(fd, file, len - 2);
+	file->header.magic = i << 8;
+	write(fd, &file->header.magic, 4);
+
+	write(fd, &file->header.prog_name, PROG_NAME_LENGTH);
+	i = 0;
+	write(fd, &i, 4);
+
+	file->header.prog_size = 16;
+	file->header.prog_size = file->header.prog_size << 24;
+	write(fd, &file->header.prog_size, 4);
+
+	write(fd, &file->header.comment, COMMENT_LENGTH);
+
+	write(fd, &file->header.prog_name, PROG_NAME_LENGTH);
+	i = 0;
+	write(fd, &i, 4);
+
+	//ЗАПИСАТЬ ОСТАЛЬНОЙ КОД ИЗ КАКОГО НИБУДЬ СПИСКА!!!!
 
 	close(fd);
 	return (ERR_NORM);
@@ -103,8 +110,9 @@ int	validation(t_file *file)
 	while (get_next_line(file->fd_open, &file->string))
 	{
 		// check_string(string);
-		if (get_instruction(file))
-			return (ERR_BAD_HEADER);
+		error_header = get_instruction(file);
+		if (error_header)
+			break ;
 
 		file->file = ft_str_rejoin(file->file, file->string);
 		ft_strdel(&file->string);
@@ -112,10 +120,11 @@ int	validation(t_file *file)
 	}
 	ft_strdel(&file->string);
 	close(file->fd_open);
+	if (error_header)
+		return (ERR_NO_OPEN_FILE);
 
 	//создание и заполнение файла только после проюождения валидации
 	//можно вообще в отдельный файл жахнуть
-//	creat_fill_file(file->namefile, file);
 	creat_fill_file(file);
 
 	printf("\n\nfile = >%s<\nnamefile = >%s<\nflag_name = >%d<\nflag_comment = "
@@ -126,41 +135,6 @@ int	validation(t_file *file)
 			file->flag_comment,
 			file->header.prog_name,
 			file->header.comment);
-	return (ERR_NORM);
-}
-
-/*
-
-int	validation(t_header *header, char *namefile)
-{
-	int		fd_open;
-	char 	*string;
-	char 	*file;
-
-	string = NULL;
-	file = ft_memalloc(1);
-	if (check_name_file(namefile))
-		return (ERR_BAD_NAME_FILE);
-	fd_open = open(namefile, O_RDONLY);
-	if (fd_open < 1)
-		return (ERR_NO_OPEN_FILE);
-	// сохраненяем файл в массив построчно и проверяем его
-	while (get_next_line(fd_open, &string))
-	{
-		// check_string(string);
-//		get_instruction(header, string);
-		get_instruction(header, string);
-		file = ft_str_rejoin(file, string);
-		ft_strdel(&string);
-		file = ft_str_rejoin(file, "\n");
-	}
-	ft_strdel(&string);
-	close(fd_open);
-
-	//создание и заполнение файла только после проюождения валидации
-	//можно вообще в отдельный файл жахнуть
-	creat_fill_file(namefile, file);
 
 	return (ERR_NORM);
 }
-*/

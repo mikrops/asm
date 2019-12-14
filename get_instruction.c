@@ -6,7 +6,7 @@
 /*   By: mmonahan <mmonahan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/19 20:17:13 by mmonahan          #+#    #+#             */
-/*   Updated: 2019/12/13 19:50:41 by mmonahan         ###   ########.fr       */
+/*   Updated: 2019/12/14 18:07:40 by mmonahan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -125,13 +125,46 @@ int	check_header(t_file *file)
 	return (ERR_NORM);
 }
 
-int check_instruction(t_file *file)
+/*
+**	Елси label валидный, то возвращает его длину, иначе -1
+*/
+
+int check_label(char *string)
 {
-	if (file)
-		;
+	int	i;
 
+	i = 0;
+	while (string[i])
+	{
+		if (ft_strchr(LABEL_CHARS, string[i]))
+			i++;
+		else if (string[i] == LABEL_CHAR)
+			return (i);
+		else
+			return (0);
+	}
+	return (0);
+}
 
-	return (ERR_NORM);
+/*
+**	Если команда валидна, то возвращает ее код, иначе -1
+*/
+
+int check_command(char *string)
+{
+	int	i;
+
+	i = 0;
+	while (i < 16)
+	{
+		if (ft_strnequ(op_tab[i].name, string, sizeof(op_tab[i].name)))
+			return (i);
+		i++;
+	}
+	return (0);
+//
+//	ПЕРЕДЕЛАТЬ!!!!!!!!!!!
+//
 }
 
 /*
@@ -141,10 +174,27 @@ int check_instruction(t_file *file)
 int	get_instruction(t_file *file)
 {
 	int check;
+	int ch_fn;
 
 	check = 0;
+	ch_fn = 0;
 	if (!file->flag_name || !file->flag_comment)
 		check = check_header(file);
 
+	else
+	{
+		ch_fn = check_label(file->string);
+		if (ch_fn)
+			printf("LABEL[%d]\t", ch_fn);
+		else
+			printf("lab_NO\t");
+
+		ch_fn = check_command(file->string);
+		if (ch_fn)
+			printf("COMMAND[%d]\t", ch_fn);
+		else
+			printf("com_NO\t");
+	}
+	printf("\n");
 	return (check);
 }
