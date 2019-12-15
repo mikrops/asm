@@ -6,7 +6,7 @@
 /*   By: mmonahan <mmonahan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/06 11:37:56 by mmonahan          #+#    #+#             */
-/*   Updated: 2019/12/14 20:53:01 by mmonahan         ###   ########.fr       */
+/*   Updated: 2019/12/15 17:11:53 by mmonahan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,8 +98,10 @@ static int	check_name_file(const char *name_file)
 int	validation(t_file *file)
 {
 	int error_header;
+	int count_instr;
 
 	error_header = 0;
+	count_instr = 0;
 	if (check_name_file(file->namefile))
 		return (ERR_BAD_NAME_FILE);
 	file->fd_open = open(file->namefile, O_RDONLY);
@@ -109,6 +111,9 @@ int	validation(t_file *file)
 	// сохраненяем файл в массив построчно и проверяем его
 	while (get_next_line(file->fd_open, &file->string))
 	{
+		if (file->string[0] != '\0')
+			count_instr++;
+
 		// check_string(string);
 		error_header = get_instruction(file);
 		if (error_header)
@@ -135,31 +140,42 @@ int	validation(t_file *file)
 			file->flag_comment,
 			file->header.prog_name,
 			file->header.comment);
-
+	printf("количество интсрукций = >%d<\n", count_instr);
 //***************************ЭКСПЕРЕМЕНТЫ*****************************
+/*	printf("\n\n");
+	char **str;
+	char *ch = 	"l2: sti r1,%:live,%0";
+	str = ft_strsplit(ch, SEPARATOR_CHAR);
+	int j = 0;
+	while (str[j])
+		printf(">%s<\n", str[j++]);
+	printf("\n");*/
 
-/*	char **str;
-	char *ch = 	"sti	r1, %:live, %0";
-	str = ft_strsplit(&ch[3], SEPARATOR_CHAR);
-	int i = 0;
-	while (str[i])
-		printf(">%s<\n", str[i++]);*/
 
-	char *string = "sti r1, %:live, %0";
+/*	char *string = "sti r1,%:live,%0";
 	int	i;
+	int rez;
+	int k;
 
 	i = 0;
+	rez = 0;
+	k = 0;
 	while (i < 16)
 	{
 //		if (ft_strnequ(string, op_tab[i].name, sizeof(op_tab[i].name)))
 		if (ft_strnstr(string, op_tab[i].name, sizeof(op_tab[i].name)))
 		{
-			printf("команда = >%d< оргументов у нее %d\n", i,
-				   op_tab[i].arguments);
-
+			printf("команда >%s< и оргументов у нее %d. Аргументы:\n",
+					op_tab[i].name, op_tab[i].arguments);
+			while (k < op_tab[i].arguments)
+			{
+				rez = op_tab[i].op[k] & T_DIR;
+				printf("\t[%d] - %s\n", k, rez == 0 ? " :( " : "[OK]");
+				k++;
+			}
+			k = 0;
 		}
 		i++;
-	}
-
+	}*/
 	return (ERR_NORM);
 }

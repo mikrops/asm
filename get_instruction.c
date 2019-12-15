@@ -6,7 +6,7 @@
 /*   By: mmonahan <mmonahan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/19 20:17:13 by mmonahan          #+#    #+#             */
-/*   Updated: 2019/12/14 18:07:40 by mmonahan         ###   ########.fr       */
+/*   Updated: 2019/12/15 20:27:26 by mmonahan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -129,11 +129,15 @@ int	check_header(t_file *file)
 **	Елси label валидный, то возвращает его длину, иначе -1
 */
 
-int check_label(char *string)
+int check_label(const char *string)
 {
 	int	i;
 
 	i = 0;
+	// временоо для теста	>>
+	while (ft_isspace(*string))
+		string++;
+	// 						<<
 	while (string[i])
 	{
 		if (ft_strchr(LABEL_CHARS, string[i]))
@@ -148,23 +152,105 @@ int check_label(char *string)
 
 /*
 **	Если команда валидна, то возвращает ее код, иначе -1
+**	string - строка, без пробелов и табов вначале
 */
 
-int check_command(char *string)
+int	check_inst(const char *string)
 {
-	int	i;
+	int i;
 
 	i = 0;
-	while (i < 16)
+	while (ft_islower(string[i]))
+		i++;
+	return (i);
+}
+
+/*
+**	Возвращает имя команды
+*/
+
+char	*get_name(const char *string, int len_instr)
+{
+	int		i;
+	char	*instr;
+
+	i = 0;
+	instr = ft_memalloc(len_instr + 1);
+	while (i < len_instr)
 	{
-		if (ft_strnequ(op_tab[i].name, string, sizeof(op_tab[i].name)))
-			return (i);
+		instr[i] = *string++;
 		i++;
 	}
-	return (0);
-//
-//	ПЕРЕДЕЛАТЬ!!!!!!!!!!!
-//
+	instr[i] = '\0';
+	return (instr);
+}
+
+/*
+**	Делить строку на токены
+*/
+int get_tokens(t_file *file)
+{
+	int i;
+	int j;
+	int len_lab;
+	int len_inst;
+	char *tokens;
+
+	i = 0;
+	j = 0;
+	len_lab = 0;
+	len_inst = 0;
+	tokens = ft_memset(&tokens, 0, sizeof(char *));
+
+	//ищу лабел до :
+	//если 'нет'
+	//ищу команду до isspace
+	//понимаю, сколько должно быть аргументов
+	//	если 1
+	//		пропуская все isspace
+	//		ищу первый аргумент
+	//		пропуская все isspace до \n
+	//	если 2
+	//		пропуская все isspace
+	//		ищу первый аргумент
+	//		пропуская все isspace
+	//		ищу ,
+	//		дальше как в 1
+	//	если 3
+	//		пропуская все isspace
+	//		ищу первый аргумент
+	//		пропуская все isspace
+	//		ищу ,
+	//		дальше как в 2
+	while (ft_isspace(file->string[i]))
+		i++;
+
+	len_lab = check_label(&file->string[i]);
+	if (len_lab > 0)
+	{
+		file->token.label = get_name(&file->string[i], len_lab);
+		i += len_lab + 1;
+	}
+	printf("проверка отстатка от нахождения LABEL = >%s<\n", &file->string[i]);
+
+	while (ft_isspace(file->string[i]))
+		i++;
+
+	len_inst = check_inst(&file->string[i]);
+	printf("Проверка начала команды, ее длина = >%d<\n", len_inst);
+	if (len_inst > 0)
+	{
+		file->token.inst = get_name(&file->string[i], len_inst);
+		i += len_inst + 1;
+	}
+	printf("проверка отстатка от нахождения INSTR = >%s<\n", &file->string[i]);
+
+	// теперь надо проверить валиндность команды
+	// потом сохранить строку с атрибутами и разбить ее на отдельные
+	// проверить каждый атрибут в соответствии с валидной командой
+
+	//free(label);
+	return (ERR_NORM);
 }
 
 /*
@@ -178,17 +264,27 @@ int	get_instruction(t_file *file)
 
 	check = 0;
 	ch_fn = 0;
+
 	if (!file->flag_name || !file->flag_comment)
 		check = check_header(file);
 	else
 	{
 		ch_fn = check_label(file->string);
 		if (ch_fn)
+		{
+			get_tokens(file);
 			printf("LABEL[%d]\t", ch_fn);
+			printf(">%s<\t", file->token.label);
+			printf(">%s<\t", file->token.inst);
+			// ОПАСНО!!!!!!  тут free INST и LABEL из структуры!!!!!!
+			free(file->token.label);
+			free(file->token.inst);
+
+		}
 		else
 			printf("lab_NO\t");
 
-		ch_fn = check_command(file->string);
+		ch_fn = 0;//check_command(file->string);
 		if (ch_fn)
 			printf("COMMAND[%d]\t", ch_fn);
 		else

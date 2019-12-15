@@ -6,7 +6,7 @@
 /*   By: mmonahan <mmonahan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/30 20:40:49 by mmonahan          #+#    #+#             */
-/*   Updated: 2019/12/14 16:55:49 by mmonahan         ###   ########.fr       */
+/*   Updated: 2019/12/15 20:20:12 by mmonahan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,6 +74,16 @@ typedef enum	e_command
 }				t_command;
 
 
+// после валидации будет массив на n-е количество инструкций
+typedef struct	s_token
+{
+	char		*label;
+	char		*inst;
+	char 		args[3];
+/*	int 		arg_1;
+	int 		arg_2;
+	int 		arg_3;*/
+}				t_token;
 
 typedef struct	s_file
 {
@@ -88,7 +98,11 @@ typedef struct	s_file
 	int 		flag_comment;
 
 	t_header	header;
+	t_token		token;
+//	t_list		label;
 }				t_file;
+
+
 
 /*typedef struct	s_operation
 {
