@@ -6,7 +6,7 @@
 /*   By: mmonahan <mmonahan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/06 11:37:56 by mmonahan          #+#    #+#             */
-/*   Updated: 2019/12/15 17:11:53 by mmonahan         ###   ########.fr       */
+/*   Updated: 2019/12/16 20:14:11 by mmonahan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,22 +52,22 @@ static int	creat_fill_file(t_file *file)
 	unsigned int i = COREWAR_EXEC_MAGIC;
 	file->header.magic = i << 8;
 	write(fd, &file->header.magic, 4);
-
+// записал name в файл)))
 	write(fd, &file->header.prog_name, PROG_NAME_LENGTH);
+// записал 4 нуля в файл)))
 	i = 0;
 	write(fd, &i, 4);
-
+// записал размер кода в файл)))
 	file->header.prog_size = 16;
 	file->header.prog_size = file->header.prog_size << 24;
 	write(fd, &file->header.prog_size, 4);
-
+// записал comment в файл)))
 	write(fd, &file->header.comment, COMMENT_LENGTH);
-
-	write(fd, &file->header.prog_name, PROG_NAME_LENGTH);
+// записал 4 нуля в файл)))
 	i = 0;
 	write(fd, &i, 4);
-
-	//ЗАПИСАТЬ ОСТАЛЬНОЙ КОД ИЗ КАКОГО НИБУДЬ СПИСКА!!!!
+//ЗАПИСАТЬ ОСТАЛЬНОЙ КОД ИЗ КАКОГО НИБУДЬ СПИСКА!!!!
+// ...
 
 	close(fd);
 	return (ERR_NORM);

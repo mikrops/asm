@@ -6,7 +6,7 @@
 /*   By: mmonahan <mmonahan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/30 20:40:49 by mmonahan          #+#    #+#             */
-/*   Updated: 2019/12/15 20:20:12 by mmonahan         ###   ########.fr       */
+/*   Updated: 2019/12/16 20:33:36 by mmonahan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,7 @@
 # define ERR_NO_OPEN_FILE 3
 # define ERR_NO_CREAT_FILE 4
 # define ERR_BAD_HEADER 5
+# define ERR_BAD_TOKEN_INSTRUCTION 6
 
 // статусы Хедера под это переделать
 # define CHK_HEADER_BEGIN 0
@@ -79,7 +80,9 @@ typedef struct	s_token
 {
 	char		*label;
 	char		*inst;
-	char 		args[3];
+	int 		number;
+	int 		count_args;
+	char 		**args;
 /*	int 		arg_1;
 	int 		arg_2;
 	int 		arg_3;*/

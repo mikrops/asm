@@ -6,7 +6,7 @@
 /*   By: mmonahan <mmonahan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/19 20:17:13 by mmonahan          #+#    #+#             */
-/*   Updated: 2019/12/15 20:27:26 by mmonahan         ###   ########.fr       */
+/*   Updated: 2019/12/16 20:52:29 by mmonahan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -222,9 +222,12 @@ int get_tokens(t_file *file)
 	//		пропуская все isspace
 	//		ищу ,
 	//		дальше как в 2
+
+	// пропускаем пробелы
 	while (ft_isspace(file->string[i]))
 		i++;
 
+	// определяем label
 	len_lab = check_label(&file->string[i]);
 	if (len_lab > 0)
 	{
@@ -233,9 +236,11 @@ int get_tokens(t_file *file)
 	}
 	printf("проверка отстатка от нахождения LABEL = >%s<\n", &file->string[i]);
 
+	// пропускаем пробелы
 	while (ft_isspace(file->string[i]))
 		i++;
 
+	// определяем команду
 	len_inst = check_inst(&file->string[i]);
 	printf("Проверка начала команды, ее длина = >%d<\n", len_inst);
 	if (len_inst > 0)
@@ -243,11 +248,46 @@ int get_tokens(t_file *file)
 		file->token.inst = get_name(&file->string[i], len_inst);
 		i += len_inst + 1;
 	}
+
+	// пропускаем пробелы
+	while (ft_isspace(file->string[i]))
+		i++;
 	printf("проверка отстатка от нахождения INSTR = >%s<\n", &file->string[i]);
 
-	// теперь надо проверить валиндность команды
-	// потом сохранить строку с атрибутами и разбить ее на отдельные
-	// проверить каждый атрибут в соответствии с валидной командой
+	// определяем валидность команды, если она определена
+	int	k;
+
+	k = 0;
+	if (file->token.inst)
+	{
+		while (k < 17)
+		{
+			if (ft_strequ(file->token.inst, op_tab[k].name))
+			{
+				file->token.number = op_tab[k].code;
+				break ;
+			}
+			k++;
+		}
+		//return (ERR_BAD_TOKEN_INSTRUCTION);
+	}
+
+	// если команда валидная, то проверяем на количество аргументов
+	if (file->token.number > 0)
+	{
+		file->token.args = ft_strsplit(&file->string[i], SEPARATOR_CHAR);
+		k = 0;
+		printf("\n");
+		while (file->token.args[k])
+		{
+			printf("[%d] >%s<\t", k, file->token.args[k]);
+			k++;
+		}
+		printf("\n\n");
+	}
+
+// потом сохранить строку с атрибутами и разбить ее на отдельные - почти есть!
+// проверить каждый атрибут в соответствии с валидной командой
 
 	//free(label);
 	return (ERR_NORM);
@@ -275,10 +315,12 @@ int	get_instruction(t_file *file)
 			get_tokens(file);
 			printf("LABEL[%d]\t", ch_fn);
 			printf(">%s<\t", file->token.label);
-			printf(">%s<\t", file->token.inst);
-			// ОПАСНО!!!!!!  тут free INST и LABEL из структуры!!!!!!
-			free(file->token.label);
-			free(file->token.inst);
+			printf("нашли - >%s<\t", file->token.inst);
+			printf("определили - >%s<\t", file->token.number > 0 ?
+			op_tab[file->token.number - 1].name : "NO");
+// ОПАСНО!!!!!!  тут free INST и LABEL из структуры!!!!!!
+//			free(file->token.label);
+//			free(file->token.inst);
 
 		}
 		else
