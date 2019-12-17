@@ -6,7 +6,7 @@
 /*   By: mmonahan <mmonahan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/19 20:17:13 by mmonahan          #+#    #+#             */
-/*   Updated: 2019/12/16 20:52:29 by mmonahan         ###   ########.fr       */
+/*   Updated: 2019/12/17 20:56:03 by mmonahan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -248,6 +248,8 @@ int get_tokens(t_file *file)
 		file->token.inst = get_name(&file->string[i], len_inst);
 		i += len_inst + 1;
 	}
+	else
+		return (ERR_BAD_TOKEN_INSTRUCTION + 10);
 
 	// пропускаем пробелы
 	while (ft_isspace(file->string[i]))
@@ -259,21 +261,21 @@ int get_tokens(t_file *file)
 
 	k = 0;
 	if (file->token.inst)
-	{
 		while (k < 17)
 		{
 			if (ft_strequ(file->token.inst, op_tab[k].name))
 			{
-				file->token.number = op_tab[k].code;
+				file->token.code = op_tab[k].code;
 				break ;
 			}
 			k++;
 		}
-		//return (ERR_BAD_TOKEN_INSTRUCTION);
-	}
+	else
+		return (ERR_BAD_TOKEN_INSTRUCTION + 20);
 
 	// если команда валидная, то проверяем на количество аргументов
-	if (file->token.number > 0)
+	k = 0;
+	if (file->token.code > 0)
 	{
 		file->token.args = ft_strsplit(&file->string[i], SEPARATOR_CHAR);
 		k = 0;
@@ -283,8 +285,21 @@ int get_tokens(t_file *file)
 			printf("[%d] >%s<\t", k, file->token.args[k]);
 			k++;
 		}
+		file->token.count_args = k;
 		printf("\n\n");
 	}
+	else
+		return (ERR_BAD_TOKEN_INSTRUCTION + 30);
+
+	// проверяем количество аргументов в инструкции
+	if (op_tab[file->token.code + 1].arguments == file->token.count_args)
+		printf("ХОРОШЕЕ КОЛИЧЕСТВО АРГУМЕНТОВ\t");
+	else
+		printf("-------------------");
+		//return (ERR_BAD_TOKEN_INSTRUCTION + 40);
+		//*********************ИСПРАВИТЬ******************
+
+
 
 // потом сохранить строку с атрибутами и разбить ее на отдельные - почти есть!
 // проверить каждый атрибут в соответствии с валидной командой
@@ -309,29 +324,25 @@ int	get_instruction(t_file *file)
 		check = check_header(file);
 	else
 	{
-		ch_fn = check_label(file->string);
-		if (ch_fn)
-		{
-			get_tokens(file);
-			printf("LABEL[%d]\t", ch_fn);
-			printf(">%s<\t", file->token.label);
-			printf("нашли - >%s<\t", file->token.inst);
-			printf("определили - >%s<\t", file->token.number > 0 ?
-			op_tab[file->token.number - 1].name : "NO");
+		get_tokens(file);
+		printf("LABEL[%zu]\t", file->token.label ? ft_strlen(file->token
+			.label) : 0);
+		printf(">%s<\t", file->token.label);
+		printf("нашли - >%s<\t", file->token.inst);
+		printf("определили - >%s<\t", file->token.code > 0 ?
+			op_tab[file->token.code - 1].name : "NO");
+		printf("нашли - >%s<\t", file->token.inst);
+		printf("кол-во арг. - >%d<\t", file->token.count_args);
+
+
 // ОПАСНО!!!!!!  тут free INST и LABEL из структуры!!!!!!
-//			free(file->token.label);
-//			free(file->token.inst);
+		if (file->token.label)
+			free(file->token.label);
+		if (file->token.inst)
+			free(file->token.inst);
+		ft_memset(&file->token, 0, sizeof(t_token));
 
-		}
-		else
-			printf("lab_NO\t");
-
-		ch_fn = 0;//check_command(file->string);
-		if (ch_fn)
-			printf("COMMAND[%d]\t", ch_fn);
-		else
-			printf("com_NO\t");
 	}
-	printf("\n");
+	printf("\n************************%d************************\n", check);
 	return (check);
 }

@@ -80,7 +80,7 @@ typedef struct	s_token
 {
 	char		*label;
 	char		*inst;
-	int 		number;
+	int 		code;
 	int 		count_args;
 	char 		**args;
 /*	int 		arg_1;
