@@ -30,6 +30,7 @@
 # define ERR_NO_CREAT_FILE 4
 # define ERR_BAD_HEADER 5
 # define ERR_BAD_TOKEN_INSTRUCTION 6
+# define ERR_BAD_TOKEN_ARGUMENT 7
 
 // статусы Хедера под это переделать
 # define CHK_HEADER_BEGIN 0

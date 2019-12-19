@@ -6,7 +6,7 @@
 /*   By: mmonahan <mmonahan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/19 20:17:13 by mmonahan          #+#    #+#             */
-/*   Updated: 2019/12/17 20:56:03 by mmonahan         ###   ########.fr       */
+/*   Updated: 2019/12/19 20:52:46 by mmonahan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -186,6 +186,63 @@ char	*get_name(const char *string, int len_instr)
 }
 
 /*
+** get T_REG [r1-r99] [r01-r99]
+*/
+
+int	get_reg(const char *str)
+{
+	int i;
+
+	i = 0;
+	while (ft_isspace(str[i]))
+		i++;
+	if (str[i++] != 'r')
+		return (ERR_BAD_TOKEN_ARGUMENT);
+	if (str[i] == '0' && str[i + 1] == '0')
+		return (ERR_BAD_TOKEN_ARGUMENT);
+	if (ft_isdigit(str[i]) && ft_isdigit(str[i + 1]))
+		i += 2;
+	while (ft_isspace(str[i]))
+		i++;
+	if (str[i] != '\0')
+		return (ERR_BAD_TOKEN_ARGUMENT);
+	return (ERR_NORM);
+	// ИСПРАВИТЬ КОГДА ОДНА ЦИФРА!!!!
+}
+
+/*
+** get T_DIR [%int] [%:label]
+*/
+
+int	get_dir(const char *str)
+{
+	int i;
+
+	i = 0;
+	while (str[i])
+	{
+		i++;
+	}
+	return (ERR_NORM);
+}
+
+/*
+** get T_IND [int]
+*/
+
+int	get_ind(const char *str)
+{
+	int i;
+
+	i = 0;
+	while (str[i])
+	{
+		i++;
+	}
+	return (ERR_NORM);
+}
+
+/*
 **	Делить строку на токены
 */
 int get_tokens(t_file *file)
@@ -273,7 +330,7 @@ int get_tokens(t_file *file)
 	else
 		return (ERR_BAD_TOKEN_INSTRUCTION + 20);
 
-	// если команда валидная, то проверяем на количество аргументов
+	// если команда валидная, то определяем количество аргументов
 	k = 0;
 	if (file->token.code > 0)
 	{
@@ -291,13 +348,19 @@ int get_tokens(t_file *file)
 	else
 		return (ERR_BAD_TOKEN_INSTRUCTION + 30);
 
-	// проверяем количество аргументов в инструкции
-	if (op_tab[file->token.code + 1].arguments == file->token.count_args)
-		printf("ХОРОШЕЕ КОЛИЧЕСТВО АРГУМЕНТОВ\t");
+	// проверяем на валидное количество аргументов в инструкции
+	if (op_tab[file->token.code - 1].arguments == file->token.count_args)
+		printf("NORM ARGS [%d/%d]\n", op_tab[file->token.code - 1].arguments,
+				file->token.count_args);
 	else
-		printf("-------------------");
-		//return (ERR_BAD_TOKEN_INSTRUCTION + 40);
-		//*********************ИСПРАВИТЬ******************
+	{
+		printf("BAD ARGS [%d/%d]\n", op_tab[file->token.code - 1].arguments,
+			   file->token.count_args);
+		return (ERR_BAD_TOKEN_INSTRUCTION + 40);
+	}
+
+	//определяем аргументы
+	//три функции будет для (r1-99, %, int)
 
 
 
@@ -334,7 +397,6 @@ int	get_instruction(t_file *file)
 		printf("нашли - >%s<\t", file->token.inst);
 		printf("кол-во арг. - >%d<\t", file->token.count_args);
 
-
 // ОПАСНО!!!!!!  тут free INST и LABEL из структуры!!!!!!
 		if (file->token.label)
 			free(file->token.label);
@@ -344,5 +406,16 @@ int	get_instruction(t_file *file)
 
 	}
 	printf("\n************************%d************************\n", check);
+	printf("%d \n%d \n%d \n%d \n%d \n%d \n%d \n",
+			get_reg("r1"),
+			get_reg("r01"),
+			get_reg(" r99 "),
+			get_reg("e99"),
+			get_reg("e r01"),
+			get_reg("r01 e"),
+			get_reg(""));
+	printf("\n************************%d************************\n", check);
+
+
 	return (check);
 }
