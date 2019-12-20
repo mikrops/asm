@@ -6,7 +6,7 @@
 /*   By: mmonahan <mmonahan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/19 20:17:13 by mmonahan          #+#    #+#             */
-/*   Updated: 2019/12/19 20:52:46 by mmonahan         ###   ########.fr       */
+/*   Updated: 2019/12/20 20:08:30 by mmonahan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -198,16 +198,24 @@ int	get_reg(const char *str)
 		i++;
 	if (str[i++] != 'r')
 		return (ERR_BAD_TOKEN_ARGUMENT);
-	if (str[i] == '0' && str[i + 1] == '0')
-		return (ERR_BAD_TOKEN_ARGUMENT);
 	if (ft_isdigit(str[i]) && ft_isdigit(str[i + 1]))
+	{
+		if (str[i] == '0' && str[i + 1] == '0')
+			return (ERR_BAD_TOKEN_ARGUMENT);
 		i += 2;
+	}
+	else if (ft_isdigit(str[i]))
+	{
+		if (str[i++] == '0')
+			return (ERR_BAD_TOKEN_ARGUMENT);
+	}
+	else
+		return (ERR_BAD_TOKEN_ARGUMENT);
 	while (ft_isspace(str[i]))
 		i++;
 	if (str[i] != '\0')
 		return (ERR_BAD_TOKEN_ARGUMENT);
 	return (ERR_NORM);
-	// ИСПРАВИТЬ КОГДА ОДНА ЦИФРА!!!!
 }
 
 /*
@@ -227,7 +235,7 @@ int	get_dir(const char *str)
 }
 
 /*
-** get T_IND [int]
+** get T_IND [int] [:label]
 */
 
 int	get_ind(const char *str)
@@ -245,6 +253,7 @@ int	get_ind(const char *str)
 /*
 **	Делить строку на токены
 */
+
 int get_tokens(t_file *file)
 {
 	int i;
@@ -378,11 +387,8 @@ int get_tokens(t_file *file)
 int	get_instruction(t_file *file)
 {
 	int check;
-	int ch_fn;
 
 	check = 0;
-	ch_fn = 0;
-
 	if (!file->flag_name || !file->flag_comment)
 		check = check_header(file);
 	else
@@ -406,16 +412,16 @@ int	get_instruction(t_file *file)
 
 	}
 	printf("\n************************%d************************\n", check);
-	printf("%d \n%d \n%d \n%d \n%d \n%d \n%d \n",
-			get_reg("r1"),
-			get_reg("r01"),
-			get_reg(" r99 "),
-			get_reg("e99"),
-			get_reg("e r01"),
-			get_reg("r01 e"),
-			get_reg(""));
-	printf("\n************************%d************************\n", check);
-
-
+	char *check_reg[100] = {"r1", " r01 ", " r51 ", "r01", "r0", "r", "r00",
+						   " r99 ", "e99", "e r01", "r01 e", "r999", " r ", ""};
+	int arr = 0;
+	while (arr < 14)
+	{
+		printf("n[%d]\t>%s<\t = %s\n", arr, check_reg[arr], get_reg
+		(check_reg[arr]) ?
+			"***" : "NORM");
+		arr++;
+	}
+	printf("************************%d************************\n", check);
 	return (check);
 }
