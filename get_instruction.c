@@ -6,7 +6,7 @@
 /*   By: mmonahan <mmonahan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/19 20:17:13 by mmonahan          #+#    #+#             */
-/*   Updated: 2019/12/20 20:08:30 by mmonahan         ###   ########.fr       */
+/*   Updated: 2019/12/21 15:43:01 by mmonahan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -186,87 +186,20 @@ char	*get_name(const char *string, int len_instr)
 }
 
 /*
-** get T_REG [r1-r99] [r01-r99]
-*/
-
-int	get_reg(const char *str)
-{
-	int i;
-
-	i = 0;
-	while (ft_isspace(str[i]))
-		i++;
-	if (str[i++] != 'r')
-		return (ERR_BAD_TOKEN_ARGUMENT);
-	if (ft_isdigit(str[i]) && ft_isdigit(str[i + 1]))
-	{
-		if (str[i] == '0' && str[i + 1] == '0')
-			return (ERR_BAD_TOKEN_ARGUMENT);
-		i += 2;
-	}
-	else if (ft_isdigit(str[i]))
-	{
-		if (str[i++] == '0')
-			return (ERR_BAD_TOKEN_ARGUMENT);
-	}
-	else
-		return (ERR_BAD_TOKEN_ARGUMENT);
-	while (ft_isspace(str[i]))
-		i++;
-	if (str[i] != '\0')
-		return (ERR_BAD_TOKEN_ARGUMENT);
-	return (ERR_NORM);
-}
-
-/*
-** get T_DIR [%int] [%:label]
-*/
-
-int	get_dir(const char *str)
-{
-	int i;
-
-	i = 0;
-	while (str[i])
-	{
-		i++;
-	}
-	return (ERR_NORM);
-}
-
-/*
-** get T_IND [int] [:label]
-*/
-
-int	get_ind(const char *str)
-{
-	int i;
-
-	i = 0;
-	while (str[i])
-	{
-		i++;
-	}
-	return (ERR_NORM);
-}
-
-/*
 **	Делить строку на токены
 */
 
 int get_tokens(t_file *file)
 {
-	int i;
-	int j;
-	int len_lab;
-	int len_inst;
-	char *tokens;
+	int		i;
+	int 	len_lab;
+	int 	len_inst;
+//	t_label	label;
 
 	i = 0;
-	j = 0;
 	len_lab = 0;
 	len_inst = 0;
-	tokens = ft_memset(&tokens, 0, sizeof(char *));
+//	ft_memset(&label, 0, sizeof(t_label));
 
 	//ищу лабел до :
 	//если 'нет'
@@ -300,6 +233,11 @@ int get_tokens(t_file *file)
 		file->token.label = get_name(&file->string[i], len_lab);
 		i += len_lab + 1;
 	}
+	//file->label.content = *ft_lstnew(void const *content, size_t
+	// content_size);
+//	label.name = file->token.label;
+//	file->label.next = ft_lstnew(&label, sizeof(t_label));
+
 	printf("проверка отстатка от нахождения LABEL = >%s<\n", &file->string[i]);
 
 	// пропускаем пробелы
@@ -412,16 +350,5 @@ int	get_instruction(t_file *file)
 
 	}
 	printf("\n************************%d************************\n", check);
-	char *check_reg[100] = {"r1", " r01 ", " r51 ", "r01", "r0", "r", "r00",
-						   " r99 ", "e99", "e r01", "r01 e", "r999", " r ", ""};
-	int arr = 0;
-	while (arr < 14)
-	{
-		printf("n[%d]\t>%s<\t = %s\n", arr, check_reg[arr], get_reg
-		(check_reg[arr]) ?
-			"***" : "NORM");
-		arr++;
-	}
-	printf("************************%d************************\n", check);
 	return (check);
 }

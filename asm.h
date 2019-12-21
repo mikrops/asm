@@ -6,7 +6,7 @@
 /*   By: mmonahan <mmonahan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/30 20:40:49 by mmonahan          #+#    #+#             */
-/*   Updated: 2019/12/16 20:33:36 by mmonahan         ###   ########.fr       */
+/*   Updated: 2019/12/21 15:31:05 by mmonahan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,28 +54,6 @@
 # define SEPARATOR 60
 
 
-
-typedef enum	e_command
-{
-	LIVE,
-	LD,
-	ST,
-	ADD,
-	SUB,
-	AND,
-	OR,
-	XOR,
-	ZJMP,
-	LDI,
-	STI,
-	FORK,
-	LLD,
-	LLDI,
-	LFORK,
-	FFF
-}				t_command;
-
-
 // после валидации будет массив на n-е количество инструкций
 typedef struct	s_token
 {
@@ -88,6 +66,12 @@ typedef struct	s_token
 	int 		arg_2;
 	int 		arg_3;*/
 }				t_token;
+
+//typedef struct	s_label
+//{
+//	char 		*name;
+//	int 		value;
+//}				t_label;
 
 typedef struct	s_file
 {
@@ -105,41 +89,6 @@ typedef struct	s_file
 	t_token		token;
 //	t_list		label;
 }				t_file;
-
-
-
-/*typedef struct	s_operation
-{
-	int			name;
-	int 		code1;
-	int 		op[3];
-	int			code2;
-	int 		round;
-	int			code3;
-	int			code4;
-}				t_operation;
-
-static t_operation	op_tab[17] =
-{
-	{LIVE, 1, {T_DIR}, 1, 10, 0, 0},
-	{LD, 2, {T_DIR | T_IND, T_REG}, 2, 5, 1, 0},
-	{ST, 2, {T_REG, T_IND | T_REG}, 3, 5, 1, 0},
-	{ADD, 3, {T_REG, T_REG, T_REG}, 4, 10, 1, 0},
-	{SUB, 3, {T_REG, T_REG, T_REG}, 5, 10, 1, 0},
-	{AND, 3, {T_REG | T_DIR | T_IND, T_REG | T_IND | T_DIR, T_REG}, 6, 6, 1, 0},
-	{OR, 3, {T_REG | T_IND | T_DIR, T_REG | T_IND | T_DIR, T_REG}, 7, 6, 1, 0},
-	{XOR, 3, {T_REG | T_IND | T_DIR, T_REG | T_IND | T_DIR, T_REG}, 8, 6, 1, 0},
-	{ZJMP, 1, {T_DIR}, 9, 20, 0, 1},
-	{LDI, 3, {T_REG | T_DIR | T_IND, T_DIR | T_REG, T_REG}, 10, 25, 1, 1},
-	{STI, 3, {T_REG, T_REG | T_DIR | T_IND, T_DIR | T_REG}, 11, 25, 1, 1},
-	{FORK, 1, {T_DIR}, 12, 800, 0, 1},
-	{LLD, 2, {T_DIR | T_IND, T_REG}, 13, 10, 1, 0},
-	{LLDI, 3, {T_REG | T_DIR | T_IND, T_DIR | T_REG, T_REG}, 14, 50, 1, 1},
-	{LFORK, 1, {T_DIR}, 15, 1000, 0, 1},
-	{FFF, 1, {T_REG}, 16, 2, 1, 0},
-	{0, 0, {0}, 0, 0, 0, 0}
-};*/
-
 
 typedef struct	s_operation
 {
@@ -179,5 +128,8 @@ static t_operation	op_tab[17] =
 void			put_exception(int error);
 int				get_instruction(t_file *file);
 int				validation(t_file *file);
+int				get_reg(const char *str);
+int				get_dir(const char *str);
+int				get_ind(const char *str);
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: mmonahan <mmonahan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/06 11:37:56 by mmonahan          #+#    #+#             */
-/*   Updated: 2019/12/16 20:14:11 by mmonahan         ###   ########.fr       */
+/*   Updated: 2019/12/21 17:26:57 by mmonahan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -142,40 +142,52 @@ int	validation(t_file *file)
 			file->header.comment);
 	printf("количество интсрукций = >%d<\n", count_instr);
 //***************************ЭКСПЕРЕМЕНТЫ*****************************
-/*	printf("\n\n");
-	char **str;
-	char *ch = 	"l2: sti r1,%:live,%0";
-	str = ft_strsplit(ch, SEPARATOR_CHAR);
-	int j = 0;
-	while (str[j])
-		printf(">%s<\n", str[j++]);
-	printf("\n");*/
 
-
-/*	char *string = "sti r1,%:live,%0";
-	int	i;
-	int rez;
-	int k;
-
-	i = 0;
-	rez = 0;
-	k = 0;
-	while (i < 16)
+	printf("\n***********start get_reg*************************\n");
+	char *check_reg[100] = {"r1", " r01 ", " r51 ", "r01", "r0", "r", "r00",
+							" r99 ", "e99", "e r01", "r01 e", "r999", " r ",
+							"rr1", "r1r1", ""};
+	int arr_reg = 0;
+	while (arr_reg < 15)
 	{
-//		if (ft_strnequ(string, op_tab[i].name, sizeof(op_tab[i].name)))
-		if (ft_strnstr(string, op_tab[i].name, sizeof(op_tab[i].name)))
-		{
-			printf("команда >%s< и оргументов у нее %d. Аргументы:\n",
-					op_tab[i].name, op_tab[i].arguments);
-			while (k < op_tab[i].arguments)
-			{
-				rez = op_tab[i].op[k] & T_DIR;
-				printf("\t[%d] - %s\n", k, rez == 0 ? " :( " : "[OK]");
-				k++;
-			}
-			k = 0;
-		}
-		i++;
-	}*/
+		printf("n[%d]\t>%s<\t = %s\n", arr_reg, check_reg[arr_reg],
+				get_reg(check_reg[arr_reg]) ? "***" : "NORM");
+		arr_reg++;
+	}
+	printf("*****************end get_reg*********************\n");
+	printf("\n");
+	printf("\n***********start get_dir*************************\n");
+	char *check_dir[100] = {"%1", " %1 ", " %9812 ", "%0001", "%00009999",
+						 " %:live", "%:l", " %-1 ", "%-1", "%:li ", " %:l3",
+						 "%:l_2", "%:l_3_aa", "%-00002 ", " %-000009999",
+						 "%:999", "%9283498237", "%982374987234982743982743",
+						 "%00000000000000000000197823472349823469283649238838"};
+	int arr_dir = 0;
+	int flag_dir = 0;
+	while (arr_dir < 19)
+	{
+		flag_dir = get_dir(check_dir[arr_dir]);
+		printf("n[%d]\t>%s<\t = %s[%d]\n", arr_dir, check_dir[arr_dir],
+			   flag_dir ? "***" : "NORM", flag_dir);
+		arr_dir++;
+	}
+	printf("*****************end get_dir*********************\n");
+	printf("\n");
+	printf("\n***********start get_ind*************************\n");
+	char *check_ind[100] = {"1", " 1 ", " 9812 ", "0001", "00009999",
+							" :live", ":l", " -1 ", "-1", ":li ", " :l3",
+							":l_2", ":l_3_aa", "-00002 ", " -000009999",
+							":999", "9283498237", "982374987234982743982743",
+							"00000000000000000000197823472349823469283649238838"};
+	int arr_ind = 0;
+	int flag_ind = 0;
+	while (arr_ind < 19)
+	{
+		flag_ind = get_ind(check_ind[arr_ind]);
+		printf("n[%d]\t>%s<\t = %s[%d]\n", arr_ind, check_ind[arr_ind],
+			   flag_ind ? "***" : "NORM", flag_ind);
+		arr_ind++;
+	}
+	printf("*****************end get_ind*********************\n");
 	return (ERR_NORM);
 }
