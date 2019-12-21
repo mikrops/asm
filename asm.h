@@ -6,7 +6,7 @@
 /*   By: mmonahan <mmonahan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/30 20:40:49 by mmonahan          #+#    #+#             */
-/*   Updated: 2019/12/21 15:31:05 by mmonahan         ###   ########.fr       */
+/*   Updated: 2019/12/21 15:48:07 by mmonahan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,6 +62,7 @@ typedef struct	s_token
 	int 		code;
 	int 		count_args;
 	char 		**args;
+	int 		op[3];
 /*	int 		arg_1;
 	int 		arg_2;
 	int 		arg_3;*/

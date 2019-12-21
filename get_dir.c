@@ -6,7 +6,7 @@
 /*   By: mmonahan <mmonahan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/21 14:48:49 by mmonahan          #+#    #+#             */
-/*   Updated: 2019/12/21 17:19:10 by mmonahan         ###   ########.fr       */
+/*   Updated: 2019/12/21 17:21:38 by mmonahan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ int	get_dir(const char *str)
 	while (ft_isspace(str[i]))
 		i++;
 	if (str[i++] != DIRECT_CHAR)
-		return (ERR_BAD_TOKEN_ARGUMENT + 10);
+		return (ERR_BAD_TOKEN_ARGUMENT);
 	if (str[i] == LABEL_CHAR)
 	{
 		i++;
@@ -38,10 +38,10 @@ int	get_dir(const char *str)
 			i++;
 	}
 	else
-		return (ERR_BAD_TOKEN_ARGUMENT+20);
+		return (ERR_BAD_TOKEN_ARGUMENT);
 	while (ft_isspace(str[i]))
 		i++;
 	if (str[i] != '\0')
-		return (ERR_BAD_TOKEN_ARGUMENT+30);
-	return (ERR_NORM);
+		return (ERR_BAD_TOKEN_ARGUMENT);
+	return (T_DIR);
 }

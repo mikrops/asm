@@ -6,9 +6,11 @@
 /*   By: mmonahan <mmonahan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/06 11:37:56 by mmonahan          #+#    #+#             */
-/*   Updated: 2019/12/21 17:26:57 by mmonahan         ###   ########.fr       */
+/*   Updated: 2019/12/21 17:51:33 by mmonahan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
+void		test_command();
 
 #include "asm.h"
 
@@ -141,7 +143,15 @@ int	validation(t_file *file)
 			file->header.prog_name,
 			file->header.comment);
 	printf("количество интсрукций = >%d<\n", count_instr);
-//***************************ЭКСПЕРЕМЕНТЫ*****************************
+
+	//test_command();
+
+	return (ERR_NORM);
+}
+
+void test_command()
+{
+	//***************************ЭКСПЕРЕМЕНТЫ*****************************
 
 	printf("\n***********start get_reg*************************\n");
 	char *check_reg[100] = {"r1", " r01 ", " r51 ", "r01", "r0", "r", "r00",
@@ -151,17 +161,17 @@ int	validation(t_file *file)
 	while (arr_reg < 15)
 	{
 		printf("n[%d]\t>%s<\t = %s\n", arr_reg, check_reg[arr_reg],
-				get_reg(check_reg[arr_reg]) ? "***" : "NORM");
+			   get_reg(check_reg[arr_reg]) ? "***" : "NORM");
 		arr_reg++;
 	}
 	printf("*****************end get_reg*********************\n");
 	printf("\n");
 	printf("\n***********start get_dir*************************\n");
 	char *check_dir[100] = {"%1", " %1 ", " %9812 ", "%0001", "%00009999",
-						 " %:live", "%:l", " %-1 ", "%-1", "%:li ", " %:l3",
-						 "%:l_2", "%:l_3_aa", "%-00002 ", " %-000009999",
-						 "%:999", "%9283498237", "%982374987234982743982743",
-						 "%00000000000000000000197823472349823469283649238838"};
+							" %:live", "%:l", " %-1 ", "%-1", "%:li ", " %:l3",
+							"%:l_2", "%:l_3_aa", "%-00002 ", " %-000009999",
+							"%:999", "%9283498237", "%982374987234982743982743",
+							"%00000000000000000000197823472349823469283649238838"};
 	int arr_dir = 0;
 	int flag_dir = 0;
 	while (arr_dir < 19)
@@ -189,5 +199,4 @@ int	validation(t_file *file)
 		arr_ind++;
 	}
 	printf("*****************end get_ind*********************\n");
-	return (ERR_NORM);
 }

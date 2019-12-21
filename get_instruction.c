@@ -6,7 +6,7 @@
 /*   By: mmonahan <mmonahan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/19 20:17:13 by mmonahan          #+#    #+#             */
-/*   Updated: 2019/12/21 15:43:01 by mmonahan         ###   ########.fr       */
+/*   Updated: 2019/12/21 17:55:48 by mmonahan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -307,12 +307,24 @@ int get_tokens(t_file *file)
 	}
 
 	//определяем аргументы
-	//три функции будет для (r1-99, %, int)
-
-
-
+	//три функции будет для (r1-99, %, int) - ЕСТЬ!
 // потом сохранить строку с атрибутами и разбить ее на отдельные - почти есть!
 // проверить каждый атрибут в соответствии с валидной командой
+
+	int c_int;
+
+	c_int = 0;
+//	while (c_int <= file->token.count_args)
+//	{
+//		if (get_dir(file->token.args[c_int]))
+//			return (ERR_BAD_TOKEN_ARGUMENT);
+//		if (get_reg(file->token.args[c_int]))
+//			return (ERR_BAD_TOKEN_ARGUMENT);
+//		if (get_ind(file->token.args[c_int]))
+//			return (ERR_BAD_TOKEN_ARGUMENT);
+//		c_int++;
+//	}
+// занести результаты в file->token.op и сравнить в оригинальным op[3]
 
 	//free(label);
 	return (ERR_NORM);

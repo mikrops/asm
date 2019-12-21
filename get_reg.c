@@ -6,7 +6,7 @@
 /*   By: mmonahan <mmonahan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/21 14:47:04 by mmonahan          #+#    #+#             */
-/*   Updated: 2019/12/21 14:47:04 by mmonahan         ###   ########.fr       */
+/*   Updated: 2019/12/21 14:47:59 by mmonahan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,5 +42,5 @@ int	get_reg(const char *str)
 		i++;
 	if (str[i] != '\0')
 		return (ERR_BAD_TOKEN_ARGUMENT);
-	return (ERR_NORM);
+	return (T_REG);
 }
