@@ -31,6 +31,7 @@
 # define ERR_BAD_HEADER 5
 # define ERR_BAD_TOKEN_INSTRUCTION 6
 # define ERR_BAD_TOKEN_ARGUMENT 7
+# define ERR_INVALID_CODE 8
 
 // статусы Хедера под это переделать
 # define CHK_HEADER_BEGIN 0

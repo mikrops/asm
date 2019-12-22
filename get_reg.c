@@ -6,7 +6,7 @@
 /*   By: mmonahan <mmonahan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/21 14:47:04 by mmonahan          #+#    #+#             */
-/*   Updated: 2019/12/21 14:47:59 by mmonahan         ###   ########.fr       */
+/*   Updated: 2019/12/22 16:54:10 by mmonahan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,23 +24,23 @@ int	get_reg(const char *str)
 	while (ft_isspace(str[i]))
 		i++;
 	if (str[i++] != 'r')
-		return (ERR_BAD_TOKEN_ARGUMENT);
+		return (0);
 	if (ft_isdigit(str[i]) && ft_isdigit(str[i + 1]))
 	{
 		if (str[i] == '0' && str[i + 1] == '0')
-			return (ERR_BAD_TOKEN_ARGUMENT);
+			return (0);
 		i += 2;
 	}
 	else if (ft_isdigit(str[i]))
 	{
 		if (str[i++] == '0')
-			return (ERR_BAD_TOKEN_ARGUMENT);
+			return (0);
 	}
 	else
-		return (ERR_BAD_TOKEN_ARGUMENT);
+		return (0);
 	while (ft_isspace(str[i]))
 		i++;
 	if (str[i] != '\0')
-		return (ERR_BAD_TOKEN_ARGUMENT);
+		return (0);
 	return (T_REG);
 }

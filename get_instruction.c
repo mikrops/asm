@@ -6,7 +6,7 @@
 /*   By: mmonahan <mmonahan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/19 20:17:13 by mmonahan          #+#    #+#             */
-/*   Updated: 2019/12/21 17:55:48 by mmonahan         ###   ########.fr       */
+/*   Updated: 2019/12/22 19:32:01 by mmonahan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -244,6 +244,10 @@ int get_tokens(t_file *file)
 	while (ft_isspace(file->string[i]))
 		i++;
 
+	// проверяем конец файла или начало комента после Lable
+	if (file->string[i] == '\0' || file->string[i] == COMMENT_CHAR)
+		return	(ERR_NORM);
+
 	// определяем команду
 	len_inst = check_inst(&file->string[i]);
 	printf("Проверка начала команды, ее длина = >%d<\n", len_inst);
@@ -259,6 +263,9 @@ int get_tokens(t_file *file)
 	while (ft_isspace(file->string[i]))
 		i++;
 	printf("проверка отстатка от нахождения INSTR = >%s<\n", &file->string[i]);
+
+	if (file->string[i] == '\0' || file->string[i] == COMMENT_CHAR)
+		return	(ERR_BAD_TOKEN_INSTRUCTION + 100);
 
 	// определяем валидность команды, если она определена
 	int	k;
@@ -281,7 +288,11 @@ int get_tokens(t_file *file)
 	k = 0;
 	if (file->token.code > 0)
 	{
-		file->token.args = ft_strsplit(&file->string[i], SEPARATOR_CHAR);
+		//ВОТ ТУТ ПИПЕЦ УТЕЧКА!!! >>
+		file->token.args = ft_strsplit(&file->string[i], COMMENT_CHAR);
+		file->token.args = ft_strsplit(file->token.args[0], SEPARATOR_CHAR);
+		//ВОТ ТУТ ПИПЕЦ УТЕЧКА!!! <<
+		
 		k = 0;
 		printf("\n");
 		while (file->token.args[k])
@@ -306,25 +317,36 @@ int get_tokens(t_file *file)
 		return (ERR_BAD_TOKEN_INSTRUCTION + 40);
 	}
 
-	//определяем аргументы
-	//три функции будет для (r1-99, %, int) - ЕСТЬ!
-// потом сохранить строку с атрибутами и разбить ее на отдельные - почти есть!
-// проверить каждый атрибут в соответствии с валидной командой
-
-	int c_int;
-
-	c_int = 0;
-//	while (c_int <= file->token.count_args)
-//	{
-//		if (get_dir(file->token.args[c_int]))
-//			return (ERR_BAD_TOKEN_ARGUMENT);
-//		if (get_reg(file->token.args[c_int]))
-//			return (ERR_BAD_TOKEN_ARGUMENT);
-//		if (get_ind(file->token.args[c_int]))
-//			return (ERR_BAD_TOKEN_ARGUMENT);
-//		c_int++;
-//	}
+	// проверяем аргументы на валидность в команде
+	// проверить каждый атрибут в соответствии с валидной командой
 // занести результаты в file->token.op и сравнить в оригинальным op[3]
+	i = 0;
+	k = 0;
+	while (i < file->token.count_args)
+	{
+		if (get_reg(file->token.args[i]) == T_REG)
+			file->token.op[i] = T_REG;
+		else if (get_dir(file->token.args[i]) == T_DIR)
+			file->token.op[i] = T_DIR;
+		else if (get_ind(file->token.args[i]) == T_IND)
+			file->token.op[i] = T_IND;
+		else
+			return (ERR_BAD_TOKEN_ARGUMENT + 10);
+			//file->token.op[i] = -1;
+		i++;
+	}
+
+	//проверяем на соответствие типов аргументов
+
+	i = 0;
+	while (i < file->token.count_args)
+	{
+		if (op_tab[file->token.code - 1].op[i] & file->token.op[i])
+			;
+		else
+			return (ERR_BAD_TOKEN_ARGUMENT + 20);
+		i++;
+	}
 
 	//free(label);
 	return (ERR_NORM);
@@ -337,21 +359,28 @@ int get_tokens(t_file *file)
 int	get_instruction(t_file *file)
 {
 	int check;
+	int i;
 
 	check = 0;
+	i = 0;
 	if (!file->flag_name || !file->flag_comment)
 		check = check_header(file);
 	else
 	{
-		get_tokens(file);
+		check = get_tokens(file);
 		printf("LABEL[%zu]\t", file->token.label ? ft_strlen(file->token
 			.label) : 0);
-		printf(">%s<\t", file->token.label);
-		printf("нашли - >%s<\t", file->token.inst);
-		printf("определили - >%s<\t", file->token.code > 0 ?
+		printf(">%s<\t| ", file->token.label);
+		printf("нашли - >%s<\t| ", file->token.inst);
+		printf("определили - >%s<\t| ", file->token.code > 0 ?
 			op_tab[file->token.code - 1].name : "NO");
-		printf("нашли - >%s<\t", file->token.inst);
-		printf("кол-во арг. - >%d<\t", file->token.count_args);
+		printf("нашли - >%s<\t| ", file->token.inst);
+		printf("кол-во арг. - >%d<\t| ", file->token.count_args);
+		while (i < file->token.count_args)
+		{
+			printf("[%d]>%d< ", i, file->token.op[i]);
+			i++;
+		}
 
 // ОПАСНО!!!!!!  тут free INST и LABEL из структуры!!!!!!
 		if (file->token.label)

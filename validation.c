@@ -6,7 +6,7 @@
 /*   By: mmonahan <mmonahan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/06 11:37:56 by mmonahan          #+#    #+#             */
-/*   Updated: 2019/12/21 17:51:33 by mmonahan         ###   ########.fr       */
+/*   Updated: 2019/12/22 18:19:32 by mmonahan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -128,7 +128,7 @@ int	validation(t_file *file)
 	ft_strdel(&file->string);
 	close(file->fd_open);
 	if (error_header)
-		return (ERR_NO_OPEN_FILE);
+		return (ERR_INVALID_CODE);//(error_header);
 
 	//создание и заполнение файла только после проюождения валидации
 	//можно вообще в отдельный файл жахнуть

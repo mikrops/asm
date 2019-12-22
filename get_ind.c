@@ -6,7 +6,7 @@
 /*   By: mmonahan <mmonahan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/21 14:50:03 by mmonahan          #+#    #+#             */
-/*   Updated: 2019/12/21 17:28:28 by mmonahan         ###   ########.fr       */
+/*   Updated: 2019/12/22 16:54:10 by mmonahan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,10 +36,10 @@ int	get_ind(const char *str)
 			i++;
 	}
 	else
-		return (ERR_BAD_TOKEN_ARGUMENT);
+		return (0);
 	while (ft_isspace(str[i]))
 		i++;
 	if (str[i] != '\0')
-		return (ERR_BAD_TOKEN_ARGUMENT);
+		return (0);
 	return (T_IND);
 }
