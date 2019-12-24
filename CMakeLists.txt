@@ -90,4 +90,4 @@ add_executable(asm main.c asm.h
         get_next_line/get_next_line.c
         get_next_line/get_next_line.h
         put_exception.c validation.c get_instruction.c
-        get_reg.c get_dir.c get_ind.c)
+        get_reg.c get_dir.c get_ind.c creat_fill_file.c)

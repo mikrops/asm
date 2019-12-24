@@ -6,7 +6,7 @@
 /*   By: mmonahan <mmonahan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/19 20:17:13 by mmonahan          #+#    #+#             */
-/*   Updated: 2019/12/22 19:32:01 by mmonahan         ###   ########.fr       */
+/*   Updated: 2019/12/24 20:28:32 by mmonahan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -151,12 +151,14 @@ int check_label(const char *string)
 }
 
 /*
-**	Если команда валидна, то возвращает ее код, иначе -1
+**	Если строка содержит только "маленькие" символы, то возвращает ее длину,
+**	иначе 0
 **	string - строка, без пробелов и табов вначале
 */
 
 int	check_inst(const char *string)
 {
+
 	int i;
 
 	i = 0;
@@ -186,6 +188,38 @@ char	*get_name(const char *string, int len_instr)
 }
 
 /*
+**	Возвращает строрку до символа 'c'
+*/
+
+char	*ft_strcut(const char *str, int c)
+{
+	int		i;
+	int		len;
+	char	*rezult;
+
+	i = 0;
+	len = 0;
+	if (!str)
+		return (NULL);
+	while (str[i])
+	{
+		if (str[i] == c)
+			break ;
+		i++;
+		len++;
+	}
+	i = 0;
+	rezult = ft_memalloc(len + 1);
+	while (i < len)
+	{
+		rezult[i] = str[i];
+		i++;
+	}
+	rezult[i] = '\0';
+	return (rezult);
+}
+
+/*
 **	Делить строку на токены
 */
 
@@ -194,34 +228,13 @@ int get_tokens(t_file *file)
 	int		i;
 	int 	len_lab;
 	int 	len_inst;
-//	t_label	label;
 
 	i = 0;
 	len_lab = 0;
 	len_inst = 0;
-//	ft_memset(&label, 0, sizeof(t_label));
 
-	//ищу лабел до :
-	//если 'нет'
-	//ищу команду до isspace
-	//понимаю, сколько должно быть аргументов
-	//	если 1
-	//		пропуская все isspace
-	//		ищу первый аргумент
-	//		пропуская все isspace до \n
-	//	если 2
-	//		пропуская все isspace
-	//		ищу первый аргумент
-	//		пропуская все isspace
-	//		ищу ,
-	//		дальше как в 1
-	//	если 3
-	//		пропуская все isspace
-	//		ищу первый аргумент
-	//		пропуская все isspace
-	//		ищу ,
-	//		дальше как в 2
-
+	//обрезаем комментарий
+	file->string = ft_strcut(file->string, '#');
 	// пропускаем пробелы
 	while (ft_isspace(file->string[i]))
 		i++;
@@ -233,10 +246,6 @@ int get_tokens(t_file *file)
 		file->token.label = get_name(&file->string[i], len_lab);
 		i += len_lab + 1;
 	}
-	//file->label.content = *ft_lstnew(void const *content, size_t
-	// content_size);
-//	label.name = file->token.label;
-//	file->label.next = ft_lstnew(&label, sizeof(t_label));
 
 	printf("проверка отстатка от нахождения LABEL = >%s<\n", &file->string[i]);
 
@@ -288,11 +297,8 @@ int get_tokens(t_file *file)
 	k = 0;
 	if (file->token.code > 0)
 	{
-		//ВОТ ТУТ ПИПЕЦ УТЕЧКА!!! >>
-		file->token.args = ft_strsplit(&file->string[i], COMMENT_CHAR);
-		file->token.args = ft_strsplit(file->token.args[0], SEPARATOR_CHAR);
-		//ВОТ ТУТ ПИПЕЦ УТЕЧКА!!! <<
-		
+		file->token.args = ft_strsplit(&file->string[i], SEPARATOR_CHAR);
+
 		k = 0;
 		printf("\n");
 		while (file->token.args[k])

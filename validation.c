@@ -18,7 +18,7 @@ void		test_command();
 **	Возврящает имя нового файла
 */
 
-static char	*creat_name_file(const char *old_name)
+/*static char	*creat_name_file(const char *old_name)
 {
 	int		length;
 	char	*new_name;
@@ -30,13 +30,13 @@ static char	*creat_name_file(const char *old_name)
 	new_name[length] = 'o';
 	new_name[length + 1] = 'r';
 	return (new_name);
-}
+}*/
 
 /*
 **	Возврящает 0 если файл создался и заполнился, иначе номер ошибки
 */
 
-static int	creat_fill_file(t_file *file)
+/*static int	creat_fill_file(t_file *file)
 {
 	char *new_name;
 	int fd;
@@ -73,7 +73,7 @@ static int	creat_fill_file(t_file *file)
 
 	close(fd);
 	return (ERR_NORM);
-}
+}*/
 
 /*
 **	Возвращает 0, если имя файла нормальное, в противном случае 1

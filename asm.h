@@ -129,6 +129,7 @@ static t_operation	op_tab[17] =
 
 void			put_exception(int error);
 int				get_instruction(t_file *file);
+int				creat_fill_file(t_file *file);
 int				validation(t_file *file);
 int				get_reg(const char *str);
 int				get_dir(const char *str);
