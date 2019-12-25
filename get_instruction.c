@@ -6,7 +6,7 @@
 /*   By: mmonahan <mmonahan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/19 20:17:13 by mmonahan          #+#    #+#             */
-/*   Updated: 2019/12/24 20:28:32 by mmonahan         ###   ########.fr       */
+/*   Updated: 2019/12/25 20:15:53 by mmonahan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -188,38 +188,6 @@ char	*get_name(const char *string, int len_instr)
 }
 
 /*
-**	Возвращает строрку до символа 'c'
-*/
-
-char	*ft_strcut(const char *str, int c)
-{
-	int		i;
-	int		len;
-	char	*rezult;
-
-	i = 0;
-	len = 0;
-	if (!str)
-		return (NULL);
-	while (str[i])
-	{
-		if (str[i] == c)
-			break ;
-		i++;
-		len++;
-	}
-	i = 0;
-	rezult = ft_memalloc(len + 1);
-	while (i < len)
-	{
-		rezult[i] = str[i];
-		i++;
-	}
-	rezult[i] = '\0';
-	return (rezult);
-}
-
-/*
 **	Делить строку на токены
 */
 
@@ -325,7 +293,7 @@ int get_tokens(t_file *file)
 
 	// проверяем аргументы на валидность в команде
 	// проверить каждый атрибут в соответствии с валидной командой
-// занести результаты в file->token.op и сравнить в оригинальным op[3]
+// занести результаты в file->token.op и сравнить в оригинальным operation.op
 	i = 0;
 	k = 0;
 	while (i < file->token.count_args)

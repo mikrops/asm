@@ -86,8 +86,9 @@ add_executable(asm main.c asm.h
         libft/ft_map_void_del.c
         libft/ft_str_rejoin.c
         libft/ft_radtodeg.c
+        libft/ft_strcut.c
         libft/libft.h
         get_next_line/get_next_line.c
         get_next_line/get_next_line.h
         put_exception.c validation.c get_instruction.c
-        get_reg.c get_dir.c get_ind.c creat_fill_file.c)
+        get_reg.c get_dir.c get_ind.c creat_fill_file.c get_argument.c)

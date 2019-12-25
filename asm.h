@@ -6,7 +6,7 @@
 /*   By: mmonahan <mmonahan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/30 20:40:49 by mmonahan          #+#    #+#             */
-/*   Updated: 2019/12/24 20:40:35 by mmonahan         ###   ########.fr       */
+/*   Updated: 2019/12/25 20:26:28 by mmonahan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,6 +64,7 @@ typedef struct	s_token
 	int 		count_args;
 	char 		**args;
 	int 		op[3]; //[3][2] !!!!!
+	int 		op_new[3][2];
 /*	int 		arg_1;
 	int 		arg_2;
 	int 		arg_3;*/
@@ -134,5 +135,6 @@ int				validation(t_file *file);
 int				get_reg(const char *str);
 int				get_dir(const char *str);
 int				get_ind(const char *str);
+int				get_argument(t_file *file);
 
 #endif

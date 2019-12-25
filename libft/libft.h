@@ -150,4 +150,13 @@ void				ft_map_void_del(void **map, size_t row);
 double				ft_degtorad(double degree);
 double				ft_radtodeg(double radian);
 char				*ft_str_rejoin(char *s1, char const *s2);
+
+/*
+**	My extra functions (asm)
+**	Мои подопнительные функции (asm)
+**
+**	2019/12/25 20:13:43
+*/
+
+char				*ft_strcut(const char *str, int c);
 #endif
