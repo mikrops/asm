@@ -6,7 +6,7 @@
 /*   By: yjohns <yjohns@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/27 00:17:40 by yjohns            #+#    #+#             */
-/*   Updated: 2019/12/27 13:27:37 by mmonahan         ###   ########.fr       */
+/*   Updated: 2019/12/27 14:10:22 by mmonahan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ void	check_arg(t_file *file, int num, int dir_s, int len)
 
 	dir_s = 0; // нужна для тогото тогото
 	i = 0;
-	args = ft_strsplit(file->string + len, SEPARATOR_CHAR);
+	args = ft_strsplit(file->string + len + 1, SEPARATOR_CHAR);
 	while (i < num)
 	{
 		if (get_reg(args[i]) == T_REG)
@@ -75,6 +75,8 @@ int		check_inst(t_file *file, int i)
 	while (op_tab[++op_i].name)
 		if (ft_strncmp(op_tab[op_i].name, file->string + i,
 					   ft_strlen(ft_strcut(file->string + i, ' '))) == 0 ||
+				ft_strncmp(op_tab[op_i].name, file->string + i,
+						   ft_strlen(ft_strcut(file->string + i, '\t'))) == 0 ||
 			ft_strncmp(op_tab[op_i].name, file->string + i,
 					   ft_strlen(ft_strcut(file->string + i, '%'))) == 0)
 		{
@@ -107,8 +109,8 @@ int	check_instruction(t_file *file)
 	if (!(check_inst(file, i)) && !(FL->len = check_label(file, &i)))
 	{
 		printf(">%d<", ERR_CHOOOOO);
-//		return (ERR_CHOOOOO);
-		exit (1);
+		return (ERR_CHOOOOO);
+//		exit (1);
 	}
 	if (FL->len)
 		check_inst(file, i);

@@ -6,7 +6,7 @@
 /*   By: mmonahan <mmonahan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/06 11:37:56 by mmonahan          #+#    #+#             */
-/*   Updated: 2019/12/27 13:04:02 by mmonahan         ###   ########.fr       */
+/*   Updated: 2019/12/27 16:29:21 by mmonahan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,16 +46,11 @@ int	read_file(t_file *file)
 	while (get_next_line(file->fd_open, &FS))
 	{
 		if (!file->flag_name || !file->flag_comment)
-		{
 			error_header = check_header(file);
-//			printf("-запустили чек_хедер->%d<-\n", error_header);
-		}
 		else
 		{
-//			error_header = check_instruction(file);
+			error_header = check_instruction(file);
 			count_instr += FS[0] ? 1 : 0;
-//			test_file(file, file->flag_comment);
-			printf("-запустили  чек_инстр->%d<-\n", error_header);
 		}
 		if (error_header)
 			break ;
@@ -63,8 +58,6 @@ int	read_file(t_file *file)
 	}
 	ft_strdel(&FS);
 	close(file->fd_open);
-
-//	test_file(file, count_instr);
 
 	if (error_header)
 		return (ERR_INVALID_CODE);
