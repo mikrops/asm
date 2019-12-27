@@ -6,7 +6,7 @@
 /*   By: mmonahan <mmonahan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/06 11:37:56 by mmonahan          #+#    #+#             */
-/*   Updated: 2019/12/27 06:23:56 by mmonahan         ###   ########.fr       */
+/*   Updated: 2019/12/27 09:30:49 by mmonahan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,17 +45,20 @@ int	read_file(t_file *file)
 	count_instr = 0;
 	while (get_next_line(file->fd_open, &file->string))
 	{
-		if (file->string[0] != '\0')
-			count_instr++;
 		if (!file->flag_name || !file->flag_comment)
+		{
 			error_header = check_header(file);
+			printf("-запустили чек_хедер->%d<-\n", error_header);
+		}
 		else
-			error_header = get_instruction(file);
+		{
+			error_header = check_instruction(file);
+			count_instr += !FS[0] ? 1 : 0;
+			printf("-запустили  чек_инстр->%d<-\n", error_header);
+		}
 		if (error_header)
 			break ;
-		file->file = ft_str_rejoin(file->file, file->string);
 		ft_strdel(&file->string);
-		file->file = ft_str_rejoin(file->file, "\n");
 	}
 	ft_strdel(&file->string);
 	close(file->fd_open);
@@ -79,7 +82,7 @@ int	validation(t_file *file)
 		return (ERR_INVALID_CODE);
 
 
-	//test_file(file, count_instr);
+	//test_file(file, file->flag_comment);
 	//test_command();
 
 	return (ERR_NORM);
@@ -87,9 +90,8 @@ int	validation(t_file *file)
 
 void test_file(t_file *file, int count_instr)
 {
-	printf("\n\nfile = >%s<\nnamefile = >%s<\nflag_name = >%d<\nflag_comment = "
+	printf("\n\nnamefile = >%s<\nflag_name = >%d<\nflag_comment = "
 		   ">%d<\nprog_name = >%s<\ncomment = >%s<\n",
-		   file->file,
 		   file->namefile,
 		   file->flag_name,
 		   file->flag_comment,

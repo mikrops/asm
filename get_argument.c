@@ -22,18 +22,18 @@ int get_argument(t_file *file)
 		;
 	int i;
 	i = 0;
-	while (i < file->token.count_args)
-	{
-		if (get_reg(file->token.args[i]) == T_REG)
-			file->token.op[i] = T_REG;
-		else if (get_dir(file->token.args[i]) == T_DIR)
-			file->token.op[i] = T_DIR;
-		else if (get_ind(file->token.args[i]) == T_IND)
-			file->token.op[i] = T_IND;
-		else
-			return (ERR_BAD_TOKEN_ARGUMENT + 10);
-		i++;
-	}
+//	while (i < file->token.count_args)
+//	{
+//		if (get_reg(file->token.args[i]) == T_REG)
+//			file->token.op[i] = T_REG;
+//		else if (get_dir(file->token.args[i]) == T_DIR)
+//			file->token.op[i] = T_DIR;
+//		else if (get_ind(file->token.args[i]) == T_IND)
+//			file->token.op[i] = T_IND;
+//		else
+//			return (ERR_BAD_TOKEN_ARGUMENT + 10);
+//		i++;
+//	}
 
 	return (ERR_NORM);
 }

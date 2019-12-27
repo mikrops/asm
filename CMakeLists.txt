@@ -90,5 +90,7 @@ add_executable(asm main.c asm.h
         libft/libft.h
         get_next_line/get_next_line.c
         get_next_line/get_next_line.h
-        put_exception.c validation.c get_instruction.c
-        get_reg.c get_dir.c get_ind.c creat_fill_file.c get_argument.c check_header.c)
+        put_exception.c validation.c check_instruction.c
+        get_reg.c get_dir.c get_ind.c creat_fill_file.c check_header.c
+        cmd_to_byte_code.c
+        get_argument.c )

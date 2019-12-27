@@ -6,7 +6,7 @@
 /*   By: mmonahan <mmonahan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/30 14:35:51 by mmonahan          #+#    #+#             */
-/*   Updated: 2019/12/27 06:51:49 by mmonahan         ###   ########.fr       */
+/*   Updated: 2019/12/27 09:27:35 by mmonahan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,23 +21,25 @@ int main(int argc, char **argv)
 	err = 0;
 	i = 1;
 	ft_memset(&file, 0, sizeof(t_file));
-
+	if (argc == 1)
+	{
+		put_exception(&file, ERR_NO_ATRIBUTE);
+		return (0);
+	}
 
 	while (i < argc)
 	{
 		file.namefile = ft_strdup(argv[i]);
 		err = validation(&file);
+		if (err)
+			return (ERR_BAD_HEADER);
+		cmd_to_byte_code(&file);
 		err = creat_fill_file(&file);
-
-		put_exception(err);
-
+		if (err)
+			return (ERR_BAD_HEADER);
+		put_exception(&file, err);
 		free(file.namefile);
 		i++;
 	}
 	return 0;
 }
-
-/*
-**	выводить 3 строки, 1-я до, 2-я где зафиксированная ошибка, 3-я после
-**	Для нее можно сделать структурку))
-*/

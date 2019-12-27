@@ -6,7 +6,7 @@
 /*   By: mmonahan <mmonahan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/26 21:05:54 by mmonahan          #+#    #+#             */
-/*   Updated: 2019/12/27 05:41:26 by mmonahan         ###   ########.fr       */
+/*   Updated: 2019/12/27 08:18:08 by mmonahan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -130,6 +130,8 @@ int		check_header(t_file *file)
 	i = 0;
 	while (ft_isspace(FS[i]))
 		i++;
+	if (!FS[i])
+		return (ERR_NORM);
 	if (file->flag_name == 0 &&
 		ft_strnequ(&FS[i], NAME_CMD_STRING, 5))
 	{

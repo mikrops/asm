@@ -6,7 +6,7 @@
 /*   By: mmonahan <mmonahan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/24 20:38:48 by mmonahan          #+#    #+#             */
-/*   Updated: 2019/12/24 20:38:48 by mmonahan         ###   ########.fr       */
+/*   Updated: 2019/12/27 07:45:11 by mmonahan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,12 +37,11 @@ static char	*creat_name_file(const char *old_name)
 int			creat_fill_file(t_file *file)
 {
 	char *new_name;
-	int fd;
 
 	new_name = creat_name_file(file->namefile);
-	fd = creat(new_name, 00777);
+	file->fd_creat = creat(new_name, 00777);
 	//free(new_name);
-	if (fd < 1)
+	if (file->fd_creat < 1)
 		return (ERR_NO_CREAT_FILE);
 	// записываем команды в 16-и ричной системе счисления в файл
 	// *** супер функция записи строки в этот файл
@@ -51,24 +50,26 @@ int			creat_fill_file(t_file *file)
 // записал magic в файл)))
 	unsigned int i = COREWAR_EXEC_MAGIC;
 	file->header.magic = i << 8;
-	write(fd, &file->header.magic, 4);
+	write(file->fd_creat, &file->header.magic, 4);
 // записал name в файл)))
-	write(fd, &file->header.prog_name, PROG_NAME_LENGTH);
+	write(file->fd_creat, &file->header.prog_name, PROG_NAME_LENGTH);
 // записал 4 нуля в файл)))
 	i = 0;
-	write(fd, &i, 4);
+	write(file->fd_creat, &i, 4);
 // записал размер кода в файл)))
 	file->header.prog_size = 16;
 	file->header.prog_size = file->header.prog_size << 24;
-	write(fd, &file->header.prog_size, 4);
+	write(file->fd_creat, &file->header.prog_size, 4);
 // записал comment в файл)))
-	write(fd, &file->header.comment, COMMENT_LENGTH);
+	write(file->fd_creat, &file->header.comment, COMMENT_LENGTH);
 // записал 4 нуля в файл)))
 	i = 0;
-	write(fd, &i, 4);
+	write(file->fd_creat, &i, 4);
 //ЗАПИСАТЬ ОСТАЛЬНОЙ КОД ИЗ КАКОГО НИБУДЬ СПИСКА!!!!
 // ...
+	//*** yjohns ***
+	//write(fd, file->exec_str, file->exec_size);
 
-	close(fd);
+	close(file->fd_creat);
 	return (ERR_NORM);
 }
