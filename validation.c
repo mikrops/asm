@@ -6,13 +6,16 @@
 /*   By: mmonahan <mmonahan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/06 11:37:56 by mmonahan          #+#    #+#             */
-/*   Updated: 2019/12/24 20:40:58 by mmonahan         ###   ########.fr       */
+/*   Updated: 2019/12/27 06:23:56 by mmonahan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-void		test_command();
+
 
 #include "asm.h"
+
+void		test_command();
+void		test_file(t_file *file, int count_instr);
 
 /*
 **	Возвращает 0, если имя файла нормальное, в противном случае 1
@@ -33,34 +36,23 @@ static int	check_name_file(const char *name_file)
 	return (0);
 }
 
-/*
-**	Валидация файла
-*/
-
-int	validation(t_file *file)
+int	read_file(t_file *file)
 {
 	int error_header;
 	int count_instr;
 
 	error_header = 0;
 	count_instr = 0;
-	if (check_name_file(file->namefile))
-		return (ERR_BAD_NAME_FILE);
-	file->fd_open = open(file->namefile, O_RDONLY);
-	if (file->fd_open < 1)
-		return (ERR_NO_OPEN_FILE);
-
-	// сохраненяем файл в массив построчно и проверяем его
 	while (get_next_line(file->fd_open, &file->string))
 	{
 		if (file->string[0] != '\0')
 			count_instr++;
-
-		// check_string(string);
-		error_header = get_instruction(file);
+		if (!file->flag_name || !file->flag_comment)
+			error_header = check_header(file);
+		else
+			error_header = get_instruction(file);
 		if (error_header)
 			break ;
-
 		file->file = ft_str_rejoin(file->file, file->string);
 		ft_strdel(&file->string);
 		file->file = ft_str_rejoin(file->file, "\n");
@@ -68,25 +60,42 @@ int	validation(t_file *file)
 	ft_strdel(&file->string);
 	close(file->fd_open);
 	if (error_header)
-		return (ERR_INVALID_CODE);//(error_header);
+		return (ERR_INVALID_CODE);
+	return (ERR_NORM);
+}
 
-	//создание и заполнение файла только после проюождения валидации
-	//можно вообще в отдельный файл жахнуть
-	creat_fill_file(file);
+/*
+**	Валидация файла
+*/
 
-	printf("\n\nfile = >%s<\nnamefile = >%s<\nflag_name = >%d<\nflag_comment = "
-		">%d<\nprog_name = >%s<\ncomment = >%s<\n",
-			file->file,
-			file->namefile,
-			file->flag_name,
-			file->flag_comment,
-			file->header.prog_name,
-			file->header.comment);
-	printf("количество интсрукций = >%d<\n", count_instr);
+int	validation(t_file *file)
+{
+	if (check_name_file(file->namefile))
+		return (ERR_BAD_NAME_FILE);
+	file->fd_open = open(file->namefile, O_RDONLY);
+	if (file->fd_open < 1)
+		return (ERR_NO_OPEN_FILE);
+	if (read_file(file))
+		return (ERR_INVALID_CODE);
 
+
+	//test_file(file, count_instr);
 	//test_command();
 
 	return (ERR_NORM);
+}
+
+void test_file(t_file *file, int count_instr)
+{
+	printf("\n\nfile = >%s<\nnamefile = >%s<\nflag_name = >%d<\nflag_comment = "
+		   ">%d<\nprog_name = >%s<\ncomment = >%s<\n",
+		   file->file,
+		   file->namefile,
+		   file->flag_name,
+		   file->flag_comment,
+		   file->header.prog_name,
+		   file->header.comment);
+	printf("количество интсрукций = >%d<\n", count_instr);
 }
 
 void test_command()

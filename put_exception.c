@@ -6,7 +6,7 @@
 /*   By: mmonahan <mmonahan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/05 17:04:26 by mmonahan          #+#    #+#             */
-/*   Updated: 2019/12/22 18:18:10 by mmonahan         ###   ########.fr       */
+/*   Updated: 2019/12/27 06:24:32 by mmonahan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 void	init_exc(char **arr_exc)
 {
-	arr_exc[ERR_NORM] = "Hello, asm!";
+	arr_exc[ERR_NORM] = "Writing output program to [name file]";
 	arr_exc[ERR_ONE_ATRIBUTE] = "need only one atribute, name file .s";
 	arr_exc[ERR_BAD_NAME_FILE] = "invalid file name";
 	arr_exc[ERR_NO_OPEN_FILE] = "unable to open file";

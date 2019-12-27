@@ -6,7 +6,7 @@
 /*   By: mmonahan <mmonahan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/30 14:35:51 by mmonahan          #+#    #+#             */
-/*   Updated: 2019/12/07 17:30:19 by mmonahan         ###   ########.fr       */
+/*   Updated: 2019/12/27 06:51:49 by mmonahan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,18 +16,24 @@ int main(int argc, char **argv)
 {
 	int		err;
 	t_file	file;
+	int		i;
 
 	err = 0;
+	i = 1;
 	ft_memset(&file, 0, sizeof(t_file));
-	file.namefile = ft_strdup(argv[1]);
 
-	if (argc == 2)
+
+	while (i < argc)
+	{
+		file.namefile = ft_strdup(argv[i]);
 		err = validation(&file);
-	else
-		err = ERR_ONE_ATRIBUTE;
-	put_exception(err);
+		err = creat_fill_file(&file);
 
-	free(file.namefile);
+		put_exception(err);
+
+		free(file.namefile);
+		i++;
+	}
 	return 0;
 }
 
