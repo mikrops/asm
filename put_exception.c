@@ -6,7 +6,7 @@
 /*   By: mmonahan <mmonahan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/05 17:04:26 by mmonahan          #+#    #+#             */
-/*   Updated: 2019/12/27 09:19:33 by mmonahan         ###   ########.fr       */
+/*   Updated: 2019/12/27 09:20:53 by mmonahan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,4 +40,5 @@ void	put_exception(t_file *file, int error)
 	{
 		printf("%s %s\n", exception[error], file->namefile);
 	}
+	//exit(0);
 }

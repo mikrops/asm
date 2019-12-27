@@ -6,7 +6,7 @@
 /*   By: mmonahan <mmonahan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/30 14:35:51 by mmonahan          #+#    #+#             */
-/*   Updated: 2019/12/27 09:27:35 by mmonahan         ###   ########.fr       */
+/*   Updated: 2019/12/27 12:33:16 by mmonahan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,11 +32,22 @@ int main(int argc, char **argv)
 		file.namefile = ft_strdup(argv[i]);
 		err = validation(&file);
 		if (err)
-			return (ERR_BAD_HEADER);
+		{
+			put_exception(&file, err);
+			free(file.namefile);
+			i++;
+			continue ;
+		}
 		cmd_to_byte_code(&file);
 		err = creat_fill_file(&file);
 		if (err)
-			return (ERR_BAD_HEADER);
+		{
+			put_exception(&file, err);
+			i++;
+			free(file.namefile);
+			continue ;
+		}
+
 		put_exception(&file, err);
 		free(file.namefile);
 		i++;

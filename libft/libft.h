@@ -155,6 +155,8 @@ char				*ft_str_rejoin(char *s1, char const *s2);
 **	My extra functions (asm)
 **	Мои подопнительные функции (asm)
 **
+**	yjohns заценила ft_strcut!!!
+**
 **	2019/12/25 20:13:43
 */
 

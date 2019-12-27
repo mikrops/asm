@@ -6,7 +6,7 @@
 /*   By: mmonahan <mmonahan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/26 21:05:54 by mmonahan          #+#    #+#             */
-/*   Updated: 2019/12/27 08:18:08 by mmonahan         ###   ########.fr       */
+/*   Updated: 2019/12/27 11:20:01 by mmonahan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,11 +16,13 @@
 **	В случае многострочного параметра бежит до первой двойной кавычки
 */
 
-void	new_string(t_file *file, int size)
+int		new_string(t_file *file, int size)
 {
 	int i;
+	int read;
 
-	while (get_next_line(file->fd_open, &FS))
+	read = get_next_line(file->fd_open, &FS);
+	while (read == 1)
 	{
 		i = 0;
 		if (FS[i] == '\0')
@@ -36,7 +38,9 @@ void	new_string(t_file *file, int size)
 				file->header.prog_name[file->iter++] = '\n';
 		}
 		ft_strdel(&FS);
+		read = get_next_line(file->fd_open, &FS);
 	}
+	return (read);
 }
 
 /*
@@ -63,7 +67,6 @@ int		check_end_string(const char *string)
 
 int		get_prog_name(t_file *file, int i)
 {
-	file->flag_name = CHK_NAME_START;
 	while (ft_isspace(FS[i]))
 		i++;
 	if (FS[i++] == '"')
@@ -81,7 +84,8 @@ int		get_prog_name(t_file *file, int i)
 			if (FS[i] == '\0')
 			{
 				file->header.prog_name[file->iter++] = '\n';
-				new_string(file, PROG_NAME_LENGTH);
+				if (new_string(file, PROG_NAME_LENGTH) != 1)
+					return (ERR_BAD_HEADER + 180);
 				i = 0;
 			}
 		}
@@ -96,7 +100,6 @@ int		get_prog_name(t_file *file, int i)
 
 int		get_prog_comment(t_file *file, int i)
 {
-	file->flag_comment = CHK_COMMENT_START;
 	while (ft_isspace(FS[i]))
 		i++;
 	if (FS[i++] == '"')
@@ -114,7 +117,8 @@ int		get_prog_comment(t_file *file, int i)
 			if (FS[i] == '\0')
 			{
 				file->header.comment[file->iter++] = '\n';
-				new_string(file, COMMENT_LENGTH);
+				if (new_string(file, COMMENT_LENGTH) != 1)
+					return (ERR_BAD_HEADER + 280);
 				i = 0;
 			}
 		}
@@ -122,6 +126,10 @@ int		get_prog_comment(t_file *file, int i)
 		return (ERR_BAD_HEADER + 200);
 	return (ERR_NORM);
 }
+
+/*
+**	Получает имя и коментарий бота
+*/
 
 int		check_header(t_file *file)
 {
@@ -136,12 +144,14 @@ int		check_header(t_file *file)
 		ft_strnequ(&FS[i], NAME_CMD_STRING, 5))
 	{
 		i += 5;
+		file->flag_name = CHK_NAME_START;
 		return (get_prog_name(file, i));
 	}
 	else if (file->flag_comment == 0 &&
 		ft_strnequ(&FS[i], COMMENT_CMD_STRING, 8))
 	{
 		i += 8;
+		file->flag_comment = CHK_COMMENT_START;
 		return (get_prog_comment(file, i));
 	}
 	else

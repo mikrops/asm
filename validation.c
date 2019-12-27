@@ -6,7 +6,7 @@
 /*   By: mmonahan <mmonahan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/06 11:37:56 by mmonahan          #+#    #+#             */
-/*   Updated: 2019/12/27 09:30:49 by mmonahan         ###   ########.fr       */
+/*   Updated: 2019/12/27 13:04:02 by mmonahan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,25 +43,29 @@ int	read_file(t_file *file)
 
 	error_header = 0;
 	count_instr = 0;
-	while (get_next_line(file->fd_open, &file->string))
+	while (get_next_line(file->fd_open, &FS))
 	{
 		if (!file->flag_name || !file->flag_comment)
 		{
 			error_header = check_header(file);
-			printf("-запустили чек_хедер->%d<-\n", error_header);
+//			printf("-запустили чек_хедер->%d<-\n", error_header);
 		}
 		else
 		{
-			error_header = check_instruction(file);
-			count_instr += !FS[0] ? 1 : 0;
+//			error_header = check_instruction(file);
+			count_instr += FS[0] ? 1 : 0;
+//			test_file(file, file->flag_comment);
 			printf("-запустили  чек_инстр->%d<-\n", error_header);
 		}
 		if (error_header)
 			break ;
-		ft_strdel(&file->string);
+		ft_strdel(&FS);
 	}
-	ft_strdel(&file->string);
+	ft_strdel(&FS);
 	close(file->fd_open);
+
+//	test_file(file, count_instr);
+
 	if (error_header)
 		return (ERR_INVALID_CODE);
 	return (ERR_NORM);
@@ -75,29 +79,37 @@ int	validation(t_file *file)
 {
 	if (check_name_file(file->namefile))
 		return (ERR_BAD_NAME_FILE);
+
 	file->fd_open = open(file->namefile, O_RDONLY);
+
 	if (file->fd_open < 1)
 		return (ERR_NO_OPEN_FILE);
+
 	if (read_file(file))
 		return (ERR_INVALID_CODE);
 
 
-	//test_file(file, file->flag_comment);
-	//test_command();
+//	test_file(file, count_instr);
+//	test_command();
 
 	return (ERR_NORM);
 }
 
 void test_file(t_file *file, int count_instr)
 {
-	printf("\n\nnamefile = >%s<\nflag_name = >%d<\nflag_comment = "
-		   ">%d<\nprog_name = >%s<\ncomment = >%s<\n",
+	printf("\n\nnamefile = >%s<\n"
+			"flag_name = >%d<\n"
+   			"flag_comment = >%d<\n"
+	  		"prog_name = >%s<\n"
+	  		"comment = >%s<\n"
+	  		"prog size = >%d<\n",
 		   file->namefile,
 		   file->flag_name,
 		   file->flag_comment,
 		   file->header.prog_name,
-		   file->header.comment);
-	printf("количество интсрукций = >%d<\n", count_instr);
+		   file->header.comment,
+		   file->header.prog_size);
+	printf("количество интсрукций = >%d<\n\n", count_instr);
 }
 
 void test_command()

@@ -6,7 +6,7 @@
 /*   By: mmonahan <mmonahan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/30 20:40:49 by mmonahan          #+#    #+#             */
-/*   Updated: 2019/12/27 08:39:03 by mmonahan         ###   ########.fr       */
+/*   Updated: 2019/12/27 13:03:53 by mmonahan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ typedef struct		s_token
 	unsigned char 	code;
 	int 			size;
 	int 			op[3][2];
-	int 			flag;
+	int 			flag[2];
 	char 			*label;
 	struct s_token	*next;
 }					t_token;
@@ -78,15 +78,16 @@ typedef struct	s_file
 	int				flag_name;
 	int 			flag_comment;
 
-/*
- * В данном случае подразумевается, что токен - команда и её описание.
- * Токены стали ссылками, так как необходимо будет сохранять, а не перезаписывать команды.
- *
- * Строка str[652] - строка содержащая байт код для вывода в файл
- * Число exec_size - общее количество байт исполняемого кода. Актуально после замены меток на число
-*/
+	/*
+	 * В данном случае подразумевается, что токен - команда и её описание.
+	 * Токены стали ссылками, так как необходимо будет сохранять, а не перезаписывать команды.
+	 *
+	 * Строка str[652] - строка содержащая байт код для вывода в файл
+	 * Число exec_size - в процессе парсинга указывает на местоположение относительно
+	 * начала кода, измеряется в байтах. После записи байт-кода обозначает общий размер исполняемого кода.
+	 * token - указатель на текущий элемент структуры. Если необходимо проти список с начала - start_token
+	 */
 
-//	t_list		label;
 	unsigned char	exec_str[CHAMP_MAX_SIZE];
 	int 			exec_size;
 
@@ -132,17 +133,14 @@ static t_operation	op_tab[17] =
 	{0, 0, {0}, 0, 0, 0, 0}
 };
 
-void			cmd_to_byte_code(t_file *file);
 void			put_exception(t_file *file, int error);
-int				check_instruction(t_file *file);
-int				creat_fill_file(t_file *file);
-
-int				validation(t_file *file);
+int				check_header(t_file *file);
 int				get_reg(const char *str);
 int				get_dir(const char *str);
 int				get_ind(const char *str);
-int				get_argument(t_file *file);
-int				check_header(t_file *file);
-
+int				check_instruction(t_file *file);
+int				validation(t_file *file);
+void			cmd_to_byte_code(t_file *file);
+int				creat_fill_file(t_file *file);
 
 #endif
