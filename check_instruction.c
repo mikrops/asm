@@ -6,7 +6,7 @@
 /*   By: yjohns <yjohns@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/27 00:17:40 by yjohns            #+#    #+#             */
-/*   Updated: 2019/12/27 14:10:22 by mmonahan         ###   ########.fr       */
+/*   Updated: 2019/12/27 16:55:54 by mmonahan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,7 +109,7 @@ int	check_instruction(t_file *file)
 	if (!(check_inst(file, i)) && !(FL->len = check_label(file, &i)))
 	{
 		printf(">%d<", ERR_CHOOOOO);
-		return (ERR_CHOOOOO);
+//		return (ERR_CHOOOOO);
 //		exit (1);
 	}
 	if (FL->len)

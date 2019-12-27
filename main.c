@@ -6,7 +6,7 @@
 /*   By: mmonahan <mmonahan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/30 14:35:51 by mmonahan          #+#    #+#             */
-/*   Updated: 2019/12/27 12:33:16 by mmonahan         ###   ########.fr       */
+/*   Updated: 2019/12/27 16:54:23 by mmonahan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,8 @@ int main(int argc, char **argv)
 			continue ;
 		}
 
+		file.flag_name = 0;
+		file.flag_comment = 0;
 		put_exception(&file, err);
 		free(file.namefile);
 		i++;
