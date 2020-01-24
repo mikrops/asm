@@ -6,7 +6,7 @@
 /*   By: mmonahan <mmonahan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/24 20:38:48 by mmonahan          #+#    #+#             */
-/*   Updated: 2019/12/27 12:50:51 by mmonahan         ###   ########.fr       */
+/*   Updated: 2020/01/24 20:53:55 by mmonahan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,18 @@ int write_header(t_file *file)
 	unsigned int i = COREWAR_EXEC_MAGIC;
 	file->header.magic = i << 8;
 	write(file->fd_creat, &file->header.magic, 4);
+	//laponin >>
+	/*
+	i = i << 2;
+	write(file->fd_creat, &i, 1);
+	i = i << 2;
+	write(file->fd_creat, &i, 1);
+	i = i << 2;
+	write(file->fd_creat, &i, 1);
+	i = i << 2;
+	write(file->fd_creat, &i, 1);
+	*/
+	//laponin <<
 //	записал name в файл)))
 	write(file->fd_creat, &file->header.prog_name, PROG_NAME_LENGTH);
 //	записал 4 нуля в файл)))
