@@ -6,30 +6,80 @@
 /*   By: mmonahan <mmonahan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/24 20:38:48 by mmonahan          #+#    #+#             */
-/*   Updated: 2020/01/24 20:53:55 by mmonahan         ###   ########.fr       */
+/*   Updated: 2020/01/26 17:44:13 by mmonahan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
+void print_bits(unsigned char octet);
+unsigned int reverse_bits_int(unsigned int octet);
 
 #include "asm.h"
 
 int write_header(t_file *file)
 {
 //	записал magic в файл))) !!!!!!!!!!!!! ИСПРАВИТЬ  !!!!!!!!!!!!!!
+
+//orig >>
+	/*
 	unsigned int i = COREWAR_EXEC_MAGIC;
 	file->header.magic = i << 8;
 	write(file->fd_creat, &file->header.magic, 4);
-	//laponin >>
-	/*
-	i = i << 2;
-	write(file->fd_creat, &i, 1);
-	i = i << 2;
-	write(file->fd_creat, &i, 1);
-	i = i << 2;
-	write(file->fd_creat, &i, 1);
-	i = i << 2;
-	write(file->fd_creat, &i, 1);
 	*/
-	//laponin <<
+//orig <<
+
+//laponin >>
+	unsigned int i = COREWAR_EXEC_MAGIC;
+	file->header.magic = i;
+	//file->header.magic = reverse_bits_int(i);
+	/*
+------------------------------------------------
+	 0000 0000 1110 1010 1000 0011 1111 0011
+>> 24
+	 0000 0000 0000 0000 0000 0000 0000 0000
+<< 0
+	 0000 0000 0000 0000 0000 0000 0000 0000
+|	 0000 0000 0000 0000 0000 0000 0000 0000
+=	 0000 0000 0000 0000 0000 0000 0000 0000
+------------------------------------------------
+	 0000 0000 1110 1010 1000 0011 1111 0011
+>> 16
+	 0000 0000 0000 0000 0000 0000 1110 1010
+<< 8
+	 0000 0000 0000 0000 1110 1010 0000 0000
+|	 0000 0000 0000 0000 0000 0000 0000 0000
+=	 0000 0000 0000 0000 1110 1010 0000 0000
+------------------------------------------------
+	 0000 0000 1110 1010 1000 0011 1111 0011
+>> 8
+	 0000 0000 0000 0000 1110 1010 1000 0011
+<< 16
+	 1000 0011 0000 0000 0000 0000 0000 0000
+>> 8
+	 0000 0000 1000 0011 0000 0000 0000 0000
+|	 0000 0000 0000 0000 1110 1010 0000 0000
+=	 0000 0000 1000 0011 1110 1010 0000 0000
+------------------------------------------------
+	 0000 0000 1110 1010 1000 0011 1111 0011
+>> 0
+	 0000 0000 1110 1010 1000 0011 1111 0011
+<< 24
+	 1111 0011 0000 0000 0000 0000 0000 0000
+|	 0000 0000 1000 0011 1110 1010 0000 0000
+=	 1111 0011 1000 0011 1110 1010 0000 0000
+------------------------------------------------
+	 * */
+	file->header.magic |= i >> 24 << 0;
+	file->header.magic |= i >> 16 << 8;
+	file->header.magic |= i >> 8 << 16;
+	file->header.magic |= i << 0 << 24;
+
+//	unsigned int g[3] = COREWAR_EXEC_MAGIC;
+//	unsigned int g[2] = COREWAR_EXEC_MAGIC;
+//	unsigned int g[1] = COREWAR_EXEC_MAGIC;
+//	unsigned int g[0] = COREWAR_EXEC_MAGIC;
+	write(file->fd_creat, &file->header.magic, 4);
+//laponin <<
+
 //	записал name в файл)))
 	write(file->fd_creat, &file->header.prog_name, PROG_NAME_LENGTH);
 //	записал 4 нуля в файл)))
@@ -88,4 +138,57 @@ int			creat_fill_file(t_file *file)
 	write(file->fd_creat, file->exec_str, file->exec_size);
 	close(file->fd_creat);
 	return (ERR_NORM);
+}
+
+
+void print_bits(unsigned char octet)
+{
+	int i;
+	unsigned char bit;
+
+	i = 8;
+	while (i--)
+	{
+		bit = (octet >> i & 1) + '0';
+		write(1, &bit, 1);
+	}
+}
+
+unsigned int reverse_bits_int(unsigned int octet)
+{
+	return (((octet >> 0) & 1) << 31) |
+		   (((octet >> 1) & 1) << 30) |
+		   (((octet >> 2) & 1) << 29) |
+		   (((octet >> 3) & 1) << 28) |
+		   (((octet >> 4) & 1) << 27) |
+		   (((octet >> 5) & 1) << 26) |
+		   (((octet >> 6) & 1) << 25) |
+		   (((octet >> 7) & 1) << 24) |
+
+		   (((octet >> 8) & 1) << 23) |
+		   (((octet >> 9) & 1) << 22) |
+		   (((octet >> 10) & 1) << 21) |
+		   (((octet >> 11) & 1) << 20) |
+		   (((octet >> 12) & 1) << 19) |
+		   (((octet >> 13) & 1) << 18) |
+		   (((octet >> 14) & 1) << 17) |
+		   (((octet >> 15) & 1) << 16) |
+
+		   (((octet >> 16) & 1) << 15) |
+		   (((octet >> 17) & 1) << 14) |
+		   (((octet >> 18) & 1) << 13) |
+		   (((octet >> 19) & 1) << 12) |
+		   (((octet >> 20) & 1) << 11) |
+		   (((octet >> 21) & 1) << 10) |
+		   (((octet >> 22) & 1) << 9) |
+		   (((octet >> 23) & 1) << 8) |
+
+		   (((octet >> 24) & 1) << 7) |
+		   (((octet >> 25) & 1) << 6) |
+		   (((octet >> 26) & 1) << 5) |
+		   (((octet >> 27) & 1) << 4) |
+		   (((octet >> 28) & 1) << 3) |
+		   (((octet >> 29) & 1) << 2) |
+		   (((octet >> 30) & 1) << 1) |
+		   (((octet >> 31) & 1) << 0);
 }
