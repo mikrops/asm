@@ -6,7 +6,7 @@
 /*   By: mmonahan <mmonahan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/24 20:38:48 by mmonahan          #+#    #+#             */
-/*   Updated: 2020/01/26 17:44:13 by mmonahan         ###   ########.fr       */
+/*   Updated: 2020/01/27 20:54:13 by mmonahan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,9 +29,9 @@ int write_header(t_file *file)
 
 //laponin >>
 	unsigned int i = COREWAR_EXEC_MAGIC;
-	file->header.magic = i;
+	//file->header.magic = i;
 	//file->header.magic = reverse_bits_int(i);
-	/*
+/*
 ------------------------------------------------
 	 0000 0000 1110 1010 1000 0011 1111 0011
 >> 24
@@ -67,16 +67,32 @@ int write_header(t_file *file)
 |	 0000 0000 1000 0011 1110 1010 0000 0000
 =	 1111 0011 1000 0011 1110 1010 0000 0000
 ------------------------------------------------
-	 * */
-	file->header.magic |= i >> 24 << 0;
-	file->header.magic |= i >> 16 << 8;
-	file->header.magic |= i >> 8 << 16;
-	file->header.magic |= i << 0 << 24;
+//	(octet >> 4 | octet << 4)
+	 1101 0110 => 0110 1101
+	 1101 0110		1101 0110
+>> 4 0000 1101
 
-//	unsigned int g[3] = COREWAR_EXEC_MAGIC;
-//	unsigned int g[2] = COREWAR_EXEC_MAGIC;
-//	unsigned int g[1] = COREWAR_EXEC_MAGIC;
-//	unsigned int g[0] = COREWAR_EXEC_MAGIC;
+	 1101 0110
+<< 4 0110 0000
+
+	 0000 1101
+|	 0110 0000
+	 0110 1101
+------------------------------------------------
+*/
+
+	file->header.magic = (i >> 24 << 0 << 24) |
+						 (i >> 16 << 24 << 16) |
+						 (i >> 8 << 16 >> 8) |
+						 (i >> 0 << 24 >> 0);
+
+
+	/*
+	**	СУПЕР РЕШЕНИЕ! )))
+	**	file->header.magic = 0xf383ea00;
+	*/
+
+
 	write(file->fd_creat, &file->header.magic, 4);
 //laponin <<
 
