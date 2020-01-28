@@ -6,7 +6,7 @@
 /*   By: mmonahan <mmonahan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/26 21:05:54 by mmonahan          #+#    #+#             */
-/*   Updated: 2019/12/27 11:20:01 by mmonahan         ###   ########.fr       */
+/*   Updated: 2020/01/28 20:56:37 by mmonahan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,6 +67,7 @@ int		check_end_string(const char *string)
 
 int		get_prog_name(t_file *file, int i)
 {
+	printf("\t ищем ИМЯ\n");
 	while (ft_isspace(FS[i]))
 		i++;
 	if (FS[i++] == '"')
@@ -100,6 +101,7 @@ int		get_prog_name(t_file *file, int i)
 
 int		get_prog_comment(t_file *file, int i)
 {
+	printf("\t ищем КОММЕНТ\n");
 	while (ft_isspace(FS[i]))
 		i++;
 	if (FS[i++] == '"')

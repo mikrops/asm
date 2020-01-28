@@ -6,12 +6,9 @@
 /*   By: mmonahan <mmonahan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/24 20:38:48 by mmonahan          #+#    #+#             */
-/*   Updated: 2020/01/28 19:40:36 by mmonahan         ###   ########.fr       */
+/*   Updated: 2020/01/28 19:41:31 by mmonahan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
-void print_bits(unsigned char octet);
-unsigned int reverse_bits_int(unsigned int octet);
 
 #include "asm.h"
 
@@ -84,57 +81,4 @@ int			creat_fill_file(t_file *file)
 	write(file->fd_creat, file->exec_str, file->exec_size);
 	close(file->fd_creat);
 	return (ERR_NORM);
-}
-
-
-void print_bits(unsigned char octet)
-{
-	int i;
-	unsigned char bit;
-
-	i = 8;
-	while (i--)
-	{
-		bit = (octet >> i & 1) + '0';
-		write(1, &bit, 1);
-	}
-}
-
-unsigned int reverse_bits_int(unsigned int octet)
-{
-	return (((octet >> 0) & 1) << 31) |
-		   (((octet >> 1) & 1) << 30) |
-		   (((octet >> 2) & 1) << 29) |
-		   (((octet >> 3) & 1) << 28) |
-		   (((octet >> 4) & 1) << 27) |
-		   (((octet >> 5) & 1) << 26) |
-		   (((octet >> 6) & 1) << 25) |
-		   (((octet >> 7) & 1) << 24) |
-
-		   (((octet >> 8) & 1) << 23) |
-		   (((octet >> 9) & 1) << 22) |
-		   (((octet >> 10) & 1) << 21) |
-		   (((octet >> 11) & 1) << 20) |
-		   (((octet >> 12) & 1) << 19) |
-		   (((octet >> 13) & 1) << 18) |
-		   (((octet >> 14) & 1) << 17) |
-		   (((octet >> 15) & 1) << 16) |
-
-		   (((octet >> 16) & 1) << 15) |
-		   (((octet >> 17) & 1) << 14) |
-		   (((octet >> 18) & 1) << 13) |
-		   (((octet >> 19) & 1) << 12) |
-		   (((octet >> 20) & 1) << 11) |
-		   (((octet >> 21) & 1) << 10) |
-		   (((octet >> 22) & 1) << 9) |
-		   (((octet >> 23) & 1) << 8) |
-
-		   (((octet >> 24) & 1) << 7) |
-		   (((octet >> 25) & 1) << 6) |
-		   (((octet >> 26) & 1) << 5) |
-		   (((octet >> 27) & 1) << 4) |
-		   (((octet >> 28) & 1) << 3) |
-		   (((octet >> 29) & 1) << 2) |
-		   (((octet >> 30) & 1) << 1) |
-		   (((octet >> 31) & 1) << 0);
 }
