@@ -52,10 +52,10 @@ int	read_file(t_file *file)
 		}
 		else
 		{
+			printf("-запустили  чек_инстр->%d<-\n", error_header);
 			error_header = check_instruction(file);
 			count_instr += FS[0] ? 1 : 0;
 //			test_file(file, file->flag_comment);
-			printf("-запустили  чек_инстр->%d<-\n", error_header);
 		}
 		if (error_header)
 			break ;

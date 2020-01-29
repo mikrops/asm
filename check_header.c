@@ -6,7 +6,7 @@
 /*   By: mmonahan <mmonahan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/26 21:05:54 by mmonahan          #+#    #+#             */
-/*   Updated: 2020/01/28 20:56:37 by mmonahan         ###   ########.fr       */
+/*   Updated: 2020/01/29 20:30:37 by mmonahan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,7 @@ int		check_end_string(const char *string)
 
 int		get_prog_name(t_file *file, int i)
 {
-	printf("\t ищем ИМЯ\n");
+	printf("\t\t ищем ИМЯ\n");
 	while (ft_isspace(FS[i]))
 		i++;
 	if (FS[i++] == '"')
@@ -81,7 +81,7 @@ int		get_prog_name(t_file *file, int i)
 			}
 			if (file->iter > PROG_NAME_LENGTH)
 				return (ERR_BAD_HEADER + 150);
-			file->header.prog_name[file->iter++] = FS[i++];
+			file->header.prog_name[file->iter++] = FS[i++]; //origin
 			if (FS[i] == '\0')
 			{
 				file->header.prog_name[file->iter++] = '\n';
@@ -89,9 +89,14 @@ int		get_prog_name(t_file *file, int i)
 					return (ERR_BAD_HEADER + 180);
 				i = 0;
 			}
+			/*//laponin >>
+			else
+				file->header.prog_name[file->iter++] = FS[i++];
+			//laponin <<*/
 		}
 	else
 		return (ERR_BAD_HEADER + 100);
+	printf("\t\t\t а вот и имя ->%s<-\n", file->header.prog_name);
 	return (ERR_NORM);
 }
 
@@ -101,7 +106,7 @@ int		get_prog_name(t_file *file, int i)
 
 int		get_prog_comment(t_file *file, int i)
 {
-	printf("\t ищем КОММЕНТ\n");
+	printf("\t\t ищем КОММЕНТ\n");
 	while (ft_isspace(FS[i]))
 		i++;
 	if (FS[i++] == '"')
@@ -141,10 +146,14 @@ int		check_header(t_file *file)
 	while (ft_isspace(FS[i]))
 		i++;
 	if (!FS[i])
+	{
+		printf("\t пропускаем строку\n");
 		return (ERR_NORM);
+	}
 	if (file->flag_name == 0 &&
 		ft_strnequ(&FS[i], NAME_CMD_STRING, 5))
 	{
+		printf("\t обнаружили ИМЯ\n");
 		i += 5;
 		file->flag_name = CHK_NAME_START;
 		return (get_prog_name(file, i));
@@ -152,6 +161,7 @@ int		check_header(t_file *file)
 	else if (file->flag_comment == 0 &&
 		ft_strnequ(&FS[i], COMMENT_CMD_STRING, 8))
 	{
+		printf("\t обнаружили КОММЕНТ\n");
 		i += 8;
 		file->flag_comment = CHK_COMMENT_START;
 		return (get_prog_comment(file, i));

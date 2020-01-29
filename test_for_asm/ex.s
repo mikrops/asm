@@ -1,5 +1,7 @@
-.comment "just a basic living pro
-g"
+.comment "just a
+basic living
+ prog"
+
 .name "z
 o
 rk"
