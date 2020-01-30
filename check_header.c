@@ -6,7 +6,7 @@
 /*   By: mmonahan <mmonahan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/26 21:05:54 by mmonahan          #+#    #+#             */
-/*   Updated: 2020/01/29 20:30:37 by mmonahan         ###   ########.fr       */
+/*   Updated: 2020/01/30 20:50:11 by mmonahan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,21 +67,26 @@ int		check_end_string(const char *string)
 
 int		get_prog_name(t_file *file, int i)
 {
-	printf("\t\t ищем ИМЯ\n");
 	while (ft_isspace(FS[i]))
 		i++;
 	if (FS[i++] == '"')
 		while (FS[i])
 		{
-			if (FS[i] == '"')
+			//origin >>
+			/*if (FS[i] == '"')
 			{
 				file->flag_name = CHK_NAME_END;
 				file->iter = 0;
 				return (check_end_string(&FS[++i]));
-			}
+			}*/
+			//origin <<
+			// laponin >>
+			if (FS[i] == '"')
+				break ;
+			// laponin <<
 			if (file->iter > PROG_NAME_LENGTH)
 				return (ERR_BAD_HEADER + 150);
-			file->header.prog_name[file->iter++] = FS[i++]; //origin
+			file->header.prog_name[file->iter++] = FS[i++];
 			if (FS[i] == '\0')
 			{
 				file->header.prog_name[file->iter++] = '\n';
@@ -89,14 +94,20 @@ int		get_prog_name(t_file *file, int i)
 					return (ERR_BAD_HEADER + 180);
 				i = 0;
 			}
-			/*//laponin >>
-			else
-				file->header.prog_name[file->iter++] = FS[i++];
-			//laponin <<*/
 		}
 	else
 		return (ERR_BAD_HEADER + 100);
-	printf("\t\t\t а вот и имя ->%s<-\n", file->header.prog_name);
+	// laponin >>
+	file->flag_name = CHK_NAME_END;
+	file->iter = 0;
+	while (ft_isspace(FS[i]))
+		i++;
+	if (FS[i] == COMMENT_CHAR || FS[i] == ALT_COMMENT_CHAR ||
+		FS[i] == '\0')
+		return (ERR_NORM);
+	else
+		return (ERR_BAD_HEADER + 400);
+	// laponin <<
 	return (ERR_NORM);
 }
 

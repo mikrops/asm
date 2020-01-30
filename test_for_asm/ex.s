@@ -1,10 +1,6 @@
-.comment "just a
-basic living
- prog"
+.comment "just a basic living prog"
 
-.name "z
-o
-rk"
+.name "zork"
 
 l2:	sti	r1,%:live,%0
 	and	r1,%0,r1
