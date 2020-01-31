@@ -6,7 +6,7 @@
 /*   By: mmonahan <mmonahan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/26 21:05:54 by mmonahan          #+#    #+#             */
-/*   Updated: 2020/01/31 18:42:12 by mmonahan         ###   ########.fr       */
+/*   Updated: 2020/01/31 19:46:19 by mmonahan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,18 +67,6 @@ int		check_end_string(const char *string)
 
 int get_all(t_file *file, char *string, int size, int i)
 {
-	if (file->string[i] | string[i] | size | i)
-		;
-
-	return (ERR_NORM);
-}
-
-/*
-**	Получает имя бота
-*/
-
-int		get_prog_name(t_file *file, int i)
-{
 	while (ft_isspace(FS[i]))
 		i++;
 	if (FS[i++] == '"')
@@ -86,58 +74,21 @@ int		get_prog_name(t_file *file, int i)
 		{
 			if (FS[i] == '"')
 			{
-				file->flag_name = CHK_NAME_END;
 				file->iter = 0;
 				return (check_end_string(&FS[++i]));
 			}
-			if (file->iter > PROG_NAME_LENGTH)
+			if (file->iter > size)
 				return (ERR_BAD_HEADER + 150);
-			file->header.prog_name[file->iter++] = FS[i++];
+			string[file->iter++] = FS[i++];
 			if (FS[i] == '\0')
 			{
-				file->header.prog_name[file->iter++] = '\n';
-				if (new_string(file, file->header.prog_name, PROG_NAME_LENGTH)!= 1)
+				string[file->iter++] = '\n';
+				if (new_string(file, string, size)!= 1)
 					return (ERR_BAD_HEADER + 180);
 				i = 0;
 			}
 		}
-	else
-		return (ERR_BAD_HEADER + 100);
-	return (ERR_NORM);
-}
-
-/*
-**	Получает комментарий бота
-*/
-
-int		get_prog_comment(t_file *file, int i)
-{
-	printf("\t\t ищем КОММЕНТ\n");
-	while (ft_isspace(FS[i]))
-		i++;
-	if (FS[i++] == '"')
-		while (FS[i])
-		{
-			if (FS[i] == '"')
-			{
-				file->flag_comment = CHK_COMMENT_END;
-				file->iter = 0;
-				return (check_end_string(&FS[++i]));
-			}
-			if (file->iter > COMMENT_LENGTH)
-				return (ERR_BAD_HEADER + 250);
-			file->header.comment[file->iter++] = FS[i++];
-			if (FS[i] == '\0')
-			{
-				file->header.comment[file->iter++] = '\n';
-				if (new_string(file, file->header.comment, COMMENT_LENGTH) != 1)
-					return (ERR_BAD_HEADER + 280);
-				i = 0;
-			}
-		}
-	else
-		return (ERR_BAD_HEADER + 200);
-	return (ERR_NORM);
+	return (ERR_BAD_HEADER + 100);
 }
 
 /*
@@ -152,25 +103,25 @@ int		check_header(t_file *file)
 	while (ft_isspace(FS[i]))
 		i++;
 	if (!FS[i])
-	{
-		printf("\t пропускаем строку\n");
+	{ //УДАЛИТЬ
+		printf("\t пропускаем строку\n"); //УДАЛИТЬ
 		return (ERR_NORM);
-	}
+	} //УДАЛИТЬ
 	if (file->flag_name == 0 &&
 		ft_strnequ(&FS[i], NAME_CMD_STRING, 5))
 	{
-		printf("\t обнаружили ИМЯ\n");
+		printf("\t обнаружили ИМЯ\n"); //УДАЛИТЬ
 		i += 5;
-		file->flag_name = CHK_NAME_START;
-		return (get_prog_name(file, i));
+		file->flag_name = CHK_START;
+		return (get_all(file, file->header.prog_name, PROG_NAME_LENGTH, i));
 	}
 	else if (file->flag_comment == 0 &&
 		ft_strnequ(&FS[i], COMMENT_CMD_STRING, 8))
 	{
-		printf("\t обнаружили КОММЕНТ\n");
+		printf("\t обнаружили КОММЕНТ\n"); //УДАЛИТЬ
 		i += 8;
-		file->flag_comment = CHK_COMMENT_START;
-		return (get_prog_comment(file, i));
+		file->flag_comment = CHK_START;
+		return (get_all(file, file->header.comment, COMMENT_LENGTH, i));
 	}
 	else
 		return (ERR_BAD_HEADER + 300);

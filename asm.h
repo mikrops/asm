@@ -34,11 +34,15 @@
 # define ERR_INVALID_CODE 8
 # define ERR_CHOOOOO 80000
 
-
+# define CHK_START 1
+# define CHK_END 2
 # define CHK_NAME_START 1
 # define CHK_NAME_END 2
 # define CHK_COMMENT_START 1
 # define CHK_COMMENT_END 2
+
+
+
 
 /*
 **	yjohns
