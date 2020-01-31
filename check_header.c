@@ -6,7 +6,7 @@
 /*   By: mmonahan <mmonahan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/26 21:05:54 by mmonahan          #+#    #+#             */
-/*   Updated: 2020/01/31 20:11:40 by mmonahan         ###   ########.fr       */
+/*   Updated: 2020/01/31 20:46:06 by mmonahan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 **	В случае многострочных элементов хедэра бежит до первой двойной кавычки
 */
 
-int new_string(t_file *file, char *string, int size)
+int	new_string(t_file *file, char *string, int size)
 {
 	int i;
 	int read;
@@ -47,7 +47,7 @@ int new_string(t_file *file, char *string, int size)
 **	Валидность строки после второй ковычки
 */
 
-int		check_end_string(const char *string)
+int	check_end_string(const char *string)
 {
 	int i;
 
@@ -62,24 +62,19 @@ int		check_end_string(const char *string)
 }
 
 /*
-**	Получает комент или имя бота
+**	Получает коммент или имя бота
 */
 
-int get_all(t_file *file, char *string, int size, int i)
+int	get_all(t_file *file, char *string, int size, int i)
 {
 	while (ft_isspace(FS[i]))
 		i++;
 	if (FS[i++] == '"')
-		while (FS[i])
+	{
+		while (FS[i] || FS[i] == '\0')
 		{
-			if (FS[i] == '"')
-			{
-				file->iter = 0;
-				return (check_end_string(&FS[++i]));
-			}
 			if (file->iter > size)
 				return (ERR_BAD_HEADER + 150);
-			string[file->iter++] = FS[i++];
 			if (FS[i] == '\0')
 			{
 				string[file->iter++] = '\n';
@@ -87,7 +82,14 @@ int get_all(t_file *file, char *string, int size, int i)
 					return (ERR_BAD_HEADER + 180);
 				i = 0;
 			}
+			if (FS[i] == '"')
+			{
+				file->iter = 0;
+				return (check_end_string(&FS[++i]));
+			}
+			string[file->iter++] = FS[i++];
 		}
+	}
 	return (ERR_BAD_HEADER + 100);
 }
 
@@ -95,7 +97,7 @@ int get_all(t_file *file, char *string, int size, int i)
 **	Получает имя и коментарий бота
 */
 
-int		check_header(t_file *file)
+int	check_header(t_file *file)
 {
 	int i;
 
@@ -103,14 +105,10 @@ int		check_header(t_file *file)
 	while (ft_isspace(FS[i]))
 		i++;
 	if (!FS[i] || FS[i] == COMMENT_CHAR || FS[i] == ALT_COMMENT_CHAR)
-	{ //УДАЛИТЬ
-		printf("\t пропускаем строку\n"); //УДАЛИТЬ
 		return (ERR_NORM);
-	} //УДАЛИТЬ
 	if (file->flag_name == 0 &&
 		ft_strnequ(&FS[i], NAME_CMD_STRING, 5))
 	{
-		printf("\t обнаружили ИМЯ\n"); //УДАЛИТЬ
 		i += 5;
 		file->flag_name = CHK_START;
 		return (get_all(file, file->header.prog_name, PROG_NAME_LENGTH, i));
@@ -118,7 +116,6 @@ int		check_header(t_file *file)
 	else if (file->flag_comment == 0 &&
 		ft_strnequ(&FS[i], COMMENT_CMD_STRING, 8))
 	{
-		printf("\t обнаружили КОММЕНТ\n"); //УДАЛИТЬ
 		i += 8;
 		file->flag_comment = CHK_START;
 		return (get_all(file, file->header.comment, COMMENT_LENGTH, i));

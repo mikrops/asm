@@ -34,7 +34,7 @@
 ОПЕАЦИИ И ИХ АРГУМЕНТЫ!!!
 читать это https://github.com/VBrazhnik/Corewar/wiki/Ассемблер#Аргументы
 
-Ошибки:
+Задачи для выполнения:
 + error 001.
     в check_header неправильно обрабатывается комент, когда он больше 2х строк
     3. в check_header есть ф-я new_string, которая умеет только с именеме, но не
@@ -44,12 +44,16 @@
             сделать одну функцию для имени и комента, которая принимает
             указатель на их строку, их размер ну и счетчик =)
 + error 002. В check_header объеденить get_prog_name и get_comment
-- error 003.
++ error 003.
     check_header неправильно обрабатывается, когда после первый кавычек
     сразу идет '\n'.
 + error 004.
     В check_header, если до или между комментом и именем есть символ
     комментария, то ошибка
-
-
+- tests 001.
+    Написать тесты, которые чекают хедэр. Сразу несколько вариантов правильных и
+     не правильных)
+- exeption 001.
+    Champion name too long (Max length 128)
+    .name "kkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkk1"
 
