@@ -1,4 +1,5 @@
 .comment "just abasic living prog"
+         #sdfsdf
 .name "zork"
 
 l2:	sti	r1,%:live,%0

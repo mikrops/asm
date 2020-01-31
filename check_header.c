@@ -6,7 +6,7 @@
 /*   By: mmonahan <mmonahan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/26 21:05:54 by mmonahan          #+#    #+#             */
-/*   Updated: 2020/01/31 19:46:19 by mmonahan         ###   ########.fr       */
+/*   Updated: 2020/01/31 20:11:40 by mmonahan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,7 +83,7 @@ int get_all(t_file *file, char *string, int size, int i)
 			if (FS[i] == '\0')
 			{
 				string[file->iter++] = '\n';
-				if (new_string(file, string, size)!= 1)
+				if (new_string(file, string, size) != 1)
 					return (ERR_BAD_HEADER + 180);
 				i = 0;
 			}
@@ -102,7 +102,7 @@ int		check_header(t_file *file)
 	i = 0;
 	while (ft_isspace(FS[i]))
 		i++;
-	if (!FS[i])
+	if (!FS[i] || FS[i] == COMMENT_CHAR || FS[i] == ALT_COMMENT_CHAR)
 	{ //УДАЛИТЬ
 		printf("\t пропускаем строку\n"); //УДАЛИТЬ
 		return (ERR_NORM);
