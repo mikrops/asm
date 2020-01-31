@@ -6,17 +6,17 @@
 /*   By: mmonahan <mmonahan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/26 21:05:54 by mmonahan          #+#    #+#             */
-/*   Updated: 2020/01/30 20:50:11 by mmonahan         ###   ########.fr       */
+/*   Updated: 2020/01/31 18:42:12 by mmonahan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "asm.h"
 
 /*
-**	В случае многострочного параметра бежит до первой двойной кавычки
+**	В случае многострочных элементов хедэра бежит до первой двойной кавычки
 */
 
-int		new_string(t_file *file, int size)
+int new_string(t_file *file, char *string, int size)
 {
 	int i;
 	int read;
@@ -26,16 +26,16 @@ int		new_string(t_file *file, int size)
 	{
 		i = 0;
 		if (FS[i] == '\0')
-			file->header.prog_name[file->iter++] = '\n';
+			string[file->iter++] = '\n';
 		if (ft_strchr(FS, '"'))
 			break ;
 		while (FS[i])
 		{
 			if (file->iter > size)
 				break ;
-			file->header.prog_name[file->iter++] = FS[i++];
+			string[file->iter++] = FS[i++];
 			if (FS[i] == '\0')
-				file->header.prog_name[file->iter++] = '\n';
+				string[file->iter++] = '\n';
 		}
 		ft_strdel(&FS);
 		read = get_next_line(file->fd_open, &FS);
@@ -62,6 +62,18 @@ int		check_end_string(const char *string)
 }
 
 /*
+**	Получает комент или имя бота
+*/
+
+int get_all(t_file *file, char *string, int size, int i)
+{
+	if (file->string[i] | string[i] | size | i)
+		;
+
+	return (ERR_NORM);
+}
+
+/*
 **	Получает имя бота
 */
 
@@ -72,42 +84,25 @@ int		get_prog_name(t_file *file, int i)
 	if (FS[i++] == '"')
 		while (FS[i])
 		{
-			//origin >>
-			/*if (FS[i] == '"')
+			if (FS[i] == '"')
 			{
 				file->flag_name = CHK_NAME_END;
 				file->iter = 0;
 				return (check_end_string(&FS[++i]));
-			}*/
-			//origin <<
-			// laponin >>
-			if (FS[i] == '"')
-				break ;
-			// laponin <<
+			}
 			if (file->iter > PROG_NAME_LENGTH)
 				return (ERR_BAD_HEADER + 150);
 			file->header.prog_name[file->iter++] = FS[i++];
 			if (FS[i] == '\0')
 			{
 				file->header.prog_name[file->iter++] = '\n';
-				if (new_string(file, PROG_NAME_LENGTH) != 1)
+				if (new_string(file, file->header.prog_name, PROG_NAME_LENGTH)!= 1)
 					return (ERR_BAD_HEADER + 180);
 				i = 0;
 			}
 		}
 	else
 		return (ERR_BAD_HEADER + 100);
-	// laponin >>
-	file->flag_name = CHK_NAME_END;
-	file->iter = 0;
-	while (ft_isspace(FS[i]))
-		i++;
-	if (FS[i] == COMMENT_CHAR || FS[i] == ALT_COMMENT_CHAR ||
-		FS[i] == '\0')
-		return (ERR_NORM);
-	else
-		return (ERR_BAD_HEADER + 400);
-	// laponin <<
 	return (ERR_NORM);
 }
 
@@ -135,7 +130,7 @@ int		get_prog_comment(t_file *file, int i)
 			if (FS[i] == '\0')
 			{
 				file->header.comment[file->iter++] = '\n';
-				if (new_string(file, COMMENT_LENGTH) != 1)
+				if (new_string(file, file->header.comment, COMMENT_LENGTH) != 1)
 					return (ERR_BAD_HEADER + 280);
 				i = 0;
 			}
