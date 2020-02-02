@@ -6,7 +6,7 @@
 /*   By: mmonahan <mmonahan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/05 17:04:26 by mmonahan          #+#    #+#             */
-/*   Updated: 2019/12/27 09:20:53 by mmonahan         ###   ########.fr       */
+/*   Updated: 2020/02/02 14:23:12 by mmonahan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,8 @@ void	init_exc(char **arr_exc)
 	arr_exc[ERR_BAD_TOKEN_INSTRUCTION] = "bad instruction";
 	arr_exc[ERR_BAD_TOKEN_ARGUMENT] = "bad argument";
 	arr_exc[ERR_INVALID_CODE] = "bad code";
+	// errors asm
+	//arr_exc[] = "Champion name too long (Max length 128)";
 }
 
 void	put_exception(t_file *file, int error)

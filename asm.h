@@ -6,7 +6,7 @@
 /*   By: mmonahan <mmonahan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/30 20:40:49 by mmonahan          #+#    #+#             */
-/*   Updated: 2019/12/27 13:03:53 by mmonahan         ###   ########.fr       */
+/*   Updated: 2020/02/02 15:38:38 by mmonahan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,16 +33,15 @@
 # define ERR_BAD_TOKEN_ARGUMENT 7
 # define ERR_INVALID_CODE 8
 # define ERR_CHOOOOO 80000
+# define ERR_NAME_LONG 0
+# define ERR_LONG 0
 
-# define CHK_START 1
-# define CHK_END 2
-# define CHK_NAME_START 1
-# define CHK_NAME_END 2
-# define CHK_COMMENT_START 1
-# define CHK_COMMENT_END 2
+/*
+*	Check header
+*/
 
-
-
+# define CHK_NAME 1
+# define CHK_COMMENT 1
 
 /*
 **	yjohns

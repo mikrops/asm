@@ -6,7 +6,7 @@
 /*   By: mmonahan <mmonahan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/26 21:05:54 by mmonahan          #+#    #+#             */
-/*   Updated: 2020/01/31 20:46:06 by mmonahan         ###   ########.fr       */
+/*   Updated: 2020/02/02 15:38:38 by mmonahan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,14 +110,14 @@ int	check_header(t_file *file)
 		ft_strnequ(&FS[i], NAME_CMD_STRING, 5))
 	{
 		i += 5;
-		file->flag_name = CHK_START;
+		file->flag_name = CHK_NAME;
 		return (get_all(file, file->header.prog_name, PROG_NAME_LENGTH, i));
 	}
 	else if (file->flag_comment == 0 &&
 		ft_strnequ(&FS[i], COMMENT_CMD_STRING, 8))
 	{
 		i += 8;
-		file->flag_comment = CHK_START;
+		file->flag_comment = CHK_COMMENT;
 		return (get_all(file, file->header.comment, COMMENT_LENGTH, i));
 	}
 	else
