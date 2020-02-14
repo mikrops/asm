@@ -6,7 +6,7 @@
 /*   By: yjohns <yjohns@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/27 00:17:40 by yjohns            #+#    #+#             */
-/*   Updated: 2019/12/27 16:55:54 by mmonahan         ###   ########.fr       */
+/*   Updated: 2020/02/15 00:38:59 by yjohns           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,17 +45,37 @@ int		check_label(t_file *file, int *i)
 	return (0);
 }
 
-void	check_arg(t_file *file, int num, int dir_s, int len)
+int		read_arg_reg(const char *str, t_file *file, int arg)
+{
+	int i;
+	int	num;
+
+	i = 0;
+	num = 0;
+	while (str[i] != 'r')
+		i++;
+	i++;
+	num = ft_atoi(str + i);
+	if (num > REG_NUMBER)
+	{printf("error read_arg_reg"); exit(1);}
+	else
+	{
+		FT->op[arg][1] = num;
+	}
+	return (T_REG);
+}
+
+void	check_arg(t_file *file, int num, int dir_s, int *len)
 {
 	char	**args;
 	int 	i;
 
 	dir_s = 0; // нужна для тогото тогото
 	i = 0;
-	args = ft_strsplit(file->string + len + 1, SEPARATOR_CHAR);
+	args = ft_strsplit(file->string + *len + 1, SEPARATOR_CHAR);
 	while (i < num)
 	{
-		if (get_reg(args[i]) == T_REG)
+		if (get_reg(args[i]) == T_REG && read_arg_reg(args[i], file, i))
 			FT->op[i][0] = REG_CODE;
 		else if (get_dir(args[i]) == T_DIR)
 			FT->op[i][0] = DIR_CODE;
@@ -65,20 +85,21 @@ void	check_arg(t_file *file, int num, int dir_s, int len)
 			exit(1);
 		i++;
 	}
+	*len += i;
 }
 
-int		check_inst(t_file *file, int i)
+int		check_inst(t_file *file, int *i)
 {
 	int	op_i;
 
 	op_i = -1;
 	while (op_tab[++op_i].name)
-		if (ft_strncmp(op_tab[op_i].name, file->string + i,
-					   ft_strlen(ft_strcut(file->string + i, ' '))) == 0 ||
-				ft_strncmp(op_tab[op_i].name, file->string + i,
-						   ft_strlen(ft_strcut(file->string + i, '\t'))) == 0 ||
-			ft_strncmp(op_tab[op_i].name, file->string + i,
-					   ft_strlen(ft_strcut(file->string + i, '%'))) == 0)
+		if (ft_strncmp(op_tab[op_i].name, file->string + *i,
+					   ft_strlen(ft_strcut(file->string + *i, ' '))) == 0 ||
+				ft_strncmp(op_tab[op_i].name, file->string + *i,
+						ft_strlen(ft_strcut(file->string + *i, '\t'))) == 0 ||
+			ft_strncmp(op_tab[op_i].name, file->string + *i,
+					   ft_strlen(ft_strcut(file->string + *i, '%'))) == 0)
 		{
 			if (!FT && (FT = ft_memalloc(sizeof(t_token))))
 				file->start_token = FT;
@@ -88,7 +109,7 @@ int		check_inst(t_file *file, int i)
 				FT = FT->next;
 			}
 			FT->code = op_i + 1;
-			i += ft_strlen(op_tab[op_i].name);
+			*i += ft_strlen(op_tab[op_i].name);
 			check_arg(file, op_tab[op_i].arguments,
 					  (op_tab[op_i].code5 == 1 ? 2 : 4), i);
 			return (1);
@@ -106,14 +127,14 @@ int	check_instruction(t_file *file)
 		i++;
 	if (!FS[i])
 		return (ERR_NORM);
-	if (!(check_inst(file, i)) && !(FL->len = check_label(file, &i)))
+	if (!(check_inst(file, &i)) && !(FL->len = check_label(file, &i)))
 	{
 		printf(">%d<", ERR_CHOOOOO);
-//		return (ERR_CHOOOOO);
-//		exit (1);
 	}
-	if (FL->len)
-		check_inst(file, i);
+	while (ft_isspace(FS[i]))
+		i++;
+	if (FL->len && FS[i])
+		check_inst(file, &i);
 	i++;
 	return (ERR_NORM);
 }

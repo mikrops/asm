@@ -121,8 +121,8 @@ void		cmd_to_byte_code(t_file *file)
 		 *
 		 * прим: в одной команде в качестве параметра может быть максимум две текстовые метки одновременно
 		 */
-		if (FT->label)
-			is_label_in_list(file, (int) file->exec_size, ft_strsplit(FT->label, ' '));
+		if (FT->label_str)
+			is_label_in_list(file, (int) file->exec_size, ft_strsplit(FT->label_str, ' '));
 		file->exec_str[file->exec_size++] |= FT->code;
 		/*
 		 * Шаблон функций, обрабатывающих аргументы команды:

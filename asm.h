@@ -66,7 +66,8 @@ typedef struct		s_token
 	int 			size;
 	int 			op[3][2];
 	int 			flag[2];
-	char 			*label;
+	char 			*label_str;
+	int 			label_len;
 	struct s_token	*next;
 }					t_token;
 
@@ -84,6 +85,9 @@ typedef struct	s_file
 	char 			*namefile;
 	int 			fd_open;
 	int 			fd_creat;
+
+	int				column;		//колонка(номер символа)
+	int 			row;		//строка
 
 	int 			iter;
 	int				flag_name;
