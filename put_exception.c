@@ -6,7 +6,7 @@
 /*   By: mmonahan <mmonahan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/05 17:04:26 by mmonahan          #+#    #+#             */
-/*   Updated: 2020/02/15 00:33:57 by mmonahan         ###   ########.fr       */
+/*   Updated: 2020/02/15 01:58:43 by yjohns           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ void	init_exc(char **arr_exc)
 
 void	put_exception(t_file *file, int error)
 {
-	char	*exception[200];	//test
+	char	*exception[200];
 	if (file)
 		;
 
