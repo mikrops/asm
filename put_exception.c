@@ -52,7 +52,7 @@ void	init_exc(char **arr_exc)
 
 void	put_exception(t_file *file, int error)
 {
-	char	*exception[100];
+	char	*exception[200];	//test
 	if (file)
 		;
 
