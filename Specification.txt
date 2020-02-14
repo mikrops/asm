@@ -53,7 +53,51 @@
 - tests 001.
     Написать тесты, которые чекают хедэр. Сразу несколько вариантов правильных и
      не правильных)
++ fix 001.
+    Программа возврщает 0, если все хоршо, иначе 1.
+
 - exeption 001.
     Champion name too long (Max length 128)
-    .name "kkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkk1"
+    .name "123456789.123456789.123456789.123456789.123456789.123456789.123456789.123456789.123456789.123456789.123456789.123456789.123456789"
+    - Длину проверить, если поиск комментария или имени будет закончен!!!!!!!!!!
 
+- exeption 002
+    Champion comment too long (Max length 2048)
+    - Длину проверить, если поиск комментария или имени будет закончен!!!!!!!!!!
+
+- exeption 003
+    Lexical error at [1:10]
+        .comment V "just abasic living prog"
+    Lexical error at [1:1]
+        V
+        .comment "just abasic living prog"
+    Lexical error at [1:5]
+            V
+        .comment "just abasic living prog"
+    Lexical error at [1:36]
+        .comment "just abasic living prog" V
+    Lexical error at [2:5]
+        .comment "just abasic living prog"
+            V
+
+- exeption 004
+    Syntax error at token [TOKEN][002:001] ENDLINE
+        .comment #"just abasic living prog"
+    Syntax error at token [TOKEN][002:001] ENDLINE
+        .comment
+
+- exeption 005
+    Syntax error at token [TOKEN][008:001] END "(null)"
+        .comment "just abasic living prog"
+        .name "zork
+    Syntax error at token [TOKEN][011:001] END "(null)"
+        .name "zork"
+        .comment "just abasic living prog
+
+- exeption 006
+    Syntax error at token [TOKEN][002:008] INSTRUCTION "zork"
+        .comment "just abasic living prog
+        .name "zork"
+    Syntax error at token [TOKEN][002:011] INSTRUCTION "just"
+        .name "zork
+        .comment "just abasic living prog"

@@ -6,7 +6,7 @@
 /*   By: mmonahan <mmonahan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/30 14:35:51 by mmonahan          #+#    #+#             */
-/*   Updated: 2019/12/27 16:54:23 by mmonahan         ###   ########.fr       */
+/*   Updated: 2020/02/14 23:24:44 by mmonahan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,5 +54,5 @@ int main(int argc, char **argv)
 		free(file.namefile);
 		i++;
 	}
-	return 0;
+	return (err ? 1 : 0);
 }
