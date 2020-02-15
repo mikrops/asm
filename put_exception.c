@@ -6,7 +6,7 @@
 /*   By: mmonahan <mmonahan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/05 17:04:26 by mmonahan          #+#    #+#             */
-/*   Updated: 2020/02/15 10:25:24 by mmonahan         ###   ########.fr       */
+/*   Updated: 2020/02/15 11:41:55 by mmonahan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,11 +17,7 @@ void	init_exc(char **arr_exc)
 	arr_exc[ERR_NORM] = "Writing output program to %s\n";
 
 	arr_exc[ERR_BAD_NAME_FILE] = "invalid file name";
-
 	arr_exc[ERR_NO_CREAT_FILE] = "unable to creat file";
-//	arr_exc[ERR_BAD_HEADER] = "bad header";
-	arr_exc[ERR_BAD_TOKEN_INSTRUCTION] = "bad instruction";
-	arr_exc[ERR_BAD_TOKEN_ARGUMENT] = "bad argument";
 	arr_exc[ERR_INVALID_CODE] = "bad code";
 
 	//	--errors file--
@@ -33,7 +29,6 @@ void	init_exc(char **arr_exc)
 	//	Наличия символа вне LABEL_CHARS и его местоположение - доработать
 	arr_exc[ERR_LEXICAL] = "Lexical error at [%d:%d]\n";
 	//	Пусто полсе инструкции - доработать
-//	arr_exc[ERR_ENDLINE] = "Syntax error at token [TOKEN][00X:00Y] ENDLINE";
 	arr_exc[ERR_ENDLINE] = "Syntax error at token [TOKEN][%.3d:%.3d] ENDLINE\n";
 	arr_exc[ERR_NEWLINE] = "Syntax error - unexpected end of input (Perhaps "
 		"you forgot to end with a newline ?)\n";

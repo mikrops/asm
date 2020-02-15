@@ -6,7 +6,7 @@
 /*   By: mmonahan <mmonahan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/30 14:35:51 by mmonahan          #+#    #+#             */
-/*   Updated: 2020/02/14 23:24:44 by mmonahan         ###   ########.fr       */
+/*   Updated: 2020/02/15 11:37:18 by mmonahan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,9 +24,9 @@ int main(int argc, char **argv)
 	if (argc == 1)
 	{
 		put_exception(&file, ERR_NO_ATRIBUTE);
-		return (0);
+		return (1);
 	}
-
+	//ft_memset(&file, 0, sizeof(t_file));
 	while (i < argc)
 	{
 		file.namefile = ft_strdup(argv[i]);
@@ -43,8 +43,8 @@ int main(int argc, char **argv)
 		if (err)
 		{
 			put_exception(&file, err);
-			i++;
 			free(file.namefile);
+			i++;
 			continue ;
 		}
 
