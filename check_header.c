@@ -6,7 +6,7 @@
 /*   By: mmonahan <mmonahan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/26 21:05:54 by mmonahan          #+#    #+#             */
-/*   Updated: 2020/02/15 09:26:28 by mmonahan         ###   ########.fr       */
+/*   Updated: 2020/02/15 10:26:12 by mmonahan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,7 @@ int	check_end_string(const char *string)
 		string[i] == '\0')
 		return (ERR_NORM);
 	else
-		return (ERR_BAD_HEADER + 400);
+		return (ERR_SYNTAX);
 }
 
 /*
@@ -82,7 +82,7 @@ int	get_all(t_file *file, char *string, int size, int i)
 			{
 				string[file->iter++] = '\n';
 				if (new_string(file, string, size) != 1)
-					return (ERR_BAD_HEADER + 180);
+					return (ERR_SYNTAX);
 				FC = 0;
 			}
 			if (FS[FC] == '"')
@@ -125,5 +125,5 @@ int	check_header(t_file *file)
 		return (get_all(file, file->header.comment, COMMENT_LENGTH, FC));
 	}
 	else
-		return (ERR_BAD_HEADER + 300);
+		return (ERR_SYNTAX);
 }

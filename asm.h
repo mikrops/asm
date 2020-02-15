@@ -6,7 +6,7 @@
 /*   By: mmonahan <mmonahan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/30 20:40:49 by mmonahan          #+#    #+#             */
-/*   Updated: 2020/02/15 04:48:40 by yjohns           ###   ########.fr       */
+/*   Updated: 2020/02/15 09:04:14 by mmonahan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,11 +28,12 @@
 # define ERR_BAD_NAME_FILE 2
 # define ERR_NO_OPEN_FILE 3
 # define ERR_NO_CREAT_FILE 4
-# define ERR_BAD_HEADER 5
 # define ERR_BAD_TOKEN_INSTRUCTION 6
 # define ERR_BAD_TOKEN_ARGUMENT 7
 # define ERR_INVALID_CODE 8
 # define ERR_LEXICAL 9
+# define ERR_SYNTAX 5
+
 # define ERR_ENDLINE 10
 # define ERR_NEWLINE 11
 
