@@ -6,7 +6,7 @@
 /*   By: yjohns <yjohns@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/27 00:17:40 by yjohns            #+#    #+#             */
-/*   Updated: 2020/02/15 00:38:59 by yjohns           ###   ########.fr       */
+/*   Updated: 2020/02/15 02:35:42 by yjohns           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,8 +56,11 @@ int		read_arg_reg(const char *str, t_file *file, int arg)
 		i++;
 	i++;
 	num = ft_atoi(str + i);
-	if (num > REG_NUMBER)
-	{printf("error read_arg_reg"); exit(1);}
+	if (num > REG_NUMBER || num < 0)
+	{
+		printf("error read_arg_reg");
+		exit(1);
+	}
 	else
 	{
 		FT->op[arg][1] = num;
@@ -75,7 +78,7 @@ void	check_arg(t_file *file, int num, int dir_s, int *len)
 	args = ft_strsplit(file->string + *len + 1, SEPARATOR_CHAR);
 	while (i < num)
 	{
-		if (get_reg(args[i]) == T_REG && read_arg_reg(args[i], file, i))
+		if (get_reg(args[i], file) && read_arg_reg(args[i], file, i))
 			FT->op[i][0] = REG_CODE;
 		else if (get_dir(args[i]) == T_DIR)
 			FT->op[i][0] = DIR_CODE;

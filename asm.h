@@ -6,7 +6,7 @@
 /*   By: mmonahan <mmonahan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/30 20:40:49 by mmonahan          #+#    #+#             */
-/*   Updated: 2020/02/14 23:43:45 by mmonahan         ###   ########.fr       */
+/*   Updated: 2020/02/15 01:24:28 by yjohns           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -150,7 +150,7 @@ static t_operation	op_tab[17] =
 
 void			put_exception(t_file *file, int error);
 int				check_header(t_file *file);
-int				get_reg(const char *str);
+int				get_reg(const char *str, t_file *file);
 int				get_dir(const char *str);
 int				get_ind(const char *str);
 int				check_instruction(t_file *file);

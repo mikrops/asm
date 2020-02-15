@@ -6,7 +6,7 @@
 /*   By: mmonahan <mmonahan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/21 14:47:04 by mmonahan          #+#    #+#             */
-/*   Updated: 2020/02/15 00:48:22 by yjohns           ###   ########.fr       */
+/*   Updated: 2020/02/15 03:02:14 by yjohns           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 ** get T_REG [r1-r99] [r01-r99]
 */
 
-int	get_reg(const char *str)
+int	get_reg(const char *str, t_file *file)
 {
 	int i;
 
@@ -35,5 +35,5 @@ int	get_reg(const char *str)
 		i++;
 	if (str[i] != '\0')
 		return (0);
-	return (i);
+	return (file->column += i);
 }

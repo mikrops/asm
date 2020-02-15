@@ -6,7 +6,7 @@
 /*   By: mmonahan <mmonahan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/06 11:37:56 by mmonahan          #+#    #+#             */
-/*   Updated: 2020/01/28 20:28:14 by mmonahan         ###   ########.fr       */
+/*   Updated: 2020/02/15 03:04:21 by yjohns           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,8 +43,9 @@ int	read_file(t_file *file)
 
 	error_header = 0;
 	count_instr = 0;
-	while (get_next_line(file->fd_open, &FS))
+	while (get_next_line(file->fd_open, &FS) > 0)
 	{
+		file->row++;
 		if (!file->flag_name || !file->flag_comment)
 		{
 			printf("-запустили чек_хедер->%d<-\n", error_header);
@@ -111,10 +112,10 @@ void test_file(t_file *file, int count_instr)
 		   file->header.prog_size);
 	printf("количество интсрукций = >%d<\n\n", count_instr);
 }
-
+/*
 void test_command()
 {
-	//***************************ЭКСПЕРЕМЕНТЫ*****************************
+	***************************ЭКСПЕРЕМЕНТЫ*****************************
 
 	printf("\n***********start get_reg*************************\n");
 	char *check_reg[100] = {"r1", " r01 ", " r51 ", "r01", "r0", "r", "r00",
@@ -163,3 +164,4 @@ void test_command()
 	}
 	printf("*****************end get_ind*********************\n");
 }
+ */
