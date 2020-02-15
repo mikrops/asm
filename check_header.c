@@ -6,7 +6,7 @@
 /*   By: mmonahan <mmonahan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/26 21:05:54 by mmonahan          #+#    #+#             */
-/*   Updated: 2020/02/02 15:38:38 by mmonahan         ###   ########.fr       */
+/*   Updated: 2020/02/15 09:26:28 by mmonahan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,7 @@ int	new_string(t_file *file, char *string, int size)
 	while (read == 1)
 	{
 		i = 0;
+		file->row++;
 		if (FS[i] == '\0')
 			string[file->iter++] = '\n';
 		if (ft_strchr(FS, '"'))
@@ -67,30 +68,32 @@ int	check_end_string(const char *string)
 
 int	get_all(t_file *file, char *string, int size, int i)
 {
-	while (ft_isspace(FS[i]))
-		i++;
-	if (FS[i++] == '"')
+	if (i)
+		;
+	while (ft_isspace(FS[FC]))
+		FC++;
+	if (FS[FC++] == '"')
 	{
-		while (FS[i] || FS[i] == '\0')
+		while (FS[FC] || FS[FC] == '\0')
 		{
 			if (file->iter > size)
-				return (ERR_BAD_HEADER + 150);
-			if (FS[i] == '\0')
+				return (COMMENT_LENGTH == size ? ERR_LONG_COMM : ERR_LONG_NAME);
+			if (FS[FC] == '\0')
 			{
 				string[file->iter++] = '\n';
 				if (new_string(file, string, size) != 1)
 					return (ERR_BAD_HEADER + 180);
-				i = 0;
+				FC = 0;
 			}
-			if (FS[i] == '"')
+			if (FS[FC] == '"')
 			{
 				file->iter = 0;
-				return (check_end_string(&FS[++i]));
+				return (check_end_string(&FS[++FC]));
 			}
-			string[file->iter++] = FS[i++];
+			string[file->iter++] = FS[FC++];
 		}
 	}
-	return (ERR_BAD_HEADER + 100);
+	return (ERR_ENDLINE);
 }
 
 /*
@@ -102,23 +105,24 @@ int	check_header(t_file *file)
 	int i;
 
 	i = 0;
-	while (ft_isspace(FS[i]))
-		i++;
-	if (!FS[i] || FS[i] == COMMENT_CHAR || FS[i] == ALT_COMMENT_CHAR)
+	FC = 0;
+	while (ft_isspace(FS[FC]))
+		FC++;
+	if (!FS[FC] || FS[FC] == COMMENT_CHAR || FS[FC] == ALT_COMMENT_CHAR)
 		return (ERR_NORM);
 	if (file->flag_name == 0 &&
-		ft_strnequ(&FS[i], NAME_CMD_STRING, 5))
+		ft_strnequ(&FS[FC], NAME_CMD_STRING, 5))
 	{
-		i += 5;
+		FC += 5;
 		file->flag_name = CHK_NAME;
-		return (get_all(file, file->header.prog_name, PROG_NAME_LENGTH, i));
+		return (get_all(file, file->header.prog_name, PROG_NAME_LENGTH, FC));
 	}
 	else if (file->flag_comment == 0 &&
-		ft_strnequ(&FS[i], COMMENT_CMD_STRING, 8))
+		ft_strnequ(&FS[FC], COMMENT_CMD_STRING, 8))
 	{
-		i += 8;
+		FC += 8;
 		file->flag_comment = CHK_COMMENT;
-		return (get_all(file, file->header.comment, COMMENT_LENGTH, i));
+		return (get_all(file, file->header.comment, COMMENT_LENGTH, FC));
 	}
 	else
 		return (ERR_BAD_HEADER + 300);

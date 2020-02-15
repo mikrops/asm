@@ -94,10 +94,30 @@
         .name "zork"
         .comment "just abasic living prog
 
-- exeption 006
+
     Syntax error at token [TOKEN][002:008] INSTRUCTION "zork"
         .comment "just abasic living prog
         .name "zork"
     Syntax error at token [TOKEN][002:011] INSTRUCTION "just"
         .name "zork
         .comment "just abasic living prog"
+
+
+    Syntax error at token [TOKEN][002:013] COMMAND_NAME ".name"
+        .comment "just a basic living prog
+        .name zork" .name
+
+    Виды токенов:
+        LABEL
+        INSTRUCTION
+
+        SEPARATOR
+
+        DIRECT_LABEL
+
+        REGISTER
+        DIRECT
+        INDIRECT
+
+        COMMAND_NAME
+        COMMAND_COMMENT

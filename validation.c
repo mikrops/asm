@@ -6,7 +6,7 @@
 /*   By: mmonahan <mmonahan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/06 11:37:56 by mmonahan          #+#    #+#             */
-/*   Updated: 2020/02/15 03:04:21 by yjohns           ###   ########.fr       */
+/*   Updated: 2020/02/15 10:00:08 by mmonahan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,13 +48,15 @@ int	read_file(t_file *file)
 		file->row++;
 		if (!file->flag_name || !file->flag_comment)
 		{
-			printf("-запустили чек_хедер->%d<-\n", error_header);
 			error_header = check_header(file);
+//			printf("-запустили чек_хедер->%d<-\trow %d\tcol = %d\titer = %d\n",
+//					error_header, file->row, FC, file->iter);
 		}
 		else
 		{
-			printf("-запустили  чек_инстр->%d<-\n", error_header);
 			error_header = check_instruction(file);
+//			printf("-запустили  чек_инстр->%d<-\trow %d\tcol = %d\titer = "
+//				"%d\n", error_header, file->row, FC, file->iter);
 			count_instr += FS[0] ? 1 : 0;
 //			test_file(file, file->flag_comment);
 		}
@@ -65,10 +67,10 @@ int	read_file(t_file *file)
 	ft_strdel(&FS);
 	close(file->fd_open);
 
-	test_file(file, count_instr);
+//	test_file(file, count_instr);
 
 	if (error_header)
-		return (ERR_INVALID_CODE);
+		return (error_header);
 	return (ERR_NORM);
 }
 
@@ -78,6 +80,8 @@ int	read_file(t_file *file)
 
 int	validation(t_file *file)
 {
+	int error;
+
 	if (check_name_file(file->namefile))
 		return (ERR_BAD_NAME_FILE);
 
@@ -86,13 +90,9 @@ int	validation(t_file *file)
 	if (file->fd_open < 1)
 		return (ERR_NO_OPEN_FILE);
 
-	if (read_file(file))
-		return (ERR_INVALID_CODE);
-
-
-//	test_file(file, count_instr);
-//	test_command();
-
+	error = read_file(file);
+	if (error)
+		return (error);
 	return (ERR_NORM);
 }
 

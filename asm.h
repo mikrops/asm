@@ -58,6 +58,7 @@
 # define FT file->token
 # define FL file->label
 # define FS file->string
+# define FC file->column
 # define DIR_L_CODE				4
 # define IND_L_CODE				5
 

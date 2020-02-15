@@ -6,7 +6,7 @@
 /*   By: mmonahan <mmonahan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/05 17:04:26 by mmonahan          #+#    #+#             */
-/*   Updated: 2020/02/15 01:58:43 by yjohns           ###   ########.fr       */
+/*   Updated: 2020/02/15 10:03:34 by mmonahan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 void	init_exc(char **arr_exc)
 {
-	arr_exc[ERR_NORM] = "Writing output program to";
+	arr_exc[ERR_NORM] = "Writing output program to %s\n";
 	arr_exc[ERR_NO_ATRIBUTE] = "need only one atribute, name file .s";
 	arr_exc[ERR_BAD_NAME_FILE] = "invalid file name";
 	arr_exc[ERR_NO_OPEN_FILE] = "unable to open file";
@@ -26,44 +26,30 @@ void	init_exc(char **arr_exc)
 
 	//	--errors common--
 	//	Наличия символа вне LABEL_CHARS и его местоположение - доработать
-	arr_exc[ERR_LEXICAL] = "Lexical error at [X:Y]";
+	arr_exc[ERR_LEXICAL] = "Lexical error at [%d:%d]\n";
 	//	Пусто полсе инструкции - доработать
-	arr_exc[ERR_ENDLINE] = "Syntax error at token [TOKEN][00X:00Y] ENDLINE";
+//	arr_exc[ERR_ENDLINE] = "Syntax error at token [TOKEN][00X:00Y] ENDLINE";
+	arr_exc[ERR_ENDLINE] = "Syntax error at token [TOKEN][%.3d:%.3d] ENDLINE\n";
 	arr_exc[ERR_NEWLINE] = "Syntax error - unexpected end of input (Perhaps "
-		"you forgot to end with a newline ?)";
-
-	//	--errors header--
-	arr_exc[ERR_LONG_NAME] = "Champion name too long (Max length 128)";
-	arr_exc[ERR_LONG_COMM] = "Champion comment too long (Max length 2048)";
+		"you forgot to end with a newline ?)\n";
 
 /*
-	//	--errors header--
-
-  	//	нет первой ковычки
-	arr_exc[ERR_SYNTAX_INS] = "Syntax error at token [TOKEN][00X:00Y] INSTRUCTION "Z"";
-
- 	//	нет закрывающей кавычки вконце хедера
- 	arr_exc[ERR_SYNTAX_END] = "Syntax error at token [TOKEN][00X:00Y] END";
-
-
-
+ 	//	неверный токен
+ 	arr_exc[ERR_SYNTAX] = "Syntax error at token [%.3d:%.3d] %s\n";
 */
+
+	//	--errors header--
+	arr_exc[ERR_LONG_NAME] = "Champion name too long (Max length 128)\n";
+	arr_exc[ERR_LONG_COMM] = "Champion comment too long (Max length 2048)\n";
 }
 
 void	put_exception(t_file *file, int error)
 {
 	char	*exception[200];
-	if (file)
-		;
 
 	init_exc(exception);
 	if (error)
-	{
-		printf("ERROR: %s\n", exception[error]);
-	}
+		printf(exception[error], file->row, file->column);
 	else
-	{
-		printf("%s %s\n", exception[error], file->namefile);
-	}
-	//exit(0);
+		printf(exception[error], file->namefile);
 }
