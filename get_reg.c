@@ -6,7 +6,7 @@
 /*   By: mmonahan <mmonahan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/21 14:47:04 by mmonahan          #+#    #+#             */
-/*   Updated: 2020/02/15 03:02:14 by yjohns           ###   ########.fr       */
+/*   Updated: 2020/02/15 03:03:17 by yjohns           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ int	get_reg(const char *str, t_file *file)
 	int i;
 
 	i = 0;
-	while (ft_isspace(str[i]))
+	while (str[i] && ft_isspace(str[i]))
 		i++;
 	if (str[i++] != 'r')
 		return (0);

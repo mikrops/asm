@@ -6,7 +6,7 @@
 /*   By: yjohns <yjohns@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/25 02:56:18 by yjohns            #+#    #+#             */
-/*   Updated: 2019/12/27 12:18:49 by mmonahan         ###   ########.fr       */
+/*   Updated: 2020/02/15 04:51:42 by yjohns           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -121,8 +121,8 @@ void		cmd_to_byte_code(t_file *file)
 		 *
 		 * прим: в одной команде в качестве параметра может быть максимум две текстовые метки одновременно
 		 */
-		if (FT->label_str)
-			is_label_in_list(file, (int) file->exec_size, ft_strsplit(FT->label_str, ' '));
+		if (FT->label)
+			is_label_in_list(file, (int) file->exec_size, ft_strsplit(FT->label->name, ' '));
 		file->exec_str[file->exec_size++] |= FT->code;
 		/*
 		 * Шаблон функций, обрабатывающих аргументы команды:

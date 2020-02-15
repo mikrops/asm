@@ -6,7 +6,7 @@
 /*   By: mmonahan <mmonahan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/30 20:40:49 by mmonahan          #+#    #+#             */
-/*   Updated: 2020/02/15 01:24:28 by yjohns           ###   ########.fr       */
+/*   Updated: 2020/02/15 04:48:40 by yjohns           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,18 +58,8 @@
 # define FT file->token
 # define FL file->label
 # define FS file->string
-
-
-typedef struct		s_token
-{
-	unsigned char 	code;
-	int 			size;
-	int 			op[3][2];
-	int 			flag[2];
-	char 			*label_str;
-	int 			label_len;
-	struct s_token	*next;
-}					t_token;
+# define DIR_L_CODE				4
+# define IND_L_CODE				5
 
 typedef struct		s_label
 {
@@ -78,6 +68,16 @@ typedef struct		s_label
 	int 			len;
 	struct s_label	*next;
 }					t_label;
+
+typedef struct		s_token
+{
+	unsigned char 	code;
+	int 			size;
+	int 			op[3][2];
+	t_label 		*label;
+	t_label 		*start_label;
+	struct s_token	*next;
+}					t_token;
 
 typedef struct	s_file
 {
