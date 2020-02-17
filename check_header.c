@@ -6,7 +6,7 @@
 /*   By: mmonahan <mmonahan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/26 21:05:54 by mmonahan          #+#    #+#             */
-/*   Updated: 2020/02/15 10:26:12 by mmonahan         ###   ########.fr       */
+/*   Updated: 2020/02/17 20:45:59 by mmonahan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,10 +66,8 @@ int	check_end_string(const char *string)
 **	Получает коммент или имя бота
 */
 
-int	get_all(t_file *file, char *string, int size, int i)
+int	get_all(t_file *file, char *string, int size)
 {
-	if (i)
-		;
 	while (ft_isspace(FS[FC]))
 		FC++;
 	if (FS[FC++] == '"')
@@ -102,9 +100,6 @@ int	get_all(t_file *file, char *string, int size, int i)
 
 int	check_header(t_file *file)
 {
-	int i;
-
-	i = 0;
 	FC = 0;
 	while (ft_isspace(FS[FC]))
 		FC++;
@@ -115,14 +110,14 @@ int	check_header(t_file *file)
 	{
 		FC += 5;
 		file->flag_name = CHK_NAME;
-		return (get_all(file, file->header.prog_name, PROG_NAME_LENGTH, FC));
+		return (get_all(file, file->header.prog_name, PROG_NAME_LENGTH));
 	}
 	else if (file->flag_comment == 0 &&
 		ft_strnequ(&FS[FC], COMMENT_CMD_STRING, 8))
 	{
 		FC += 8;
 		file->flag_comment = CHK_COMMENT;
-		return (get_all(file, file->header.comment, COMMENT_LENGTH, FC));
+		return (get_all(file, file->header.comment, COMMENT_LENGTH));
 	}
 	else
 		return (ERR_SYNTAX);
