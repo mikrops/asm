@@ -6,7 +6,7 @@
 /*   By: mmonahan <mmonahan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/06 11:37:56 by mmonahan          #+#    #+#             */
-/*   Updated: 2020/02/15 10:00:08 by mmonahan         ###   ########.fr       */
+/*   Updated: 2020/02/19 19:28:38 by mmonahan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,6 +63,7 @@ int	read_file(t_file *file)
 		if (error_header)
 			break ;
 		ft_strdel(&FS);
+		FC = 0; //обнуление колонки
 	}
 	ft_strdel(&FS);
 	close(file->fd_open);
@@ -103,15 +104,20 @@ void test_file(t_file *file, int count_instr)
    			"flag_comment = >%d<\n"
 	  		"prog_name = >%s<\n"
 	  		"comment = >%s<\n"
-	  		"prog size = >%d<\n",
+	  		"prog size = >%d<\n"
+		   "row = >%d<\n"
+		   "col = >%d<\n",
 		   file->namefile,
 		   file->flag_name,
 		   file->flag_comment,
 		   file->header.prog_name,
 		   file->header.comment,
-		   file->header.prog_size);
+		   file->header.prog_size,
+		   file->row,
+		   file->column);
 	printf("количество интсрукций = >%d<\n\n", count_instr);
 }
+
 /*
 void test_command()
 {
