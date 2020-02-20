@@ -27,13 +27,13 @@ static int	check_name_file(const char *name_file)
 
 	length = ft_strlen(name_file);
 	if (name_file[length - 1] != 's')
-		return (1);
+		return (ERR_BAD_NAME_FILE);
 	if (name_file[length - 2] != '.')
-		return (1);
+		return (ERR_BAD_NAME_FILE);
 	if (!ft_isdigit(name_file[length - 3]) &&
 		!ft_isalpha(name_file[length - 3]))
-		return (1);
-	return (0);
+		return (ERR_BAD_NAME_FILE);
+	return (ERR_NORM);
 }
 
 int	read_file(t_file *file)

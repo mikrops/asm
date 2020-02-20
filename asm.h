@@ -39,9 +39,7 @@
 # define ERR_LONG_COMM 101
 
 
-# define ERR_CHOOOOO 80000
-# define ERR_NAME_LONG 0
-# define ERR_LONG 0
+# define ERR_CHOOOOO 80
 
 /*
 *	Check header

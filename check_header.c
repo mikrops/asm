@@ -6,7 +6,7 @@
 /*   By: mmonahan <mmonahan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/26 21:05:54 by mmonahan          #+#    #+#             */
-/*   Updated: 2020/02/19 19:51:25 by mmonahan         ###   ########.fr       */
+/*   Updated: 2020/02/20 19:59:30 by mmonahan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,7 +91,6 @@ int	get_all(t_file *file, char *string, int size)
 			string[file->iter++] = FS[FC++];
 		}
 	}
-//	return (ERR_ENDLINE);
 	return (ERR_SYNTAX);
 }
 
@@ -121,6 +120,5 @@ int	check_header(t_file *file)
 		return (get_all(file, file->header.comment, COMMENT_LENGTH));
 	}
 	else
-//		return (ERR_SYNTAX);
 		return (ERR_LEXICAL);
 }
