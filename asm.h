@@ -6,7 +6,7 @@
 /*   By: mmonahan <mmonahan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/30 20:40:49 by mmonahan          #+#    #+#             */
-/*   Updated: 2020/02/15 09:04:14 by mmonahan         ###   ########.fr       */
+/*   Updated: 2020/02/29 04:19:59 by yjohns           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,8 +56,8 @@
 # define FL file->label
 # define FS file->string
 # define FC file->column
-# define DIR_L_CODE				4
-# define IND_L_CODE				5
+# define DIR_L_CODE				10
+# define IND_L_CODE				12
 
 typedef struct		s_label
 {

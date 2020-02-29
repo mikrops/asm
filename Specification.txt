@@ -114,6 +114,7 @@
         SEPARATOR
 
         DIRECT_LABEL
+        INDIRECT_LABEL
 
         REGISTER
         DIRECT
@@ -122,6 +123,33 @@
         COMMAND_NAME
         COMMAND_COMMENT
 
+/*
+/* SOLVED
+/*
 - error 005. (для Вали)
     Когда есть имя и коммент, а после этого еще одна подобная инструкция, то
     функция check_instruction падает на 197 строчке, с ошибкой 11.
+
+/*
+/*	Доп от Вали
+/*
+
+- ошибка в параметрах команды (меньше параметров, чем должно быть)
+	Invalid parameter count for instruction sti
+		sti	r9,%:live			//должно быть три параметра, а их только два
+
+- ошибка в типах параметров
+	Invalid parameter 0 type indirect for instruction sti
+		sti	9,%:live, r0		//первый параметр должен быть только REG
+	Invalid parameter 3 type direct for instruction sti
+		sti	r9,%:live, r0, %546	//не может быть четвертого параметра
+
+- ошибка с несуществующим лэйблом в параметрах команды (метка, не указанная в качестве аргумента - не ошибка)
+	No such label ksjdbkalsjbn while attempting to dereference token [TOKEN][008:012] INDIRECT_LABEL ":ksjdbkalsjbn"
+	    st r4, :ksjdbkalsjbn
+
+- синтаксические ошибки
+	Syntax error at token [TOKEN][012:016] INSTRUCTION "r"
+		sti	9,%:live, r
+	Syntax error at token [TOKEN][012:015] ENDLINE
+		sti	9,%:live,

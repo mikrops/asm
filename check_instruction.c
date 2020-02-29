@@ -6,7 +6,7 @@
 /*   By: yjohns <yjohns@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/27 00:17:40 by yjohns            #+#    #+#             */
-/*   Updated: 2020/02/15 06:06:52 by yjohns           ###   ########.fr       */
+/*   Updated: 2020/02/29 04:23:41 by yjohns           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,7 +96,7 @@ int		read_arg_dir(const char *str, t_file *file, int arg)
 	{
 		num = ft_atoi(str + i);
 		FT->op[arg][1] = num;
-		return (DIR_CODE);
+		return (T_DIR);
 	}
 	else if (str[i] == ':')
 	{
@@ -119,7 +119,7 @@ int		read_arg_ind(const char *str, t_file *file, int arg)
 	{
 		num = ft_atoi(str + i);
 		FT->op[arg][1] = num;
-		return (IND_CODE);
+		return (T_IND);
 	}
 	else if (str[i] == ':')
 	{
@@ -130,7 +130,7 @@ int		read_arg_ind(const char *str, t_file *file, int arg)
 	return (0);
 }
 
-void	check_arg(t_file *file, int num, int dir_s, int *len)
+int	check_arg(t_file *file, int op_i, int dir_s, int *len)
 {
 	char	**args;
 	int 	i;
@@ -138,19 +138,22 @@ void	check_arg(t_file *file, int num, int dir_s, int *len)
 	dir_s = 0; // нужна для тогото тогото
 	i = 0;
 	args = ft_strsplit(file->string + *len + 1, SEPARATOR_CHAR);
-	while (i < num)
+	while (i < op_tab[op_i].arguments)
 	{
 		if (get_reg(args[i], file) && read_arg_reg(args[i], file, i))
-			FT->op[i][0] = REG_CODE;
+			FT->op[i][0] = T_REG;
 		else if (get_dir(args[i]))
 			FT->op[i][0] = read_arg_dir(args[i], file, i);
 		else if (get_ind(args[i]) == T_IND)
 			FT->op[i][0] = read_arg_ind(args[i], file, i);
 		else
-			exit(1);
+			return (ERR_CHOOOOO);
+		if ((FT->op[i][0] & op_tab[op_i].op[i]) == 0)
+			return(ERR_CHOOOOO);
 		i++;
 	}
 	*len += i;
+	return (ERR_NORM);
 }
 
 int		check_inst(t_file *file, int i)
@@ -175,8 +178,9 @@ int		check_inst(t_file *file, int i)
 			}
 			FT->code = op_i + 1;
 			i += ft_strlen(op_tab[op_i].name);
-			check_arg(file, op_tab[op_i].arguments,
-					  (op_tab[op_i].code5 == 1 ? 2 : 4), &i);
+			if (check_arg(file, op_i,
+					  (op_tab[op_i].code5 == 1 ? 2 : 4), &i) != ERR_NORM)
+				return (0);
 			return (i);
 		}
 	return (0);
@@ -185,6 +189,7 @@ int		check_inst(t_file *file, int i)
 int	check_instruction(t_file *file)
 {
 	int		i;
+	int		len;
 
 	i = 0;
 	FS = ft_strcut(FS, '#');
@@ -194,10 +199,11 @@ int	check_instruction(t_file *file)
 		return (ERR_NORM);
 	if (!(check_inst(file, i)))
 	{
-		if (!(FL->len = check_label(file, &i)))
-			printf(">%d<", ERR_CHOOOOO);
+		if (!(len = check_label(file, &i)))
+			return(ERR_CHOOOOO);//error не инструкция и не команда
 		else
 		{
+			FL->len = len;
 			while (ft_isspace(FS[i]))
 				i++;
 			if (FS[i])
