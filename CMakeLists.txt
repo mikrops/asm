@@ -3,7 +3,7 @@ project(asm C)
 
 set(CMAKE_C_STANDARD 99)
 
-add_definitions(-Wall -Werror -Wextra)
+add_definitions(-Wall -Wextra)
 
 add_executable(asm main.c asm.h
         libft/ft_memset.c
